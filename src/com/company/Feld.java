@@ -1,4 +1,4 @@
-package com.TsuNo;
+package com.company;
 
 /**
  * Created by Dustin on 17.05.2017.
