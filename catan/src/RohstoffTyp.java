@@ -1,0 +1,5 @@
+
+public enum RohstoffTyp
+{
+	ENERGIE, NAHRUNG, ROBOTER, MINERALIEN, MUNITION;
+}
