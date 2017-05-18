@@ -19,9 +19,9 @@ public class Spiel
 
 	public Spiel()
 	{
-		spielerListe = new SpielerListe();
-		scanner = new Scanner(System.in);
-		erstelleSpieler();
+		//spielerListe = new SpielerListe();
+		//scanner = new Scanner(System.in);
+		//erstelleSpieler();
 		
 		spielfeld = new Spielfeld();
 		bank = new Bank();
