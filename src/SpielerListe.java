@@ -1,34 +1,36 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Dustin on 17.05.2017.
  */
-public class SpielerListe {
-    private Spieler[] spieler;
-    private static int spieleranzahl;
+public class SpielerListe
+{
+	private List<Spieler> spieler;
+	private int anzahl = 0;
 
-    public SpielerListe(int spieleranzahl) {
-        this.spieleranzahl = spieleranzahl;
+	public SpielerListe()
+	{
+		spieler = new ArrayList<Spieler>();
+	}
 
-        spieler = new Spieler[spieleranzahl];
-        erstelleListe();
+	public void hinzufügen(Spieler s)
+	{
+		spieler.add(s);
+		this.anzahl++;
+	}
 
-        System.out.println("\n***SpielerListe:");
-        for(int i = 0; i < spieleranzahl; i++) {
-            spieler[i].printSpieler();
-        }
-    }
+	public void ausgeben()
+	{	
+		for(Spieler s : spieler)
+		{
+			System.out.println(s.getName() + " " + s.getFarbe());
+		}
 
-    public void erstelleListe() {
-        System.out.println("***" + spieleranzahl + " Spieler werden erstellt***");
-        for(int i = 0; i < spieleranzahl; i++) {
-            spieler[i] = new Spieler(i);
-        }
-    }
-
-    public Spieler getSpielerByNummer(int nummer) {
-        return spieler[nummer];
-    }
-
-    public int getSpieleranzahl() {
-        return spieleranzahl;
-    }
+	}
+	
+	public Spieler getSpieler(int nummer)
+	{
+		return spieler.get(nummer);
+	}
 }

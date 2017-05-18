@@ -1,11 +1,16 @@
 /**
  * Created by Dustin on 17.05.2017.
  */
-public class Planet extends Feld {
-    private int ertragsnummer;
-    private boolean ertrag;
+public class Planet extends Feld
+{
+	private int ertragsnummer;
+	private boolean ertrag;
+	private PlanetTyp typ;
 
-    private enum PlanetTyp {
-        ENERGIE, AGRAR, INDUSTRIE, MINERAL, AUSSENPOSTEN, TOT;
-    }
+	public Planet(RohstoffTyp rohstoffTyp)
+	{
+	
+		// TODO Auto-generated constructor stub
+	}
+
 }
