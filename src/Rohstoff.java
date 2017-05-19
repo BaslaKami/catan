@@ -5,7 +5,17 @@ public class Rohstoff
 
 	public Rohstoff(RohstoffTyp typ)
 	{
-		this.typ = typ;
+		this.setTyp(typ);
 	}
+
+  public RohstoffTyp getTyp()
+  {
+    return typ;
+  }
+
+  public void setTyp(RohstoffTyp typ)
+  {
+    this.typ = typ;
+  }
 
 }

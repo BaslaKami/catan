@@ -17,16 +17,52 @@ public class Spiel
 		
 	}
 
+	
+	/*
+	 *  1.  Abfrage Anzahl Spieler
+   *  2.  Spiel erzeugen
+   *      a.  Spieler erzeugen
+   *      b.  Spielfeld erzeugen
+   *      c.  Kartenstack erzeugen
+   *      d.  Weltraumpiraten erzeugen
+   *      e.  Bank erzeugen
+   *  3.  Spieler 1 platziert zwei Straßen und zwei Siedlungen
+   *  4.  Spieler 2 platziert zwei Straßen und zwei Siedlungen
+   *  5.  Spieler 3 platziert zwei Straßen und zwei Siedlungen
+   *  6.  Spieler 4 platziert zwei Straßen und zwei Siedlungen (wenn existent)
+   *  7.  Spieler 1 bekommt die Rohstoffe für eine Siedlung ausgezahlt
+   *  8.  Spieler 2 bekommt die Rohstoffe für eine Siedlung ausgezahlt
+   *  9.  Spieler 3 bekommt die Rohstoffe für eine Siedlung ausgezahlt
+   *  10. Spieler 4 bekommt die Rohstoffe für eine Siedlung ausgezahlt (wenn existent)
+   *
+	 */
 	public Spiel()
 	{
-		//spielerListe = new SpielerListe();
-		//scanner = new Scanner(System.in);
-		//erstelleSpieler();
+	  /** 1.  Abfrage Anzahl Spieler */
+	  /** 2.  Spiel erzeugen */
+	  /**      a.  Spieler erzeugen */
+	  spielerListe = new SpielerListe();
+    scanner = new Scanner(System.in);
+		erstelleSpieler();
 		
+		/**      b.  Spielfeld erzeugen */
 		spielfeld = new Spielfeld();
-		bank = new Bank();
+		
+    //TODO:/**      c.  Kartenstack erzeugen */
 
-		// Generiere Karten stack		
+    //TODO:/**      d.  Weltraumpiraten erzeugen */
+		
+		/**      e.  Bank erzeugen */
+		bank = new Bank();		
+		
+	//TODO:/** 3.  Spieler 1 platziert zwei Straßen und zwei Siedlungen */
+	//TODO:/** 4.  Spieler 2 platziert zwei Straßen und zwei Siedlungen */
+	//TODO:/** 5.  Spieler 3 platziert zwei Straßen und zwei Siedlungen */
+	//TODO:/** 6.  Spieler 4 platziert zwei Straßen und zwei Siedlungen (wenn existent) */
+	//TODO:/** 7.  Spieler 1 bekommt die Rohstoffe für eine Siedlung ausgezahlt */
+	//TODO:/** 8.  Spieler 1 bekommt die Rohstoffe für eine Siedlung ausgezahlt */
+	//TODO:/** 9.  Spieler 1 bekommt die Rohstoffe für eine Siedlung ausgezahlt */
+	//TODO:/**10.  Spieler 1 bekommt die Rohstoffe für eine Siedlung ausgezahlt (wenn existent) */
 	}
 
 	private void erstelleSpieler()
