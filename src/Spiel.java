@@ -1,11 +1,16 @@
 import java.util.Scanner;
 
+import gebaeude.Koordinate;
+import karten.Kartenstack;
+
 public class Spiel
 {
 	private SpielerListe spielerListe;
 	private Spielfeld spielfeld;
 	private Bank bank;
 	private Scanner scanner;
+	private Kartenstack kartenstack;
+	private Weltraumpirat weltraumpirat;
 
 	public static void main(String[] args)
 	{
@@ -21,8 +26,8 @@ public class Spiel
 	/*
 	 *  1.  Abfrage Anzahl Spieler
    *  2.  Spiel erzeugen
-   *      a.  Spieler erzeugen
-   *      b.  Spielfeld erzeugen
+   *      a.  Spielfeld erzeugen
+   *      b.  Spieler erzeugen
    *      c.  Kartenstack erzeugen
    *      d.  Weltraumpiraten erzeugen
    *      e.  Bank erzeugen
@@ -40,22 +45,28 @@ public class Spiel
 	{
 	  /** 1.  Abfrage Anzahl Spieler */
 	  /** 2.  Spiel erzeugen */
-	  /**      a.  Spieler erzeugen */
-	  spielerListe = new SpielerListe();
+	  /**      a.  Spielfeld erzeugen */
+	  spielfeld = new Spielfeld();
+		
+		/**      b.  Spieler erzeugen */
+    spielerListe = new SpielerListe();
     scanner = new Scanner(System.in);
-		erstelleSpieler();
+    erstelleSpieler();
 		
-		/**      b.  Spielfeld erzeugen */
-		spielfeld = new Spielfeld();
-		
-    //TODO:/**      c.  Kartenstack erzeugen */
+    /**      c.  Kartenstack erzeugen */
+		kartenstack = new Kartenstack();
 
-    //TODO:/**      d.  Weltraumpiraten erzeugen */
+    /**      d.  Weltraumpiraten erzeugen */
+		weltraumpirat = new Weltraumpirat();
+		weltraumpirat.printPos();
 		
 		/**      e.  Bank erzeugen */
 		bank = new Bank();		
 		
 	//TODO:/** 3.  Spieler 1 platziert zwei Straﬂen und zwei Siedlungen */
+		spielerListe.getSpieler(0).baueWurmloch(new Koordinate(4,3));
+		spielerListe.getSpieler(0).baueWurmloch(new Koordinate(4,5));
+		spielfeld.print();
 	//TODO:/** 4.  Spieler 2 platziert zwei Straﬂen und zwei Siedlungen */
 	//TODO:/** 5.  Spieler 3 platziert zwei Straﬂen und zwei Siedlungen */
 	//TODO:/** 6.  Spieler 4 platziert zwei Straﬂen und zwei Siedlungen (wenn existent) */
@@ -95,7 +106,7 @@ public class Spiel
 					{
 						farbe = f[i];
 
-						Spieler s = new Spieler(farbe, name);
+						Spieler s = new Spieler(farbe, name, spielfeld);
 						spielerListe.hinzuf¸gen(s);
 					}
 

@@ -1,4 +1,11 @@
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
+
+import gebaeude.Kolonie;
+import gebaeude.Koordinate;
+import gebaeude.Metropole;
+import gebaeude.Wurmloch;
 
 /**
  * Created by Dustin on 17.05.2017.
@@ -15,12 +22,29 @@ public class Spieler
 	private Farbe farbe;
 	private String name;
 	private int []rohstoffe;
+	private List<Wurmloch> wurmlochListe;
+	private List<Metropole> metropolenListe;
+	private List<Kolonie> kolonienListe;
+	private Spielfeld spielfeld;
 	
-	public Spieler(Farbe farbe, String name)
+	public Spieler(Farbe farbe, String name, Spielfeld spielfeld)
 	{
 		this.farbe = farbe;
 		this.name = name;
+		this.spielfeld = spielfeld;
+		
+		wurmlochListe = new LinkedList<Wurmloch>();
+		metropolenListe = new LinkedList<Metropole>();
+		kolonienListe = new LinkedList<Kolonie>();
+
 		rohstoffe = new int[5];
+	}
+	
+	public void baueWurmloch(Koordinate k)
+	{
+	  Wurmloch w = new Wurmloch(k);
+	  wurmlochListe.add(w);
+	  spielfeld.setzeWurmloch(w);
 	}
 
 	public String getName()
@@ -32,6 +56,7 @@ public class Spieler
 	{
 		return this.farbe;
 	}
+	
 	public int wuerfeln()
 	{
 		Random zufallsgenerator = new Random();

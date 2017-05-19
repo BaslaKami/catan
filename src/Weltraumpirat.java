@@ -1,10 +1,23 @@
+import gebaeude.Koordinate;
 
 public class Weltraumpirat
 {
-
-	public Weltraumpirat()
+  Koordinate position;
+	
+  public Weltraumpirat()
 	{
-		// TODO Auto-generated constructor stub
+		position = new Koordinate(Spielfeld.getHoehe()/2, Spielfeld.getBreite()/2);
 	}
-
+  
+  public void bewegen(int x, int y)
+  {
+    position.setPos(x, y);
+  }
+  
+  public void printPos()
+  {
+    System.out.print("Position Weltraumpirat: ");
+    position.print();
+  }
 }
+

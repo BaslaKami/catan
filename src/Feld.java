@@ -3,11 +3,11 @@
  */
 public class Feld
 {
-	private int id = 0;
+	private FeldTyp typ;
 
 
-	public Feld()
+	public feld(FeldTyp typ)
 	{
-
+	  this.typ = typ;
 	}
 }
