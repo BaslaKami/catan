@@ -656,7 +656,7 @@ public class Spielfeld
         // links oben
         zeile = zeileNeu - 1;
         spalte = spalteNeu - 1;
-        tmpLaenge = straﬂenlaengeDiag(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -665,7 +665,7 @@ public class Spielfeld
         // links oben
         zeile = zeileNeu - 1;
         spalte = spalteNeu + 1;
-        tmpLaenge = straﬂenlaengeDiag(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -681,7 +681,7 @@ public class Spielfeld
         // unten links
         zeile = zeileNeu + 1;
         spalte = spalteNeu - 1;
-        tmpLaenge = straﬂenlaengeDiag(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -689,7 +689,7 @@ public class Spielfeld
         // unten rechts
         zeile = zeileNeu + 1;
         spalte = spalteNeu + 1;
-        tmpLaenge = straﬂenlaengeDiag(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -771,10 +771,15 @@ public class Spielfeld
 
   private int straﬂenlaengeDiag(Spieler s, List<Feld> vorherigesFeld, int zeile, int spalte, int zeileNeu, int spalteNeu)
   {
-    for(Feld f: vorherigesFeld)
+    if (zeile < HOEHE && zeile > 0 && spalte > 0 && spalte < BREITE)
     {
-      if(f == felder[zeile][spalte])
-        return 0;
+      for(Feld f: vorherigesFeld)
+      {
+        if(f == felder[zeile][spalte])
+        {
+          return 0;
+        }
+      }
     }
     
     vorherigesFeld.add(felder[zeileNeu][spalteNeu]);
@@ -789,10 +794,15 @@ public class Spielfeld
 
   private int straﬂenlaenge(Spieler s, List<Feld> vorherigesFeld, int zeile, int spalte, int zeileNeu, int spalteNeu)
   {
-    for(Feld f: vorherigesFeld)
+    if (zeile < HOEHE && zeile > 0 && spalte > 0 && spalte < BREITE)
     {
-      if(f == felder[zeile][spalte])
-        return 0;
+      for(Feld f: vorherigesFeld)
+      {
+        if(f == felder[zeile][spalte])
+        {
+          return 0;
+        }
+      }
     }
     
     vorherigesFeld.add(felder[zeileNeu][spalteNeu]);
