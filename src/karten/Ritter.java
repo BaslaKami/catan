@@ -6,7 +6,8 @@ import main.Spieler;
 public class Ritter extends Karte
 {
   boolean ausgespielt;
-  
+  Spieler spielerMitGrossterRittermacht; // TODO umbenenen fuer unser Spiel
+
   public Ritter()
   {
     super(KartenTyp.RITTER);
@@ -16,7 +17,30 @@ public class Ritter extends Karte
   @Override
   public void ausspielen(Spieler s)
   {
-    // TODO: Eingabeaufforderung fÃ¼r die Koordinaten
-    s.bewegeWeltraumpirat(new Koordinate(1,6), s.getSpiel().getWeltraumpirat(), s.getSpiel().getSpielerListe());
+    s.incAnazahlRitter();
+
+    if (spielerMitGrossterRittermacht == null)
+    {
+      if (s.getAnzahlRitter() >= 3)
+      {
+        spielerMitGrossterRittermacht = s;
+        s.incSiegpunkte(2);
+      }
+    }
+    else
+    {
+      if (spielerMitGrossterRittermacht.getAnzahlRitter() < s.getAnzahlRitter())
+      {
+        s.incSiegpunkte(2);
+        spielerMitGrossterRittermacht.decSiegpunkte(2);
+
+        spielerMitGrossterRittermacht = s;
+      }
+    }
+
+    // TODO abfangen wenn angegebene Position nicht möglich
+    s.bewegeWeltraumpirat(
+        s.getSpiel().getBenutzereingabe().getKoordinate("Gebe die Koordinate fuer den Weltraumpirat an"),
+        s.getSpiel().getWeltraumpirat(), s.getSpiel().getSpielerListe());
   }
 }

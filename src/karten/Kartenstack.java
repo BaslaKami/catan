@@ -18,7 +18,7 @@ public class Kartenstack
       kartenstack.add(new Ritter());
     }
     
-    //Fortschrittskarten(Straßenbau, Monopol, Erfindung)  generieren
+    //Fortschrittskarten(Strassenbau, Monopol, Erfindung)  generieren
     for(int i = 0; i < 2; i++)
     {
       kartenstack.add(new Strassenbau());

@@ -16,31 +16,37 @@ import karten.Karte;
  * Created by Dustin on 17.05.2017.
  */
 
-// TODO: Liste mit den Gebäuden des Spielers einfügen
+// TODO: Liste mit den Gebaeuden des Spielers einfuegen
 /*
  * Jeder Spieler besitzt
  * 5 Siedlungen
- * 4 Städte
- * 15 Straßen
+ * 4 Staedte
+ * 15 Strassen
  */
 public class Spieler
 {
+  private final static int ANZAHL_WURMLOECHER = 15;
+  private final static int ANZAHL_KOLONIEN = 5;
+  private final static int ANZAHL_METROPOLEN = 4;
+
   private static int idCounter = 0;
   private int siegpunkte;
   private int id;
   private Farbe farbe;
   private String name;
   private Rohstoffe rohstoffe;
-  private List<Wurmloch> wurmlochListe; // TODO Wird die Liste noch benötigt?
-  private List<Metropole> metropolenListe; // TODO Wird die Liste noch benötigt?
-  private List<Kolonie> kolonienListe; // TODO Wird die Liste noch benötigt?
+  private List<Wurmloch> wurmlochListe; // TODO Wird die Liste noch benoetigt?
+  private List<Metropole> metropolenListe; // TODO Wird die Liste noch benoetigt?
+  private List<Kolonie> kolonienListe; // TODO Wird die Liste noch benoetigt?
   private Spielfeld spielfeld;
   private Spiel spiel;
   private List<Karte> karten;
+  private int anzahlRitter;
 
   public Spieler(Farbe farbe, String name, Spielfeld spielfeld, Spiel spiel)
   {
     siegpunkte = 0;
+    anzahlRitter = 0;
     id = idCounter++;
     this.farbe = farbe;
     this.name = name;
@@ -62,41 +68,56 @@ public class Spieler
   }
 
   /*
-   * Für die init des Spiels, wenn man am anfang zwei Wurmlöcher setzen darf und für die Ereigniskarte Straßenbau
+   * Fuer die init des Spiels, wenn man am anfang zwei Wurmloecher setzen darf und fuer die Ereigniskarte Strassenbau
    */
   public boolean baueWurmlochKostenlos(Koordinate k)
   {
     if (spielfeld.kannGebaeudeGebautWerden(k, 'S'))
     {
-      Wurmloch w = new Wurmloch(k, id);
-      wurmlochListe.add(w);
-      spielfeld.setzeWurmloch(w);
-      return true;
+      if (wurmlochListe.size() < ANZAHL_WURMLOECHER)
+      {
+        Wurmloch w = new Wurmloch(k, id);
+        wurmlochListe.add(w);
+        spielfeld.setzeWurmloch(w);
+        return true;
+      }
+      else
+      {
+        System.out.println("Du hast die maximale Anzahl an Wurmloechern bereits gebaut.");
+      }
     }
     else
     {
       System.out.println("Das Wurmloch kann an der angegebenen Stelle nicht gebaut werden.");
-      return false;
     }
+    return false;
   }
 
   /*
-   * Für die init des Spiels, wenn man am anfang zwei Wurmlöcher setzen darf
+   * Fuer die init des Spiels, wenn man am anfang zwei Wurmloecher setzen darf
    */
   public boolean baueKolonieKostenlos(Koordinate k)
   {
     if (spielfeld.kannGebaeudeGebautWerden(k, 'G'))
     {
-      Kolonie kolonie = new Kolonie(k, id);
-      kolonienListe.add(kolonie);
-      spielfeld.setzeKolonie(kolonie);
-      return true;
+      if (kolonienListe.size() < ANZAHL_KOLONIEN)
+      {
+        Kolonie kolonie = new Kolonie(k, id);
+        kolonienListe.add(kolonie);
+        spielfeld.setzeKolonie(kolonie);
+        incSiegpunkte(1);
+        return true;
+      }
+      else
+      {
+        System.out.println("Du hast die maximale Anzahl an Kolonien bereits gebaut.");
+      }
     }
     else
     {
       System.out.println("Das Kolonie kann an der angegebenen Stelle nicht gebaut werden.");
-      return false;
     }
+    return false;
   }
 
   public void baueWurmloch(Koordinate k)
@@ -131,19 +152,28 @@ public class Spieler
 
   public void baueMetropole(Koordinate k)
   {
-    // TODO: Es muss noch getestet werden ob das Kolonie-Objekt aus der Liste vom Spieler gelöscht wird.
+    // TODO: Es muss noch getestet werden ob das Kolonie-Objekt aus der Liste vom Spieler geloescht wird.
     if (rohstoffe.ausreichendRohstoffeVorhanden(Wurmloch.getKosten()))
     {
       if (spielfeld.kannKolonieAufgewertetWerden(k, this))
       {
-        rohstoffe.subRohstoffe(Metropole.getKosten());
-        Metropole m = new Metropole(k, id);
-        metropolenListe.add(m);
-        kolonienListe.remove(spielfeld.setzeMetropole(m));
+        if (kolonienListe.size() < ANZAHL_KOLONIEN)
+        {
+          rohstoffe.subRohstoffe(Metropole.getKosten());
+          Metropole m = new Metropole(k, id);
+          metropolenListe.add(m);
+          kolonienListe.remove(spielfeld.setzeMetropole(m));
+          incSiegpunkte(1);
+        }
+        else
+        {
+          System.out.println("Du hast die maximale Anzahl an Metropolen bereits gebaut.");
+        }
       }
       else
       {
-        System.out.println("An der angegebennen Stelle ist es nicht moeglich ein Upgrade zur Metropole durchzufuehren.");
+        System.out
+            .println("An der angegebennen Stelle ist es nicht moeglich ein Upgrade zur Metropole durchzufuehren.");
       }
     }
     else
@@ -304,10 +334,24 @@ public class Spieler
     return siegpunkte;
   }
 
+  public void incSiegpunkte(int menge)
+  {
+    setSiegpunkte(getSiegpunkte() + menge);
+  }
+  
+  public void decSiegpunkte(int menge)
+  {
+    setSiegpunkte(getSiegpunkte() - menge);
+  }
+
   public void setSiegpunkte(int siegpunkte)
   {
     this.siegpunkte = siegpunkte;
-    // TODO überprüfen ob gewonnen;
+    
+    if(siegpunkte >= 10)  //TODO Variable f�r die ben�tigten Siegpunkte anlegen
+    {
+      System.out.println(name + " hat das Spiel gewonnen.");
+    }
   }
 
   public int getId()
@@ -365,5 +409,20 @@ public class Spieler
   public void setKarten(List<Karte> karten)
   {
     this.karten = karten;
+  }
+
+  public int getAnzahlRitter()
+  {
+    return anzahlRitter;
+  }
+
+  public void setAnzahlRitter(int anzahlRitter)
+  {
+    this.anzahlRitter = anzahlRitter;
+  }
+  
+  public void incAnazahlRitter()
+  {
+    setAnzahlRitter(getAnzahlRitter()+1);
   }
 }
