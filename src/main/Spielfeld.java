@@ -137,8 +137,8 @@ public class Spielfeld
     // Toten Planeten aus der mitte entfernen
     feldTyp[feldTyp.length / 2][feldTyp[feldTyp.length / 2].length / 2] = ' ';
 
-    //TODO Enklaven wieder einkommentieren oder Handel zwischen zwei spielern realisieren
-    //erstelleEnklaven();
+    // TODO Enklaven wieder einkommentieren oder Handel zwischen zwei spielern realisieren
+    // erstelleEnklaven();
   }
 
   private void erstelleEnklaven()
@@ -178,7 +178,7 @@ public class Spielfeld
       System.out.println();
     }
     System.out.println();
-    
+
     // System.out.println("\033[0m BLACK");
     // System.out.println("\033[31m RED");
     // System.out.println("\033[32m GREEN");
@@ -189,7 +189,7 @@ public class Spielfeld
     // System.out.println("\033[37m WHITE");
     // System.out.println("Hello \u001b[1;31m"+ "red" + "\u001b[0m world!");
   }
-  
+
   private void printReferenzFeld(int zeile)
   {
     System.out.printf("%02d  ", zeile);
@@ -223,7 +223,7 @@ public class Spielfeld
 
     }
   }
-  
+
   private void printPlanetZufallszahlen(int zeile)
   {
     System.out.print("   ");
@@ -245,20 +245,20 @@ public class Spielfeld
           }
           case WURMLOCH:
           {
-            //System.out.print("W ");
-            printGebaeude('W', ((Gebaeude)felder[zeile][spalte]).getSpielerId());
+            // System.out.print("W ");
+            printGebaeude('W', ((Gebaeude) felder[zeile][spalte]).getSpielerId());
             break;
           }
           case METROPOLE:
           {
-            //System.out.print("M ");
-            printGebaeude('M', ((Gebaeude)felder[zeile][spalte]).getSpielerId());
+            // System.out.print("M ");
+            printGebaeude('M', ((Gebaeude) felder[zeile][spalte]).getSpielerId());
             break;
           }
           case KOLONIE:
           {
-            //System.out.print("K ");
-            printGebaeude('K', ((Gebaeude)felder[zeile][spalte]).getSpielerId());
+            // System.out.print("K ");
+            printGebaeude('K', ((Gebaeude) felder[zeile][spalte]).getSpielerId());
             break;
           }
           default:
@@ -275,11 +275,11 @@ public class Spielfeld
       }
     }
   }
-  
+
   private void printGebaeude(char gebaeudeKuerzel, int spielerId)
   {
     String farbe;
-    switch(spielerId)
+    switch (spielerId)
     {
       case 0:
       {
@@ -293,7 +293,7 @@ public class Spielfeld
       }
       case 2:
       {
-        farbe = "\033[2;32m";
+        farbe = "\033[1;32m";
         break;
       }
       default:
@@ -302,10 +302,10 @@ public class Spielfeld
         break;
       }
     }
-    
+
     System.out.print(farbe + gebaeudeKuerzel + " " + "\u001b[0m");
   }
-  
+
   private void printPlanetTypen(int zeile)
   {
     System.out.print("   ");
@@ -328,17 +328,20 @@ public class Spielfeld
           }
           case WURMLOCH:
           {
-            System.out.print("W ");
+            //System.out.print("W ");
+            printGebaeude('W', ((Gebaeude) felder[zeile][spalte]).getSpielerId());
             break;
           }
           case METROPOLE:
           {
-            System.out.print("M ");
+            printGebaeude('M', ((Gebaeude) felder[zeile][spalte]).getSpielerId());
+            //System.out.print("M ");
             break;
           }
           case KOLONIE:
           {
-            System.out.print("K ");
+            printGebaeude('K', ((Gebaeude) felder[zeile][spalte]).getSpielerId());
+            //System.out.print("K ");
             break;
           }
           default:
@@ -364,15 +367,16 @@ public class Spielfeld
   {
     return HOEHE;
   }
-  
+
   public boolean kannGebaeudeGebautWerden(Koordinate k, char gebaeudeTyp)
   {
     return feldTyp[k.getPosX()][k.getPosY()] == gebaeudeTyp && felder[k.getPosX()][k.getPosY()] == null;
   }
-  
+
   public boolean kannKolonieAufgewertetWerden(Koordinate k, Spieler s)
   {
-    return feldTyp[k.getPosX()][k.getPosY()] == 'G' && felder[k.getPosX()][k.getPosY()] != null && ((Gebaeude)felder[k.getPosX()][k.getPosY()]).getSpielerId() == s.getId();
+    return feldTyp[k.getPosX()][k.getPosY()] == 'G' && felder[k.getPosX()][k.getPosY()] != null
+        && ((Gebaeude) felder[k.getPosX()][k.getPosY()]).getSpielerId() == s.getId();
   }
 
   public void setzeWurmloch(Wurmloch w)
@@ -551,7 +555,10 @@ public class Spielfeld
   {
     // List<Integer> spielerIds = new LinkedList<Integer>();
 
-    ((Planet) felder[w.getPosition().getPosX()][w.getPosition().getPosY()]).setWeltraumpirat(null);
+    if (felder[w.getPosition().getPosX()][w.getPosition().getPosY()] != null)
+    {
+      ((Planet) felder[w.getPosition().getPosX()][w.getPosition().getPosY()]).setWeltraumpirat(null);
+    }
     w.bewegen(k);
     ((Planet) felder[k.getPosX()][k.getPosY()]).setWeltraumpirat(w);
 

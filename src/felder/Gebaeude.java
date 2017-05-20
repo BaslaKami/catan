@@ -70,14 +70,4 @@ public  class Gebaeude extends Feld
   {
     return spielerId;
   }
-	
-//	public Gebaeude(String name, int feld, int kostenEnergie, int kostenRoboter, int kostenMineralien, int kostenMunition)
-//	{
-//		this.name = name;
-//		this.feld = feld;
-//		this.kostenEnergie = kostenEnergie;
-//		this.kostenRoboter = kostenRoboter;
-//		this.kostenMineralien = kostenMineralien;
-//		this.kostenMunition = kostenMunition;
-//	}
 }
