@@ -21,7 +21,7 @@ public class Monopol extends Karte
     {
       if(s.getId() != s.getSpiel().getSpielerListe().getSpieler(i).getId())
       {
-        s.getRohstoffe().addRohstoffe(r, s.getSpiel().getSpielerListe().getSpieler(i).getRohstoffe().getUndLöscheAlleRohstoffe(r));
+        s.getRohstoffe().addRohstoffe(r, s.getSpiel().getSpielerListe().getSpieler(i).getRohstoffe().getUndLoescheAlleRohstoffe(r));
       }
     }
   }

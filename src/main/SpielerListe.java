@@ -14,7 +14,7 @@ public class SpielerListe
 		spieler = new ArrayList<Spieler>();
 	}
 
-	public void hinzufügen(Spieler s)
+	public void hinzufuegen(Spieler s)
 	{
 		spieler.add(s);
 	}

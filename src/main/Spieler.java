@@ -16,12 +16,12 @@ import karten.Karte;
  * Created by Dustin on 17.05.2017.
  */
 
-// TODO: Liste mit den Gebäuden des Spielers einfügen
+// TODO: Liste mit den Gebï¿½uden des Spielers einfï¿½gen
 /*
  * Jeder Spieler besitzt
  * 5 Siedlungen
- * 4 Städte
- * 15 Straßen
+ * 4 Stï¿½dte
+ * 15 Straï¿½en
  */
 public class Spieler
 {
@@ -31,9 +31,9 @@ public class Spieler
   private Farbe farbe;
   private String name;
   private Rohstoffe rohstoffe;
-  private List<Wurmloch> wurmlochListe; // TODO Wird die Liste noch benötigt?
-  private List<Metropole> metropolenListe; // TODO Wird die Liste noch benötigt?
-  private List<Kolonie> kolonienListe; // TODO Wird die Liste noch benötigt?
+  private List<Wurmloch> wurmlochListe; // TODO Wird die Liste noch benï¿½tigt?
+  private List<Metropole> metropolenListe; // TODO Wird die Liste noch benï¿½tigt?
+  private List<Kolonie> kolonienListe; // TODO Wird die Liste noch benï¿½tigt?
   private Spielfeld spielfeld;
   private Spiel spiel;
   private List<Karte> karten;
@@ -58,12 +58,11 @@ public class Spieler
 
   public void zug()
   {
-    würfeln();
-
+    wuerfeln();
   }
 
   /*
-   * Für die init des Spiels, wenn man am anfang zwei Wurmlöcher setzen darf und für die Ereigniskarte Straßenbau
+   * Fï¿½r die init des Spiels, wenn man am anfang zwei Wurmlï¿½cher setzen darf und fï¿½r die Ereigniskarte Straï¿½enbau
    */
   public boolean baueWurmlochKostenlos(Koordinate k)
   {
@@ -82,7 +81,7 @@ public class Spieler
   }
 
   /*
-   * Für die init des Spiels, wenn man am anfang zwei Wurmlöcher setzen darf
+   * Fï¿½r die init des Spiels, wenn man am anfang zwei Wurmlï¿½cher setzen darf
    */
   public boolean baueKolonieKostenlos(Koordinate k)
   {
@@ -111,7 +110,7 @@ public class Spieler
     }
     else
     {
-      System.out.println("Du besitzt nicht genügen Rohstoffe.");
+      System.out.println("Du besitzt nicht genuegen Rohstoffe.");
     }
   }
 
@@ -126,13 +125,13 @@ public class Spieler
     }
     else
     {
-      System.out.println("Du besitzt nicht genügen Rohstoffe.");
+      System.out.println("Du besitzt nicht genuegen Rohstoffe.");
     }
   }
 
   public void baueMetropole(Koordinate k)
   {
-    // TODO: Es muss noch getestet werden ob das Kolonie-Objekt aus der Liste vom Spieler gelöscht wird.
+    // TODO: Es muss noch getestet werden ob das Kolonie-Objekt aus der Liste vom Spieler gelï¿½scht wird.
     if (rohstoffe.ausreichendRohstoffeVorhanden(Wurmloch.getKosten()))
     {
       if (spielfeld.kannKolonieAufgewertetWerden(k, this))
@@ -144,12 +143,12 @@ public class Spieler
       }
       else
       {
-        System.out.println("An der angegebennen Stelle ist es nicht möglich ein Upgrade zur Metropole durchzuführen.");
+        System.out.println("An der angegebennen Stelle ist es nicht moeglich ein Upgrade zur Metropole durchzufuehren.");
       }
     }
     else
     {
-      System.out.println("Du besitzt nicht genügen Rohstoffe.");
+      System.out.println("Du besitzt nicht genuegen Rohstoffe.");
     }
   }
 
@@ -185,12 +184,12 @@ public class Spieler
     return this.farbe;
   }
 
-  public void würfeln()
+  public void wuerfeln()
   {
     int zahl;
     if (spiel.DEBUG)
     {
-      zahl = spiel.getBenutzereingabe().getInteger("Gib Gewürfelte zahl ein: ");
+      zahl = spiel.getBenutzereingabe().getInteger("Gib Gewuerfelte zahl ein: ");
     }
     else
     {
@@ -233,7 +232,7 @@ public class Spieler
     baueKolonieKostenlos(spiel.getBenutzereingabe().getKoordinate("Baue kostenlose Kolonie"));
     spielfeld.print();
 
-    getAlleRohstoffevonKolonie(spiel.getBenutzereingabe().getKoordinate("Wähle Kolonie für die ersten Rohstoffe"));
+    getAlleRohstoffevonKolonie(spiel.getBenutzereingabe().getKoordinate("Waehle Kolonie fuer die ersten Rohstoffe"));
   }
 
   public void baueGebaeude()
@@ -243,7 +242,7 @@ public class Spieler
     do
     {
       eingabe = spiel.getBenutzereingabe()
-          .getInteger("Wähle welches Gebäude du bauen möchtest\n" + "1 --> Wurmloch\n" + "2 --> Kolonie\n"
+          .getInteger("Waehle welches Gebaeude du bauen moechtest\n" + "1 --> Wurmloch\n" + "2 --> Kolonie\n"
               + "3 --> Metropole\n" + "4 --> Spielfeld anzeigen\n" + "5 --> Rohstoffe Anzeigen\n"
               + "6 --> Karte spielen\n" + "7 --> Bauen Beenden");
       switch (eingabe)
@@ -308,7 +307,7 @@ public class Spieler
   public void setSiegpunkte(int siegpunkte)
   {
     this.siegpunkte = siegpunkte;
-    // TODO überprüfen ob gewonnen;
+    // TODO ï¿½berprï¿½fen ob gewonnen;
   }
 
   public int getId()

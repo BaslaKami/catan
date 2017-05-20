@@ -133,7 +133,7 @@ public class Rohstoffe
     return rT[typ];
   }
 
-  public int getUndLöscheAlleRohstoffe(RohstoffTyp typ)
+  public int getUndLoescheAlleRohstoffe(RohstoffTyp typ)
   {
     int anzahl = getRohstoffe(typ);
     setRohstoffe(typ, 0);

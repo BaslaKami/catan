@@ -2,7 +2,7 @@ package main;
 
 public enum Farbe
 {
-	BLAU("blue", 0), GELB("green", 1), GRÜN("green", 2), ROT("red", 3);
+	BLAU("blue", 0), GELB("green", 1), GRUEN("green", 2), ROT("red", 3);
 
 	private final String farbe;
 	private final int wert;
