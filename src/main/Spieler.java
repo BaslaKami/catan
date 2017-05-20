@@ -11,6 +11,7 @@ import felder.Metropole;
 import felder.Weltraumpirat;
 import felder.Wurmloch;
 import karten.Karte;
+import karten.KartenTyp;
 
 /**
  * Created by Dustin on 17.05.2017.
@@ -101,10 +102,11 @@ public class Spieler
     laengsteHandelsstrasse = spielfeld.getLaengsteStrasse(this);
 
     if (spiel.getSpielerMitLaengsterHandelsstrasse() != this
-        && (spiel.getSpielerMitLaengsterHandelsstrasse() == null || laengsteHandelsstrasse > spiel.getSpielerMitLaengsterHandelsstrasse().getLaengsteHandelsstrasse())
+        && (spiel.getSpielerMitLaengsterHandelsstrasse() == null
+            || laengsteHandelsstrasse > spiel.getSpielerMitLaengsterHandelsstrasse().getLaengsteHandelsstrasse())
         && laengsteHandelsstrasse > 4)
     {
-      if(spiel.getSpielerMitLaengsterHandelsstrasse() != null)
+      if (spiel.getSpielerMitLaengsterHandelsstrasse() != null)
       {
         spiel.getSpielerMitLaengsterHandelsstrasse().decSiegpunkte(2);
       }
@@ -172,7 +174,6 @@ public class Spieler
 
   public void baueMetropole(Koordinate k)
   {
-    // TODO: Es muss noch getestet werden ob das Kolonie-Objekt aus der Liste vom Spieler geloescht wird.
     if (rohstoffe.ausreichendRohstoffeVorhanden(Wurmloch.getKosten()))
     {
       if (spielfeld.kannKolonieAufgewertetWerden(k, this))
@@ -235,7 +236,7 @@ public class Spieler
   public void wuerfeln()
   {
     int zahl;
-    if (spiel.DEBUG)
+    if (Spiel.DEBUG)
     {
       zahl = spiel.getBenutzereingabe().getInteger("Gib Gewuerfelte zahl ein: ");
     }
@@ -252,9 +253,8 @@ public class Spieler
       {
         spiel.getSpielerListe().getSpieler(i).haelfteDerRohstoffeWerdenEntfernt();
       }
-      // TODO: Eingabe durch Benutzer von den Koordinaten des Weltraumpiraten
 
-      bewegeWeltraumpirat(new Koordinate(5, 14), spiel.getWeltraumpirat(), spiel.getSpielerListe());
+      bewegeWeltraumpirat(spiel.getBenutzereingabe().getKoordinate("Gib die neue Positon des Weltraumpiraten an"), spiel.getWeltraumpirat(), spiel.getSpielerListe());
     }
     else
     {
@@ -283,16 +283,28 @@ public class Spieler
     getAlleRohstoffevonKolonie(spiel.getBenutzereingabe().getKoordinate("Waehle Kolonie fuer die ersten Rohstoffe"));
   }
 
+  private void printKarten()
+  {
+    System.out.println("Karten");
+    for (Karte k : karten)
+    {
+      System.out.println(k.getKartenTyp());
+    }
+    System.out.println();
+  }
+
   public void baueGebaeude()
   {
     int eingabe;
     boolean bauenBeenden = false;
     do
     {
+      printKarten();
+      System.out.println("Siegespunkte: " + siegpunkte);
       eingabe = spiel.getBenutzereingabe()
           .getInteger("Waehle welches Gebaeude du bauen moechtest\n" + "1 --> Wurmloch\n" + "2 --> Kolonie\n"
               + "3 --> Metropole\n" + "4 --> Spielfeld anzeigen\n" + "5 --> Rohstoffe Anzeigen\n"
-              + "6 --> Karte spielen\n" + "7 --> Längste Straße\n" + "8 --> Bauen Beenden");
+              + "6 --> Karte ziehen\n" + "7 --> Karte spielen\n" + "8 --> Längste Straße\n" + "9 --> Bauen Beenden");
       switch (eingabe)
       {
         case 1:
@@ -325,10 +337,16 @@ public class Spieler
         }
         case 6:
         {
-          // TODO Karte spielen
+          karteZiehen();
+
           break;
         }
         case 7:
+        {
+          karteSpielen();
+          break;
+        }
+        case 8:
         {
           System.out.println("Laengste Straße: " + spielfeld.getLaengsteStrasse(this));
           break;
@@ -342,6 +360,31 @@ public class Spieler
     } while (bauenBeenden == false);
   }
 
+  private void karteSpielen()
+  {
+    int kartenNummer = spiel.getBenutzereingabe().getInteger("Welche Karte soll gespielt werden?");
+    karten.get(kartenNummer).ausspielen(this);
+    karten.remove(kartenNummer);
+  }
+
+  private void karteZiehen()
+  {
+    if (rohstoffe.ausreichendRohstoffeVorhanden(Karte.getKosten()))
+    {
+      Karte k = spiel.getKartenstack().ziehen();
+      if(k.getKartenTyp() == KartenTyp.SIEGPUNKT)
+      {
+        k.ausspielen(this);
+      }
+      else
+      {
+        karten.add(k);
+      }
+      
+      rohstoffe.subRohstoffe(Karte.getKosten());
+    }
+  }
+
   public Spieler waehleSpieler()
   {
     int eingabe;
@@ -352,7 +395,7 @@ public class Spieler
 
     for (Spieler s : spiel.getSpielerListe().getListe())
     {
-      if(s.getId() != id)
+      if (s.getId() != id)
       {
         auswahlListe.hinzufuegen(s);
         auswahlString += count++ + " --> " + s.getName() + "\n";
@@ -362,11 +405,11 @@ public class Spieler
     do
     {
       eingabe = spiel.getBenutzereingabe().getInteger(auswahlString);
-      if(eingabe > 0 && eingabe <= auswahlListe.getSize())
+      if (eingabe > 0 && eingabe <= auswahlListe.getSize())
       {
-        ausgewaehlterSpieler = auswahlListe.getSpieler(eingabe-1);
+        ausgewaehlterSpieler = auswahlListe.getSpieler(eingabe - 1);
       }
-    } while(ausgewaehlterSpieler == null);
+    } while (ausgewaehlterSpieler == null);
 
     return ausgewaehlterSpieler;
   }
@@ -380,23 +423,24 @@ public class Spieler
 
     for (RohstoffTyp typ : RohstoffTyp.values())
     {
-      auswahlString += typ.getNummer() + 1 + " " + typ.getRohstoff() +"\n";
+      auswahlString += typ.getNummer() + 1 + " " + typ.getRohstoff() + "\n";
     }
     do
     {
       eingabe = spiel.getBenutzereingabe().getInteger(auswahlString) - 1;
 
-      if(eingabe >= 0 && eingabe < rohstoffe.length)
+      if (eingabe >= 0 && eingabe < rohstoffe.length)
       {
-        if (s.rohstoffe.getRohstoffe(rohstoffe[eingabe]) <= 0) {
+        if (s.rohstoffe.getRohstoffe(rohstoffe[eingabe]) <= 0)
+        {
           System.out.println("\n\033[31mRohstoff nicht vorhanden!\033[0m");
         }
         else
         {
-        gueltigerRohstoff = true;
+          gueltigerRohstoff = true;
         }
       }
-    } while(!gueltigerRohstoff);
+    } while (!gueltigerRohstoff);
 
     return rohstoffe[eingabe];
   }
@@ -407,7 +451,7 @@ public class Spieler
     boolean ausreichendVorhanden = false;
     do
     {
-     anzahl = spiel.getBenutzereingabe().getInteger("Anzahl der " + rohstoffTyp.getRohstoff());
+      anzahl = spiel.getBenutzereingabe().getInteger("Anzahl der " + rohstoffTyp.getRohstoff());
       if (anzahl > 0 && anzahl <= s.rohstoffe.getRohstoffe(rohstoffTyp))
       {
         ausreichendVorhanden = true;
@@ -428,9 +472,8 @@ public class Spieler
     do
     {
       // Mit Spieler oder mit Bank handeln?
-      eingabe = spiel.getBenutzereingabe()
-              .getInteger("Waehle mit wem du handeln moechtest\n" + "1 --> Spieler\n" + "2 --> Bank\n"
-                      + "3 --> Handeln beenden");
+      eingabe = spiel.getBenutzereingabe().getInteger(
+          "Waehle mit wem du handeln moechtest\n" + "1 --> Spieler\n" + "2 --> Bank\n" + "3 --> Handeln beenden");
       switch (eingabe)
       {
         case 1:
@@ -443,11 +486,13 @@ public class Spieler
           RohstoffTyp einkaufRohstoffTyp = waehleRohstoffTyp(kaeufer);
           int anzahlEinkauf = waehleRohstoffAnzahl(kaeufer, einkaufRohstoffTyp);
 
-          System.out.println("Handelsanfrage an " + kaeufer.getName() + ":\n" + this.getName() + " bietet " + anzahlVerkauf + verkaufRohstoffTyp.getRohstoff() + " gegen " + anzahlEinkauf + einkaufRohstoffTyp);
+          System.out.println("Handelsanfrage an " + kaeufer.getName() + ":\n" + this.getName() + " bietet "
+              + anzahlVerkauf + verkaufRohstoffTyp.getRohstoff() + " gegen " + anzahlEinkauf + einkaufRohstoffTyp);
           eingabe = spiel.getBenutzereingabe().getInteger("Annehmen?\n1 --> Ja\n2 --> Nein");
           if (eingabe == 1)
           {
-            spiel.getBank().handelMitSpieler(this, kaeufer, verkaufRohstoffTyp, einkaufRohstoffTyp, anzahlVerkauf, anzahlEinkauf);
+            spiel.getBank().handelMitSpieler(this, kaeufer, verkaufRohstoffTyp, einkaufRohstoffTyp, anzahlVerkauf,
+                anzahlEinkauf);
             spiel.printRohstoffeDerSpieler();
           }
           break;
@@ -500,7 +545,7 @@ public class Spieler
   {
     this.siegpunkte = siegpunkte;
 
-    if (siegpunkte >= 10) // TODO Variable für die benötigten Siegpunkte anlegen
+    if (this.siegpunkte >= 10) // TODO Variable für die benötigten Siegpunkte anlegen
     {
       System.out.println(name + " hat das Spiel gewonnen.");
     }

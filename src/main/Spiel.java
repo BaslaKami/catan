@@ -331,6 +331,11 @@ public class Spiel
   {
     this.spielerMitLaengsterHandelsstrasse = laengsteHandelsstrasse;
   }
+  
+  public Kartenstack getKartenstack()
+  {
+    return kartenstack;
+  }
 
   public Bank getBank() { return bank; }
 
