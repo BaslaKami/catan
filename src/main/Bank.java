@@ -31,12 +31,12 @@ public class Bank
     }
     s.getRohstoffe().addRohstoffe(einkauf, 1);
   }
-  
-//  public void handelMitSpieler(Spieler kaufer, Spieler verkaufer, RohstoffTyp verkauf, RohstoffTyp einkauf, int anzahlEinkauf, int anzahlVerkauf)
-//  {
-//    verkaufer.decRohstoffe(einkauf, anzahlEinkauf);
-//    kaufer.decRohstoffe(verkauf, anzahlVerkauf);
-//    verkaufer.incRohstoffe(verkauf, anzahlVerkauf);
-//    kaufer.incRohstoffe(einkauf, anzahlEinkauf);
-//  }
+
+  public void handelMitSpieler(Spieler verkaufer, Spieler kaeufer, RohstoffTyp verkaufRohstoffTyp, RohstoffTyp einkaufRohstoffTyp, int anzahlEinkauf, int anzahlVerkauf)
+  {
+    verkaufer.getRohstoffe().subRohstoffe(verkaufRohstoffTyp, anzahlVerkauf);
+    kaeufer.getRohstoffe().subRohstoffe(einkaufRohstoffTyp, anzahlEinkauf);
+    verkaufer.getRohstoffe().addRohstoffe(einkaufRohstoffTyp, anzahlEinkauf);
+    kaeufer.getRohstoffe().addRohstoffe(verkaufRohstoffTyp, anzahlVerkauf);
+  }
 }

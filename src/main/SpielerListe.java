@@ -31,6 +31,8 @@ public class SpielerListe
 	{
 		return spieler.get(nummer);
 	}
+
+	public List<Spieler> getListe() { return spieler; }
 	
 	public int getSize()
 	{

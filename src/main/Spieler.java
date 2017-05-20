@@ -342,6 +342,130 @@ public class Spieler
     } while (bauenBeenden == false);
   }
 
+  public Spieler waehleSpieler()
+  {
+    int eingabe;
+    Spieler ausgewaehlterSpieler = null;
+    String auswahlString = "Waehle einen Spieler:\n";
+    SpielerListe auswahlListe = new SpielerListe();
+    int count = 1;
+
+    for (Spieler s : spiel.getSpielerListe().getListe())
+    {
+      if(s.getId() != id)
+      {
+        auswahlListe.hinzufuegen(s);
+        auswahlString += count++ + " --> " + s.getName() + "\n";
+      }
+    }
+
+    do
+    {
+      eingabe = spiel.getBenutzereingabe().getInteger(auswahlString);
+      if(eingabe > 0 && eingabe <= auswahlListe.getSize())
+      {
+        ausgewaehlterSpieler = auswahlListe.getSpieler(eingabe-1);
+      }
+    } while(ausgewaehlterSpieler == null);
+
+    return ausgewaehlterSpieler;
+  }
+
+  public RohstoffTyp waehleRohstoffTyp(Spieler s)
+  {
+    int eingabe;
+    boolean gueltigerRohstoff = false;
+    RohstoffTyp[] rohstoffe = RohstoffTyp.values();
+    String auswahlString = "Waehle einen Rohstoff:\n";
+
+    for (RohstoffTyp typ : RohstoffTyp.values())
+    {
+      auswahlString += typ.getNummer() + 1 + " " + typ.getRohstoff() +"\n";
+    }
+    do
+    {
+      eingabe = spiel.getBenutzereingabe().getInteger(auswahlString) - 1;
+
+      if(eingabe >= 0 && eingabe < rohstoffe.length)
+      {
+        if (s.rohstoffe.getRohstoffe(rohstoffe[eingabe]) <= 0) {
+          System.out.println("\n\033[31mRohstoff nicht vorhanden!\033[0m");
+        }
+        else
+        {
+        gueltigerRohstoff = true;
+        }
+      }
+    } while(!gueltigerRohstoff);
+
+    return rohstoffe[eingabe];
+  }
+
+  public int waehleRohstoffAnzahl(Spieler s, RohstoffTyp rohstoffTyp)
+  {
+    int anzahl;
+    boolean ausreichendVorhanden = false;
+    do
+    {
+     anzahl = spiel.getBenutzereingabe().getInteger("Anzahl der " + rohstoffTyp.getRohstoff());
+      if (anzahl > 0 && anzahl <= s.rohstoffe.getRohstoffe(rohstoffTyp))
+      {
+        ausreichendVorhanden = true;
+      }
+      else
+      {
+        System.out.println("\n\033[31mAnzahl nicht vorhanden!\033[0m");
+      }
+    } while (!ausreichendVorhanden);
+
+    return anzahl;
+  }
+
+  public void starteHandel()
+  {
+    int eingabe;
+    boolean handelnBeenden = false;
+    do
+    {
+      // Mit Spieler oder mit Bank handeln?
+      eingabe = spiel.getBenutzereingabe()
+              .getInteger("Waehle mit wem du handeln moechtest\n" + "1 --> Spieler\n" + "2 --> Bank\n"
+                      + "3 --> Handeln beenden");
+      switch (eingabe)
+      {
+        case 1:
+        {
+          Spieler kaeufer = waehleSpieler();
+          System.out.println("\n\033[32m - Verkauf -\033[0m");
+          RohstoffTyp verkaufRohstoffTyp = waehleRohstoffTyp(this);
+          int anzahlVerkauf = waehleRohstoffAnzahl(this, verkaufRohstoffTyp);
+          System.out.println("\n\033[32m - Kauf -\033[0m");
+          RohstoffTyp einkaufRohstoffTyp = waehleRohstoffTyp(kaeufer);
+          int anzahlEinkauf = waehleRohstoffAnzahl(kaeufer, einkaufRohstoffTyp);
+
+          System.out.println("Handelsanfrage an " + kaeufer.getName() + ":\n" + this.getName() + " bietet " + anzahlVerkauf + verkaufRohstoffTyp.getRohstoff() + " gegen " + anzahlEinkauf + einkaufRohstoffTyp);
+          eingabe = spiel.getBenutzereingabe().getInteger("Annehmen?\n1 --> Ja\n2 --> Nein");
+          if (eingabe == 1)
+          {
+            spiel.getBank().handelMitSpieler(this, kaeufer, verkaufRohstoffTyp, einkaufRohstoffTyp, anzahlVerkauf, anzahlEinkauf);
+            spiel.printRohstoffeDerSpieler();
+          }
+          break;
+        }
+        case 2:
+        {
+          System.out.println("\nHandeln mit der Bank wird nicht unterstützt!"); // TODO
+          break;
+        }
+        default:
+        {
+          handelnBeenden = true;
+          break;
+        }
+      }
+    } while (handelnBeenden == false);
+  }
+
   private void setRohstoffe(Rohstoffe rohstoffe)
   {
     this.rohstoffe = rohstoffe;
@@ -350,6 +474,11 @@ public class Spieler
   public Rohstoffe getRohstoffe()
   {
     return rohstoffe;
+  }
+
+  public int getRohstoffAnzahl(RohstoffTyp typ)
+  {
+    return rohstoffe.getRohstoffe(typ);
   }
 
   public int getSiegpunkte()
@@ -403,7 +532,7 @@ public class Spieler
     List<Gebaeude> gebaeudeListe = spielfeld.bewegeWeltraumpirat(koordinate, w);
     for (Gebaeude g : gebaeudeListe)
     {
-      if (g.getSpielerId() != getId())
+      if (g.getSpielerId() != id)
       {
         getRohstoffe()
             .addRohstoffe(spielerListe.getSpieler(g.getSpielerId()).getRohstoffe().entferneZufaelligEinenRohstoff(), 1);
