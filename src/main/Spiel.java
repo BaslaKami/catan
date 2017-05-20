@@ -8,6 +8,7 @@ import karten.Kartenstack;
 public class Spiel
 {
   public static final boolean DEBUG = true;
+  private static final int BENOETIGTE_SIEGPUNKTE = 10;
   private SpielerListe spielerListe;
   private Spielfeld spielfeld;
   private Bank bank;
@@ -182,33 +183,6 @@ public class Spiel
     s.baueGebaeude();
   }
 
-  // private void wuerfeln(Spieler s)
-  // {
-  // int zahl = s.wuerfeln();
-  // System.out.println("Wurf: " + zahl);
-  //
-  // if (zahl == 7)
-  // {
-  // for (int i = 0; i < spielerListe.getSize(); i++)
-  // {
-  // spielerListe.getSpieler(i).haelfteDerRohstoffeWerdenEntfernt();
-  // }
-  // // TODO: Eingabe durch Benutzer von den Koordinaten des Weltraumpiraten
-  //
-  // s.bewegeWeltraumpirat(new Koordinate(5, 14), weltraumpirat, spielerListe);
-  // }
-  // else
-  // {
-  // for (int i = 0; i < spielerListe.getSize(); i++)
-  // {
-  // spielerListe.getSpieler(i).getRohstoffe()
-  // .addRohstoffe(spielfeld.getRohstoffeFuerSpieler(spielerListe.getSpieler(i), zahl));
-  // //spielerListe.getSpieler(i).getRohstoffe().print();
-  // }
-  //
-  // }
-  // }
-
   public void printRohstoffeDerSpieler()
   {
     // System.out.printf("%c %c %c %c %c %c\n", 'S', RohstoffTyp.ENERGIE.getRohstoff().charAt(1),
@@ -338,5 +312,10 @@ public class Spiel
   }
 
   public Bank getBank() { return bank; }
+
+  public static int getBenoetigteSiegpunkte()
+  {
+    return BENOETIGTE_SIEGPUNKTE;
+  }
 
 }

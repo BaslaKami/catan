@@ -35,9 +35,9 @@ public class Spieler
   private Farbe farbe;
   private String name;
   private Rohstoffe rohstoffe;
-  private List<Wurmloch> wurmlochListe; // TODO Wird die Liste noch benoetigt?
-  private List<Metropole> metropolenListe; // TODO Wird die Liste noch benoetigt?
-  private List<Kolonie> kolonienListe; // TODO Wird die Liste noch benoetigt?
+  private List<Wurmloch> wurmlochListe; 
+  private List<Metropole> metropolenListe; 
+  private List<Kolonie> kolonienListe;
   private Spielfeld spielfeld;
   private Spiel spiel;
   private List<Karte> karten;
@@ -499,7 +499,7 @@ public class Spieler
         }
         case 2:
         {
-          System.out.println("\nHandeln mit der Bank wird nicht unterstÃ¼tzt!"); // TODO
+          System.out.println("\nHandeln mit der Bank wird nicht unterstuetzt!"); // TODO
           break;
         }
         default:
@@ -545,7 +545,7 @@ public class Spieler
   {
     this.siegpunkte = siegpunkte;
 
-    if (this.siegpunkte >= 10) // TODO Variable für die benötigten Siegpunkte anlegen
+    if (this.siegpunkte >= Spiel.getBenoetigteSiegpunkte())
     {
       System.out.println(name + " hat das Spiel gewonnen.");
     }
