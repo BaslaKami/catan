@@ -41,7 +41,7 @@ public class Benutzereingabe
   public int getInteger(String s)
   {
    int eingabe = 0;
-   System.out.println(s);
+   System.out.println("\n" + s);
     try
     {
       if (scanner.hasNextInt())

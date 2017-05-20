@@ -169,7 +169,7 @@ public class Spiel
      * 2. Spieler handelt
      * a. Spieler darf beliebig oft handeln
      */
-    handeln(s);
+    s.starteHandel();
 
     /*
      * 3. Gebaeude bauen, Entwicklungskarten kaufen
@@ -181,12 +181,34 @@ public class Spiel
     s.baueGebaeude();
   }
 
-  private void handeln(Spieler s)
-  {
-    // TODO: Handeln
-  }
+  // private void wuerfeln(Spieler s)
+  // {
+  // int zahl = s.wuerfeln();
+  // System.out.println("Wurf: " + zahl);
+  //
+  // if (zahl == 7)
+  // {
+  // for (int i = 0; i < spielerListe.getSize(); i++)
+  // {
+  // spielerListe.getSpieler(i).haelfteDerRohstoffeWerdenEntfernt();
+  // }
+  // // TODO: Eingabe durch Benutzer von den Koordinaten des Weltraumpiraten
+  //
+  // s.bewegeWeltraumpirat(new Koordinate(5, 14), weltraumpirat, spielerListe);
+  // }
+  // else
+  // {
+  // for (int i = 0; i < spielerListe.getSize(); i++)
+  // {
+  // spielerListe.getSpieler(i).getRohstoffe()
+  // .addRohstoffe(spielfeld.getRohstoffeFuerSpieler(spielerListe.getSpieler(i), zahl));
+  // //spielerListe.getSpieler(i).getRohstoffe().print();
+  // }
+  //
+  // }
+  // }
 
-  private void printRohstoffeDerSpieler()
+  public void printRohstoffeDerSpieler()
   {
     // System.out.printf("%c %c %c %c %c %c\n", 'S', RohstoffTyp.ENERGIE.getRohstoff().charAt(1),
     // RohstoffTyp.NAHRUNG.getRohstoff().charAt(1), RohstoffTyp.ROBOTER.getRohstoff().charAt(1),
@@ -284,7 +306,7 @@ public class Spiel
   {
     this.benutzereingabe = benutzereingabe;
   }
-  
+
   public Spieler meistenRitter()
   {
     Spieler meisteRitter = spielerListe.getSpieler(0);
@@ -297,4 +319,6 @@ public class Spiel
     }
     return meisteRitter;
   }
+
+  public Bank getBank() { return bank; }
 }
