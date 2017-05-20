@@ -1,4 +1,4 @@
-package gebaeude;
+package felder;
 
 public class Wurmloch extends Gebaeude
 {
@@ -8,9 +8,9 @@ public class Wurmloch extends Gebaeude
   private static final int kostenMineralien = 0;
   private static final int kostenMunition = 0;
   
-  public Wurmloch(Koordinate k)
+  public Wurmloch(Koordinate k, int spieler)
   {
-    super(k, GebaeudeTyp.WURMLOCH);
+    super(k, FeldTyp.WURMLOCH, spieler);
   }
 //  
 //	public Wurmloch(String name, int feld, int kostenEnergie, int kostenRoboter, int kostenMineralien, int kostenMunition)

@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
-import gebaeude.Koordinate;
+import felder.Koordinate;
+import felder.Weltraumpirat;
 import karten.Kartenstack;
 
 public class Spiel
@@ -63,17 +64,96 @@ public class Spiel
 		/**      e.  Bank erzeugen */
 		bank = new Bank();		
 		
-	//TODO:/** 3.  Spieler 1 platziert zwei Straßen und zwei Siedlungen */
+		//TODO: Per Schleife und Eingabe umsetzen
+		/** 3.  Spieler 1 platziert zwei Straßen und zwei Siedlungen */
 		spielerListe.getSpieler(0).baueWurmloch(new Koordinate(4,3));
 		spielerListe.getSpieler(0).baueWurmloch(new Koordinate(4,5));
-		spielfeld.print();
-	//TODO:/** 4.  Spieler 2 platziert zwei Straßen und zwei Siedlungen */
-	//TODO:/** 5.  Spieler 3 platziert zwei Straßen und zwei Siedlungen */
-	//TODO:/** 6.  Spieler 4 platziert zwei Straßen und zwei Siedlungen (wenn existent) */
-	//TODO:/** 7.  Spieler 1 bekommt die Rohstoffe für eine Siedlung ausgezahlt */
-	//TODO:/** 8.  Spieler 1 bekommt die Rohstoffe für eine Siedlung ausgezahlt */
-	//TODO:/** 9.  Spieler 1 bekommt die Rohstoffe für eine Siedlung ausgezahlt */
-	//TODO:/**10.  Spieler 1 bekommt die Rohstoffe für eine Siedlung ausgezahlt (wenn existent) */
+		
+		spielerListe.getSpieler(0).baueKolonie(new Koordinate(4,2));
+    spielerListe.getSpieler(0).baueKolonie(new Koordinate(4,6));
+	
+		/** 4.  Spieler 2 platziert zwei Straßen und zwei Siedlungen */
+    spielerListe.getSpieler(1).baueWurmloch(new Koordinate(8,13));
+    spielerListe.getSpieler(1).baueWurmloch(new Koordinate(9,12));
+    
+    spielerListe.getSpieler(1).baueKolonie(new Koordinate(8,12));
+    spielerListe.getSpieler(1).baueKolonie(new Koordinate(8,14));
+		
+    /** 5.  Spieler 3 platziert zwei Straßen und zwei Siedlungen */
+    spielerListe.getSpieler(2).baueWurmloch(new Koordinate(4,19));
+    spielerListe.getSpieler(2).baueWurmloch(new Koordinate(5,20));
+    
+    spielerListe.getSpieler(2).baueKolonie(new Koordinate(4,18));
+    spielerListe.getSpieler(2).baueKolonie(new Koordinate(4,20));
+    spielfeld.print();
+	
+    /** 6.  Spieler 4 platziert zwei Straßen und zwei Siedlungen (wenn existent) */
+    //existiert aktuell nicht
+    
+    /** 7.  Spieler 1 bekommt die Rohstoffe für eine Siedlung ausgezahlt */
+    spielerListe.getSpieler(0).getAlleRohstoffevonKolonie(new Koordinate(4,2));
+    System.out.println();
+    System.out.println("Spieler 0");
+    spielerListe.getSpieler(0).getRohstoffe().print();
+    
+    /** 8.  Spieler 1 bekommt die Rohstoffe für eine Siedlung ausgezahlt */
+    spielerListe.getSpieler(1).getAlleRohstoffevonKolonie(new Koordinate(8,14));
+    System.out.println();
+    System.out.println("Spieler 1");
+    spielerListe.getSpieler(1).getRohstoffe().print();
+    
+    /** 9.  Spieler 1 bekommt die Rohstoffe für eine Siedlung ausgezahlt */
+    spielerListe.getSpieler(2).getAlleRohstoffevonKolonie(new Koordinate(4,20));
+    System.out.println();
+    System.out.println("Spieler 2");
+    spielerListe.getSpieler(2).getRohstoffe().print();
+    
+    /**10.  Spieler 1 bekommt die Rohstoffe für eine Siedlung ausgezahlt (wenn existent) */
+    
+    System.out.println("Zug 1");
+    
+    zug(spielerListe.getSpieler(0));
+    
+    //existiert aktuell nicht
+	}
+	
+	 /*
+   *  1.  Spieler würfelt Rohstofferträge aus
+   *      a.  Die gewürfelte Zahl legt fest welches Feld Rohstoffe gibt. Jedes Dorf an diesem Feld bekommt einen Rohstoff dieser Art, jede Stadt zwei. Es gibt keine Rohstoffe von dem Feld auf dem der Räuber steht.
+   *      b.  Falls die 7 Gewürfelt wird 
+   *      c.  gibt jeder Spieler mit mehr als 7 Rohstoffen die Hälfte (abgerundet) ab.
+   *      d.  Spieler stellt den Räuber um (aktuelle Feld ist nicht zulässig)
+   *      e.  Der Spieler bekommt von den Spielern die auf dem neuen Feld des Räubers eine Siedlung oder Stadt haben eine zufällige Rohstoffkarte
+   *  2.  Spieler handelt
+   *      a.  Spieler darf beliebig oft handeln
+   *  3.  Gebäude bauen, Entwicklungskarten kaufen
+   *      a.  Entwicklungskarte kann zu jeder Zeit des Zuges (1-3) ausgespielt werden
+   *      b.  Es kann pro Zug immer nur genau eine Entwicklungskarte ausgespielt werden
+   *      c.  Die Entwicklungskarte welche ausgespielt wird darf nicht während des aktuellen Zuges gekauft worden sein
+   *  4.  Zug beenden/nächster Spieler beginnt mit Punkt 1
+   */
+	private void zug(Spieler s)
+	{
+	  int zahl = s.wuerfeln();
+	  System.out.println("Wurf: " + zahl);
+	  
+	  if(zahl == 7)
+	  {
+	    for(int i = 0; i < spielerListe.getSize(); i++)
+      {
+	      spielerListe.getSpieler(i).haelfteDerRohstoffeWerdenEntfernt();
+      }
+	    //TODO: Eingabe durch Benutzer von den Koordinaten des Weltraumpiraten
+	    s.bewegeWeltraumpirat(new Koordinate(5,14), weltraumpirat);
+	  }
+	  else
+	  {
+	    for(int i = 0; i < spielerListe.getSize(); i++)
+  	  {
+  	    spielerListe.getSpieler(i).getRohstoffe().addRohstoffe(spielfeld.getRohstoffeFuerSpieler(spielerListe.getSpieler(i), zahl));
+  	    spielerListe.getSpieler(i).getRohstoffe().print();
+  	  }
+	  }
 	}
 
 	private void erstelleSpieler()

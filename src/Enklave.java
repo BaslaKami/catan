@@ -1,9 +1,10 @@
+import felder.RohstoffTyp;
 
-public class Enklave extends Feld
+public class Enklave 
 {
 
-  Rohstoff rohstoff;
-	public Enklave(Rohstoff rohstoff)
+  Rohstoffe rohstoff;
+	public Enklave(Rohstoffe rohstoff)
 	{
 	
 	  this.rohstoff = rohstoff;

@@ -1,10 +1,10 @@
-package gebaeude;
+package felder;
 
 public class Metropole extends Gebaeude
 {
-  public Metropole(Koordinate k)
+  public Metropole(Koordinate k, int spieler)
   {
-    super(k, GebaeudeTyp.METROPOLE);
+    super(k, FeldTyp.METROPOLE, spieler);
   }
 
 //	public Metropole(String name, int feld, int kostenEnergie, int kostenRoboter, int kostenMineralien, int kostenMunition)

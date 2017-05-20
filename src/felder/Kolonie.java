@@ -1,10 +1,10 @@
-package gebaeude;
+package felder;
 
 public class Kolonie extends Gebaeude
 {
-  public Kolonie(Koordinate k)
+  public Kolonie(Koordinate k, int spieler)
   {
-    super(k, GebaeudeTyp.KOLONIE);
+    super(k, FeldTyp.KOLONIE, spieler);
   }
 
 //	public Kolonie(String name, int feld, int kostenEnergie, int kostenRoboter, int kostenMineralien, int kostenMunition)

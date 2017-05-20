@@ -1,11 +1,12 @@
-package gebaeude;
+package felder;
 
-public  class Gebaeude
+public  class Gebaeude extends Feld
 {
 	//private String name;
 	//private int feld;
+  private int spielerId;
   private Koordinate pos;
-  private GebaeudeTyp typ;
+  //private GebaeudeTyp typ;
 	private static final int kostenEnergie = 0;
 	private static final int kostenNahrung = 0;
 	private static final int kostenRoboter = 0;
@@ -19,13 +20,15 @@ public  class Gebaeude
 	
 	public Gebaeude(Koordinate k)
   {
-	  this(k, null);
+	  this(k, null, 0);
   }
 	
-	public Gebaeude(Koordinate k, GebaeudeTyp typ)
+	public Gebaeude(Koordinate k, FeldTyp typ, int spielerId)
   {
+	  super(typ);
     pos = k;
-    setTyp(typ);
+    this.spielerId = spielerId;
+    //setTyp(typ);
   }
 	
 	public int getPosX()
@@ -63,14 +66,9 @@ public  class Gebaeude
     return kostenMunition;
   }
 
-  public GebaeudeTyp getTyp()
+  public int getSpielerId()
   {
-    return typ;
-  }
-
-  public void setTyp(GebaeudeTyp typ)
-  {
-    this.typ = typ;
+    return spielerId;
   }
 	
 //	public Gebaeude(String name, int feld, int kostenEnergie, int kostenRoboter, int kostenMineralien, int kostenMunition)

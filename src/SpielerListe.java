@@ -33,4 +33,9 @@ public class SpielerListe
 	{
 		return spieler.get(nummer);
 	}
+	
+	public int getSize()
+	{
+	  return spieler.size();
+	}
 }

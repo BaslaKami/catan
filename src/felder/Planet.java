@@ -1,3 +1,4 @@
+package felder;
 import java.util.Random;
 
 /**
@@ -6,11 +7,13 @@ import java.util.Random;
 public class Planet extends Feld
 {
   private int ertragsnummer;
-  private Rohstoff rohstoff;
+  private RohstoffTyp rohstoff;
+  private Weltraumpirat weltraumpirat;
 
   public Planet(RohstoffTyp rohstoffTyp)
   {
-    setRohstoff(new Rohstoff(rohstoffTyp));
+    super(FeldTyp.PLANET);
+    setRohstoff(rohstoffTyp);
     /* TODO: gleiche Ertragsnummern dürfen nicht angrenzen. Es gibt die
      folgenden Ertragsnummern 5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5,
      6, 3 und 11 */
@@ -23,13 +26,28 @@ public class Planet extends Feld
 
   }
 
-  public Rohstoff getRohstoff()
+  public RohstoffTyp getRohstoff()
   {
     return rohstoff;
   }
 
-  public void setRohstoff(Rohstoff rohstoff)
+  public void setRohstoff(RohstoffTyp rohstoff)
   {
     this.rohstoff = rohstoff;
+  }
+  
+  public int getErtragsnummer()
+  {
+    return ertragsnummer;
+  }
+
+  public Weltraumpirat getWeltraumpirat()
+  {
+    return weltraumpirat;
+  }
+
+  public void setWeltraumpirat(Weltraumpirat weltraumpirat)
+  {
+    this.weltraumpirat = weltraumpirat;
   }
 }

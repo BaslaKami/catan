@@ -1,4 +1,4 @@
-package gebaeude;
+package felder;
 
 public enum GebaeudeTyp
 {

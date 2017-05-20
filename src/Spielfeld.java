@@ -2,7 +2,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import gebaeude.Wurmloch;
+import felder.Feld;
+import felder.FeldTyp;
+import felder.Gebaeude;
+import felder.Kolonie;
+import felder.Koordinate;
+import felder.Metropole;
+import felder.Planet;
+import felder.RohstoffTyp;
+import felder.Weltraumpirat;
+import felder.Wurmloch;
 
 /**
  * Created by Dustin on 17.05.2017.
@@ -11,14 +20,14 @@ public class Spielfeld
 {
   // private List<Feld> felder;
   private char[][] feldTyp;
-  private Object[][] felder;
+  private Feld[][] felder;
   private static final int HOEHE = 11;
   private static final int BREITE = 21;
 
   public Spielfeld()
-  {    
+  {
     feldTyp = new char[HOEHE][BREITE];
-    felder = new Object[HOEHE][BREITE];
+    felder = new Feld[HOEHE][BREITE];
     erstelleFeldTypTabelle();
     erstelleSpielfeld();
     print();
@@ -132,7 +141,8 @@ public class Spielfeld
 
   private void erstelleEnklaven()
   {
-    //TODO: Enklaven müssen so verteilt werden das 9 Planeten Anschluss dazu haben
+    // TODO: Enklaven müssen so verteilt werden das 9 Planeten Anschluss dazu
+    // haben
     feldTyp[0][4] = 'E';
     feldTyp[0][6] = 'E';
 
@@ -150,81 +160,163 @@ public class Spielfeld
 
   public void print()
   {
-    System.out.println("                        1                   2");
-    System.out.println("    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0");
+    System.out.print(  "                        1                   2");
+    System.out.print(  "                            1                   2");
+    System.out.println("                            1                   2");
+    System.out.print(  "    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0");
+    System.out.print(  "        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0");
+    System.out.println("        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0");
     System.out.println();
+    
     for (int zeile = 0; zeile < HOEHE; zeile++)
     {
       System.out.printf("%02d  ", zeile);
       for (int spalte = 0; spalte < BREITE; spalte++)
       {
-        if(false)
+        if (true)
         {
-        switch(feldTyp[zeile][spalte])
-        {
-          case 'G':
+          switch (feldTyp[zeile][spalte])
           {
-            System.out.print("\033[36m" + feldTyp[zeile][spalte]);
-            break;
+            case 'G':
+            {
+              System.out.print("\033[36m" + feldTyp[zeile][spalte]);
+              break;
+            }
+            case 'E':
+            {
+              System.out.print("\033[1;31m" + feldTyp[zeile][spalte]);
+              break;
+            }
+            case 'P':
+            {
+              System.out.print("\033[1;34m" + feldTyp[zeile][spalte]);
+              break;
+            }
+            default:
+            {
+              System.out.print(feldTyp[zeile][spalte]);
+              break;
+            }
           }
-          case 'E':
-          {
-            System.out.print("\033[1;31m" + feldTyp[zeile][spalte]);
-            break;
-          }
-          case 'P':
-          {
-            System.out.print("\033[1;34m" + feldTyp[zeile][spalte]);
-            break;
-          }
-          default:
-          {
-            System.out.print(feldTyp[zeile][spalte]);
-            break;
-          }
-        }          
-        System.out.print("\033[0m" + " ");
+          System.out.print("\033[0m" + " ");
         }
         else
         {
           System.out.print(feldTyp[zeile][spalte] + " ");
         }
       }
-      
+
       System.out.print("   ");
+
+      System.out.printf("%02d  ", zeile);
       
-      //Ausgabe von felder
+      // Ausgabe von felder
       for (int spalte = 0; spalte < BREITE; spalte++)
       {
-        if(felder[zeile][spalte] == null)
+        if (felder[zeile][spalte] != null)
         {
-          System.out.print(". ");
+          switch (felder[zeile][spalte].getTyp())
+          {
+            case PLANET:
+            {
+              //System.out.print("P ");
+              System.out.printf("\033[1;31m%x \033[0m", ((Planet)felder[zeile][spalte]).getErtragsnummer());
+              break;
+            }
+            case WURMLOCH:
+            {
+              System.out.print("W ");
+              break;
+            }
+            case METROPOLE:
+            {
+              System.out.print("M ");
+              break;
+            }
+            case KOLONIE:
+            {
+              System.out.print("K ");
+              break;
+            }
+            default:
+            {
+              System.out.print(". ");
+              break;
+            }
+
+          }
         }
         else
         {
-          System.out.print("O" + " ");
+          System.out.print(". ");
         }
       }
+      
+      
+      System.out.print("   ");
+
+      System.out.printf("%02d  ", zeile);
+      
+      // Ausgabe der PlanetenRohstoffTypen
+      for (int spalte = 0; spalte < BREITE; spalte++)
+      {
+        if (felder[zeile][spalte] != null)
+        {
+          switch (felder[zeile][spalte].getTyp())
+          {
+            case PLANET:
+            {
+              //System.out.print("P ");
+              System.out.printf("\033[1;31m%c \033[0m", ((Planet)felder[zeile][spalte]).getRohstoff().getRohstoff().charAt(1));
+              break;
+            }
+            case WURMLOCH:
+            {
+              System.out.print("W ");
+              break;
+            }
+            case METROPOLE:
+            {
+              System.out.print("M ");
+              break;
+            }
+            case KOLONIE:
+            {
+              System.out.print("K ");
+              break;
+            }
+            default:
+            {
+              System.out.print(". ");
+              break;
+            }
+          }
+        }
+        else
+        {
+          System.out.print(". ");
+        }
+      }
+      
       System.out.println();
     }
 
-    
-//    System.out.println("\033[0m BLACK");
-//    System.out.println("\033[31m RED");
-//    System.out.println("\033[32m GREEN");
-//    System.out.println("\033[33m YELLOW");
-//    System.out.println("\033[34m BLUE");
-//    System.out.println("\033[35m MAGENTA");
-//    System.out.println("\033[36m CYAN");
-//    System.out.println("\033[37m WHITE");
-//    System.out.println("Hello \u001b[1;31m"+ "red" + "\u001b[0m world!");
+    // System.out.println("\033[0m BLACK");
+    // System.out.println("\033[31m RED");
+    // System.out.println("\033[32m GREEN");
+    // System.out.println("\033[33m YELLOW");
+    // System.out.println("\033[34m BLUE");
+    // System.out.println("\033[35m MAGENTA");
+    // System.out.println("\033[36m CYAN");
+    // System.out.println("\033[37m WHITE");
+    // System.out.println("Hello \u001b[1;31m"+ "red" + "\u001b[0m world!");
   }
-  
+
   public static int getBreite()
   {
     return BREITE;
   }
-  
+
   public static int getHoehe()
   {
     return HOEHE;
@@ -233,5 +325,220 @@ public class Spielfeld
   public void setzeWurmloch(Wurmloch w)
   {
     felder[w.getPosX()][w.getPosY()] = w;
+  }
+  
+  public void setzeKolonie(Kolonie k)
+  {
+    felder[k.getPosX()][k.getPosY()] = k;
+  }
+
+  public Kolonie setzeMetropole(Metropole m)
+  {
+    Kolonie k = (Kolonie)felder[m.getPosX()][m.getPosY()]; 
+    felder[m.getPosX()][m.getPosY()] = m;  
+    return k;
+  }
+
+  public Rohstoffe getAlleRohstoffevonKolonie(Koordinate k)
+  {
+    Rohstoffe rohstoffe = new Rohstoffe();
+
+    //direkt über dem Gebäude
+    if(k.getPosX() > 0 && feldTyp[k.getPosX()-1][k.getPosY()] == 'P')
+    {
+      rohstoffe.addRohstoffe(((Planet)felder[k.getPosX()-1][k.getPosY()]).getRohstoff(), 1);
+    }
+    
+    //unter dem Gebäude rechts
+    if(k.getPosX()+1 < HOEHE && k.getPosY()+2 < BREITE && feldTyp[k.getPosX()-1][k.getPosY()+2] == 'P')
+    {
+      rohstoffe.addRohstoffe(((Planet)felder[k.getPosX()-1][k.getPosY()+2]).getRohstoff(), 1);
+    }
+    
+    //unter dem Gebäude links
+    if(k.getPosX()+1 < HOEHE && k.getPosY() > 1 && feldTyp[k.getPosX()-1][k.getPosY()-2] == 'P')
+    {
+      rohstoffe.addRohstoffe(((Planet)felder[k.getPosX()-1][k.getPosY()-2]).getRohstoff(), 1);
+    }
+    
+    //direkt unter dem Gebäude
+    if(k.getPosX() < HOEHE-1 && feldTyp[k.getPosX()+1][k.getPosY()] == 'P')
+    {
+      rohstoffe.addRohstoffe(((Planet)felder[k.getPosX()+1][k.getPosY()]).getRohstoff(), 1);
+    }
+    
+    //über dem Gebäude rechts
+    if(k.getPosX() > 0 && k.getPosY()+2 < BREITE && feldTyp[k.getPosX()+1][k.getPosY()+2] == 'P')
+    {
+      rohstoffe.addRohstoffe(((Planet)felder[k.getPosX()+1][k.getPosY()+2]).getRohstoff(), 1);
+    }
+    
+    //über dem Gebäude links
+    if(k.getPosX() > 0 && k.getPosY() > 1 && feldTyp[k.getPosX()+1][k.getPosY()-2] == 'P')
+    {
+      rohstoffe.addRohstoffe(((Planet)felder[k.getPosX()+1][k.getPosY()-2]).getRohstoff(), 1);
+    }
+    
+    return rohstoffe;
+  }
+
+  public Rohstoffe getRohstoffeFuerSpieler(Spieler spieler, int zahl)
+  {
+    Rohstoffe rohstoffe = new Rohstoffe();
+    
+    //TODO: Mit getAngrenzendeGebaeude(Koordinate k) Funktion übersichtlicher gestalten
+    
+    //Finde Planten mit der gewürfelten Zahl
+    for (int zeile = 0; zeile < HOEHE; zeile++)
+    {
+      for (int spalte = 0; spalte < BREITE; spalte++)
+      {
+        if(feldTyp[zeile][spalte] == 'P' && ((Planet)felder[zeile][spalte]).getErtragsnummer() == zahl && ((Planet)felder[zeile][spalte]).getWeltraumpirat() == null)
+        {
+          //Planet hat die gewürfelte Nummer
+          
+          //Gebäude direkt über dem Planeten
+          if(zeile > 0 && felder[zeile-1][spalte] != null && ((Gebaeude)felder[zeile-1][spalte]).getSpielerId() == spieler.getId())
+          {
+            //unterscheidung metropole zwei rohstoffe oder kolonie einen
+            if(((Gebaeude)felder[zeile-1][spalte]).getTyp() == FeldTyp.METROPOLE)
+            {
+              rohstoffe.addRohstoffe(((Planet)felder[zeile][spalte]).getRohstoff(), 2);
+            }
+            else
+            {
+              rohstoffe.addRohstoffe(((Planet)felder[zeile][spalte]).getRohstoff(), 1);
+            }
+          }
+          
+          //Gebäude direkt unter dem Planeten
+          if(zeile < HOEHE-1 && felder[zeile+1][spalte] != null && ((Gebaeude)felder[zeile+1][spalte]).getSpielerId() == spieler.getId())
+          {
+            //unterscheidung metropole zwei rohstoffe oder kolonie einen
+            if(((Gebaeude)felder[zeile+1][spalte]).getTyp() == FeldTyp.METROPOLE)
+            {
+              rohstoffe.addRohstoffe(((Planet)felder[zeile][spalte]).getRohstoff(), 2);
+            }
+            else
+            {
+              rohstoffe.addRohstoffe(((Planet)felder[zeile][spalte]).getRohstoff(), 1);
+            }
+          }
+          
+          //Gebäude links über dem Planeten
+          if(zeile > 0 && spalte > 1 && felder[zeile-1][spalte-2] != null && ((Gebaeude)felder[zeile-1][spalte-2]).getSpielerId() == spieler.getId())
+          {
+            //unterscheidung metropole zwei rohstoffe oder kolonie einen
+            if(((Gebaeude)felder[zeile-1][spalte-2]).getTyp() == FeldTyp.METROPOLE)
+            {
+              rohstoffe.addRohstoffe(((Planet)felder[zeile][spalte]).getRohstoff(), 2);
+            }
+            else
+            {
+              rohstoffe.addRohstoffe(((Planet)felder[zeile][spalte]).getRohstoff(), 1);
+            }
+          }
+          
+          //Gebäude rechts über dem Planeten
+          if(zeile > 0 && spalte < BREITE-2 && felder[zeile-1][spalte+2] != null && ((Gebaeude)felder[zeile-1][spalte+2]).getSpielerId() == spieler.getId())
+          {
+            //unterscheidung metropole zwei rohstoffe oder kolonie einen
+            if(((Gebaeude)felder[zeile-1][spalte+2]).getTyp() == FeldTyp.METROPOLE)
+            {
+              rohstoffe.addRohstoffe(((Planet)felder[zeile][spalte]).getRohstoff(), 2);
+            }
+            else
+            {
+              rohstoffe.addRohstoffe(((Planet)felder[zeile][spalte]).getRohstoff(), 1);
+            }
+          }
+          
+          //Gebäude links unter dem Planeten
+          if(zeile < HOEHE-1 && spalte > 1 && felder[zeile+1][spalte-2] != null && ((Gebaeude)felder[zeile+1][spalte-2]).getSpielerId() == spieler.getId())
+          {
+            //unterscheidung metropole zwei rohstoffe oder kolonie einen
+            if(((Gebaeude)felder[zeile+1][spalte-2]).getTyp() == FeldTyp.METROPOLE)
+            {
+              rohstoffe.addRohstoffe(((Planet)felder[zeile][spalte]).getRohstoff(), 2);
+            }
+            else
+            {
+              rohstoffe.addRohstoffe(((Planet)felder[zeile][spalte]).getRohstoff(), 1);
+            }
+          }
+          
+          //Gebäude rechts unter dem Planeten
+          if(zeile < HOEHE-1 && spalte < BREITE-2 && felder[zeile+1][spalte+2] != null && ((Gebaeude)felder[zeile+1][spalte+2]).getSpielerId() == spieler.getId())
+          {
+            //unterscheidung metropole zwei rohstoffe oder kolonie einen
+            if(((Gebaeude)felder[zeile+1][spalte+2]).getTyp() == FeldTyp.METROPOLE)
+            {
+              rohstoffe.addRohstoffe(((Planet)felder[zeile][spalte]).getRohstoff(), 2);
+            }
+            else
+            {
+              rohstoffe.addRohstoffe(((Planet)felder[zeile][spalte]).getRohstoff(), 1);
+            }
+          }
+          
+        }
+      }
+    }
+    return rohstoffe;
+  }
+
+  public List<Gebaeude> bewegeWeltraumpirat(Koordinate k, Weltraumpirat w)
+  {
+    //List<Integer> spielerIds = new LinkedList<Integer>();
+    
+    
+    ((Planet)felder[w.getPosition().getPosX()][w.getPosition().getPosY()]).setWeltraumpirat(null);
+    w.bewegen(k);
+    ((Planet)felder[k.getPosX()][k.getPosY()]).setWeltraumpirat(w);
+    
+    return getAngrenzendeGebaeude(k);
+  }
+  
+  public List<Gebaeude> getAngrenzendeGebaeude(Koordinate k)
+  {
+    List<Gebaeude> gebaeudeListe = new LinkedList<Gebaeude>();
+    
+  //Gebäude direkt über dem Planeten
+    if(k.getPosX() > 0 && felder[k.getPosX()-1][k.getPosY()] != null)
+    {
+      gebaeudeListe.add((Gebaeude)felder[k.getPosX()-1][k.getPosY()]);
+    }
+    
+    //Gebäude direkt unter dem Planeten
+    if(k.getPosX() < HOEHE-1 && felder[k.getPosX()+1][k.getPosY()] != null)
+    {
+      gebaeudeListe.add((Gebaeude)felder[k.getPosX()+1][k.getPosY()]);
+    }
+    
+    //Gebäude links über dem Planeten
+    if(k.getPosX() > 0 && k.getPosY() > 1 && felder[k.getPosX()-1][k.getPosY()-2] != null)
+    {
+      gebaeudeListe.add((Gebaeude)felder[k.getPosX()-1][k.getPosY()-2]);
+    }
+    
+    //Gebäude rechts über dem Planeten
+    if(k.getPosX() > 0 && k.getPosY() < BREITE-2 && felder[k.getPosX()-1][k.getPosY()+2] != null)
+    {
+      gebaeudeListe.add((Gebaeude)felder[k.getPosX()-1][k.getPosY()+2]);
+    }
+    
+    //Gebäude links unter dem Planeten
+    if(k.getPosX() < HOEHE-1 && k.getPosY() > 1 && felder[k.getPosX()+1][k.getPosY()-2] != null)
+    {
+      gebaeudeListe.add((Gebaeude)felder[k.getPosX()+1][k.getPosY()-2]);
+    }
+    
+    //Gebäude rechts unter dem Planeten
+    if(k.getPosX() < HOEHE-1 && k.getPosY() < BREITE-2 && felder[k.getPosX()+1][k.getPosY()+2] != null)
+    {
+      gebaeudeListe.add((Gebaeude)felder[k.getPosX()+1][k.getPosY()+2]);
+    }
+    
+    return gebaeudeListe;
   }
 }

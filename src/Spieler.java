@@ -2,10 +2,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import gebaeude.Kolonie;
-import gebaeude.Koordinate;
-import gebaeude.Metropole;
-import gebaeude.Wurmloch;
+import felder.Gebaeude;
+import felder.Kolonie;
+import felder.Koordinate;
+import felder.Metropole;
+import felder.RohstoffTyp;
+import felder.Weltraumpirat;
+import felder.Wurmloch;
 
 /**
  * Created by Dustin on 17.05.2017.
@@ -19,9 +22,11 @@ import gebaeude.Wurmloch;
  */
 public class Spieler
 {
+  private static int idCounter = 0;
+  private int id;
 	private Farbe farbe;
 	private String name;
-	private int []rohstoffe;
+	private Rohstoffe rohstoffe;
 	private List<Wurmloch> wurmlochListe;
 	private List<Metropole> metropolenListe;
 	private List<Kolonie> kolonienListe;
@@ -29,6 +34,7 @@ public class Spieler
 	
 	public Spieler(Farbe farbe, String name, Spielfeld spielfeld)
 	{
+	  id = idCounter++;
 		this.farbe = farbe;
 		this.name = name;
 		this.spielfeld = spielfeld;
@@ -37,14 +43,51 @@ public class Spieler
 		metropolenListe = new LinkedList<Metropole>();
 		kolonienListe = new LinkedList<Kolonie>();
 
-		rohstoffe = new int[5];
+		setRohstoffe(new Rohstoffe());
+	}
+
+
+	public void zug()
+	{
+	  wuerfeln();
+	  
 	}
 	
-	public void baueWurmloch(Koordinate k)
+  public void baueWurmloch(Koordinate k)
 	{
-	  Wurmloch w = new Wurmloch(k);
+	  Wurmloch w = new Wurmloch(k, id);
 	  wurmlochListe.add(w);
 	  spielfeld.setzeWurmloch(w);
+	}
+	
+	public void baueKolonie(Koordinate k)
+  {
+    Kolonie kolonie = new Kolonie(k, id);
+    kolonienListe.add(kolonie);
+    spielfeld.setzeKolonie(kolonie);
+  }
+	
+	public void baueMetropole(Koordinate k)
+  {
+	  //TODO: Es muss noch getestet werden ob das Kolonie-Objekt aus der Liste vom Spieler gelöscht wird.
+    Metropole m = new Metropole(k, id);
+    metropolenListe.add(m);
+    kolonienListe.remove(spielfeld.setzeMetropole(m));
+  }
+	
+	public void haelfteDerRohstoffeWerdenEntfernt()
+	{
+	  int anzahlRohstoffe = rohstoffe.anzahlDerGesamtenRohstoffe();
+	  
+	  if(anzahlRohstoffe > 7)
+	  {
+	    rohstoffe.entferneZufällig(anzahlRohstoffe/2);
+	  }
+	}
+	
+	public void getAlleRohstoffevonKolonie(Koordinate k)
+	{
+	  rohstoffe.addRohstoffe(spielfeld.getAlleRohstoffevonKolonie(k));
 	}
 
 	public String getName()
@@ -59,28 +102,42 @@ public class Spieler
 	
 	public int wuerfeln()
 	{
-		Random zufallsgenerator = new Random();
-		
-		return zufallsgenerator.nextInt(11) + 2;
+		return new Random().nextInt(11) + 2;
 	}
-
-  public int getRohstoffe(RohstoffTyp typ)
+	
+  private void setRohstoffe(Rohstoffe rohstoffe)
   {
-    return rohstoffe[typ.getNummer()];
+    this.rohstoffe = rohstoffe; 
+  }
+	
+  public Rohstoffe getRohstoffe()
+  {
+    return rohstoffe;
   }
 
-  public void setRohstoffe(RohstoffTyp typ, int anzahl)
+
+  public int getId()
   {
-    rohstoffe[typ.getNummer()] = anzahl;
+    return id;
   }
-  
-  public void incRohstoffe(RohstoffTyp typ, int anzahl)
+
+
+  public void setId(int id)
   {
-    setRohstoffe(typ, getRohstoffe(typ) + anzahl);
+    this.id = id;
   }
-  
-  public void decRohstoffe(RohstoffTyp typ, int anzahl)
+
+
+  public void bewegeWeltraumpirat(Koordinate koordinate, Weltraumpirat w)
   {
-    setRohstoffe(typ, getRohstoffe(typ) - anzahl);
-  }
+    List<Gebaeude> gebaeudeListe = spielfeld.bewegeWeltraumpirat(koordinate, w);
+    
+    for(Gebaeude g: gebaeudeListe)
+    {
+      if(g.getSpielerId() != id)
+      {
+        
+      }
+    }
+  }  
 }

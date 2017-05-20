@@ -1,4 +1,5 @@
-import gebaeude.Koordinate;
+package felder;
+import Spielfeld;
 
 public class Weltraumpirat
 {
@@ -12,6 +13,16 @@ public class Weltraumpirat
   public void bewegen(int x, int y)
   {
     position.setPos(x, y);
+  }
+  
+  public void bewegen(Koordinate k)
+  {
+    position = k;
+  }
+  
+  public Koordinate getPosition()
+  {
+    return position;
   }
   
   public void printPos()

@@ -1,3 +1,4 @@
+import felder.RohstoffTyp;
 
 public class Bank
 {
@@ -13,29 +14,29 @@ public class Bank
     {
       case DREI_ZU_EINS:
       {
-        s.decRohstoffe(verkauf, 3);
+        s.getRohstoffe().subRohstoffe(verkauf, 3);
         break;
       }
       case SPEZIAL:
       { 
-        s.decRohstoffe(verkauf, 2);
+        s.getRohstoffe().subRohstoffe(verkauf, 2);
         break;
       }
       case VIER_ZU_EINS:
       default:
       { 
-        s.decRohstoffe(verkauf, 4);
+        s.getRohstoffe().subRohstoffe(verkauf, 4);
         break;
       }
     }
-    s.incRohstoffe(einkauf, 1);
+    s.getRohstoffe().addRohstoffe(einkauf, 1);
   }
   
-  public void handelMitSpieler(Spieler kaufer, Spieler verkaufer, RohstoffTyp verkauf, RohstoffTyp einkauf, int anzahlEinkauf, int anzahlVerkauf)
-  {
-    verkaufer.decRohstoffe(einkauf, anzahlEinkauf);
-    kaufer.decRohstoffe(verkauf, anzahlVerkauf);
-    verkaufer.incRohstoffe(verkauf, anzahlVerkauf);
-    kaufer.incRohstoffe(einkauf, anzahlEinkauf);
-  }
+//  public void handelMitSpieler(Spieler kaufer, Spieler verkaufer, RohstoffTyp verkauf, RohstoffTyp einkauf, int anzahlEinkauf, int anzahlVerkauf)
+//  {
+//    verkaufer.decRohstoffe(einkauf, anzahlEinkauf);
+//    kaufer.decRohstoffe(verkauf, anzahlVerkauf);
+//    verkaufer.incRohstoffe(verkauf, anzahlVerkauf);
+//    kaufer.incRohstoffe(einkauf, anzahlEinkauf);
+//  }
 }
