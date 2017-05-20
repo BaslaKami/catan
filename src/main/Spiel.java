@@ -15,6 +15,7 @@ public class Spiel
   private Kartenstack kartenstack;
   private Weltraumpirat weltraumpirat;
   private Benutzereingabe benutzereingabe;
+  private Spieler spielerMitLaengsterHandelsstrasse;
 
   public static void main(String[] args)
   {
@@ -296,5 +297,15 @@ public class Spiel
       }
     }
     return meisteRitter;
+  }
+
+  public Spieler getSpielerMitLaengsterHandelsstrasse()
+  {
+    return spielerMitLaengsterHandelsstrasse;
+  }
+
+  public void setSpielerMitLaengsterHandelsstrasse(Spieler laengsteHandelsstrasse)
+  {
+    this.spielerMitLaengsterHandelsstrasse = laengsteHandelsstrasse;
   }
 }

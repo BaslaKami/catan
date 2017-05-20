@@ -14,11 +14,6 @@ public class Wurmloch extends Gebaeude
   {
     super(k, FeldTyp.WURMLOCH, spieler);
   }
-//  
-//	public Wurmloch(String name, int feld, int kostenEnergie, int kostenRoboter, int kostenMineralien, int kostenMunition)
-//	{
-//		super(name, feld, kostenEnergie, kostenRoboter, kostenMineralien, kostenMunition);
-//	}
 
   public static int getKostenenergie()
   {

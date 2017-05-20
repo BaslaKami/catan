@@ -41,9 +41,11 @@ public class Spieler
   private Spiel spiel;
   private List<Karte> karten;
   private int anzahlRitter;
+  private int laengsteHandelsstrasse;
 
   public Spieler(Farbe farbe, String name, Spielfeld spielfeld, Spiel spiel)
   {
+    laengsteHandelsstrasse = 0;
     siegpunkte = 0;
     anzahlRitter = 0;
     id = idCounter++;
@@ -58,7 +60,8 @@ public class Spieler
 
     setKarten(new LinkedList<Karte>());
 
-    setRohstoffe(new Rohstoffe());
+    // setRohstoffe(new Rohstoffe()); //TODO wieder rein
+    setRohstoffe(new Rohstoffe(30, 30, 30, 30, 30)); // TODO raus nur für tests
   }
 
   public void zug()
@@ -71,13 +74,14 @@ public class Spieler
    */
   public boolean baueWurmlochKostenlos(Koordinate k)
   {
-    if (spielfeld.kannGebaeudeGebautWerden(k, 'S'))
+    if (spielfeld.istFrei(k, 'S'))
     {
       if (wurmlochListe.size() < ANZAHL_WURMLOECHER)
       {
         Wurmloch w = new Wurmloch(k, id);
         wurmlochListe.add(w);
         spielfeld.setzeWurmloch(w);
+        laengsteHandelsstrasse();
         return true;
       }
       else
@@ -92,12 +96,29 @@ public class Spieler
     return false;
   }
 
+  private void laengsteHandelsstrasse()
+  {
+    laengsteHandelsstrasse = spielfeld.getLaengsteStrasse(this);
+
+    if (spiel.getSpielerMitLaengsterHandelsstrasse() != this
+        && (spiel.getSpielerMitLaengsterHandelsstrasse() == null || laengsteHandelsstrasse > spiel.getSpielerMitLaengsterHandelsstrasse().getLaengsteHandelsstrasse())
+        && laengsteHandelsstrasse > 4)
+    {
+      if(spiel.getSpielerMitLaengsterHandelsstrasse() != null)
+      {
+        spiel.getSpielerMitLaengsterHandelsstrasse().decSiegpunkte(2);
+      }
+      spiel.setSpielerMitLaengsterHandelsstrasse(this);
+      incSiegpunkte(2);
+    }
+  }
+
   /*
    * Fuer die init des Spiels, wenn man am anfang zwei Wurmloecher setzen darf
    */
   public boolean baueKolonieKostenlos(Koordinate k)
   {
-    if (spielfeld.kannGebaeudeGebautWerden(k, 'G'))
+    if (spielfeld.istFrei(k, 'G'))
     {
       if (kolonienListe.size() < ANZAHL_KOLONIEN)
       {
@@ -180,8 +201,6 @@ public class Spieler
       System.out.println("Du besitzt nicht genuegen Rohstoffe.");
     }
   }
-
-  // TODO Auswertung der Siegespunkte
 
   public void karteSpielen(Karte k)
   {
@@ -273,7 +292,7 @@ public class Spieler
       eingabe = spiel.getBenutzereingabe()
           .getInteger("Waehle welches Gebaeude du bauen moechtest\n" + "1 --> Wurmloch\n" + "2 --> Kolonie\n"
               + "3 --> Metropole\n" + "4 --> Spielfeld anzeigen\n" + "5 --> Rohstoffe Anzeigen\n"
-              + "6 --> Karte spielen\n" + "7 --> Bauen Beenden");
+              + "6 --> Karte spielen\n" + "7 --> Längste Straße\n" + "8 --> Bauen Beenden");
       switch (eingabe)
       {
         case 1:
@@ -309,6 +328,11 @@ public class Spieler
           // TODO Karte spielen
           break;
         }
+        case 7:
+        {
+          System.out.println("Laengste Straße: " + spielfeld.getLaengsteStrasse(this));
+          break;
+        }
         default:
         {
           bauenBeenden = true;
@@ -337,7 +361,7 @@ public class Spieler
   {
     setSiegpunkte(getSiegpunkte() + menge);
   }
-  
+
   public void decSiegpunkte(int menge)
   {
     setSiegpunkte(getSiegpunkte() - menge);
@@ -346,8 +370,8 @@ public class Spieler
   public void setSiegpunkte(int siegpunkte)
   {
     this.siegpunkte = siegpunkte;
-    
-    if(siegpunkte >= 10)  //TODO Variable für die benötigten Siegpunkte anlegen
+
+    if (siegpunkte >= 10) // TODO Variable für die benötigten Siegpunkte anlegen
     {
       System.out.println(name + " hat das Spiel gewonnen.");
     }
@@ -415,13 +439,18 @@ public class Spieler
     return anzahlRitter;
   }
 
+  public int getLaengsteHandelsstrasse()
+  {
+    return laengsteHandelsstrasse;
+  }
+
   public void setAnzahlRitter(int anzahlRitter)
   {
     this.anzahlRitter = anzahlRitter;
   }
-  
+
   public void incAnazahlRitter()
   {
-    setAnzahlRitter(getAnzahlRitter()+1);
+    setAnzahlRitter(getAnzahlRitter() + 1);
   }
 }

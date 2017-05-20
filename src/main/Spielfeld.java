@@ -328,20 +328,20 @@ public class Spielfeld
           }
           case WURMLOCH:
           {
-            //System.out.print("W ");
+            // System.out.print("W ");
             printGebaeude('W', ((Gebaeude) felder[zeile][spalte]).getSpielerId());
             break;
           }
           case METROPOLE:
           {
             printGebaeude('M', ((Gebaeude) felder[zeile][spalte]).getSpielerId());
-            //System.out.print("M ");
+            // System.out.print("M ");
             break;
           }
           case KOLONIE:
           {
             printGebaeude('K', ((Gebaeude) felder[zeile][spalte]).getSpielerId());
-            //System.out.print("K ");
+            // System.out.print("K ");
             break;
           }
           default:
@@ -368,7 +368,7 @@ public class Spielfeld
     return HOEHE;
   }
 
-  public boolean kannGebaeudeGebautWerden(Koordinate k, char gebaeudeTyp)
+  public boolean istFrei(Koordinate k, char gebaeudeTyp)
   {
     return feldTyp[k.getPosX()][k.getPosY()] == gebaeudeTyp && felder[k.getPosX()][k.getPosY()] == null;
   }
@@ -606,5 +606,203 @@ public class Spielfeld
     }
 
     return gebaeudeListe;
+  }
+
+  public int getLaengsteStrasse(Spieler s)
+  {
+    /*
+     * Bug: funktioniert nicht f¸r eine Straﬂe die in sich abgeschlossen ist ohne Gebaeude dazwischen
+     */
+    int tmpLaenge;
+    int laenge = 0;
+    
+    for (int zeile = 0; zeile < HOEHE; zeile++)
+    {
+      for (int spalte = 0; spalte < BREITE; spalte++)
+      {
+        if (feldTyp[zeile][spalte] == 'S' && felder[zeile][spalte] != null && ((Gebaeude) felder[zeile][spalte]).getSpielerId() == s.getId())
+        {
+          List<Feld> list = new LinkedList<Feld>();
+          list.add(felder[zeile][spalte]);
+          tmpLaenge = ununterbrocheneStrassenLaenge(s, list, zeile, spalte);
+          if (tmpLaenge > laenge)
+          {
+            laenge = tmpLaenge;
+          }
+        }
+      }
+    }
+    return laenge;
+  }
+
+  private int ununterbrocheneStrassenLaenge(Spieler s, List<Feld> vorherigesFeld, int zeileNeu, int spalteNeu)
+  {
+    int zeile;
+    int spalte;
+    int zeileGebaeude;
+    int spalteGebaeude;
+    int laenge = 0;
+    int tmpLaenge = 0;
+
+    if (zeileNeu > 0 && feldTyp[zeileNeu - 1][spalteNeu] == 'G')
+    {
+      // Strasse befindet sich auf hoehe eines Planeten es gehen vier weg
+      zeileGebaeude = zeileNeu - 1;
+      spalteGebaeude = spalteNeu;
+      if ((felder[zeileGebaeude][spalteGebaeude] == null || felder[zeileGebaeude][spalteGebaeude] != null
+          && ((Gebaeude) felder[zeileGebaeude][spalteGebaeude]).getSpielerId() != s.getId()))
+      {
+
+        // links oben
+        zeile = zeileNeu - 1;
+        spalte = spalteNeu - 1;
+        tmpLaenge = straﬂenlaengeDiag(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        if (tmpLaenge > laenge)
+        {
+          laenge = tmpLaenge;
+        }
+
+        // links oben
+        zeile = zeileNeu - 1;
+        spalte = spalteNeu + 1;
+        tmpLaenge = straﬂenlaengeDiag(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        if (tmpLaenge > laenge)
+        {
+          laenge = tmpLaenge;
+        }
+
+      }
+
+      zeileGebaeude = zeileNeu + 1;
+      spalteGebaeude = spalteNeu;
+      if ((felder[zeileGebaeude][spalteGebaeude] == null || felder[zeileGebaeude][spalteGebaeude] != null
+          && ((Gebaeude) felder[zeileGebaeude][spalteGebaeude]).getSpielerId() != s.getId()))
+      {
+        // unten links
+        zeile = zeileNeu + 1;
+        spalte = spalteNeu - 1;
+        tmpLaenge = straﬂenlaengeDiag(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        if (tmpLaenge > laenge)
+        {
+          laenge = tmpLaenge;
+        }
+        // unten rechts
+        zeile = zeileNeu + 1;
+        spalte = spalteNeu + 1;
+        tmpLaenge = straﬂenlaengeDiag(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        if (tmpLaenge > laenge)
+        {
+          laenge = tmpLaenge;
+        }
+      }
+    }
+
+    if ((zeileNeu > 0 && feldTyp[zeileNeu - 1][spalteNeu] == ' ')
+        || (zeileNeu < HOEHE - 1 && feldTyp[zeileNeu + 1][spalteNeu] == ' '))
+    {
+      zeileGebaeude = zeileNeu + 0;
+      spalteGebaeude = spalteNeu - 1;
+      if ((felder[zeileGebaeude][spalteGebaeude] == null || felder[zeileGebaeude][spalteGebaeude] != null
+          && ((Gebaeude) felder[zeileGebaeude][spalteGebaeude]).getSpielerId() != s.getId()))
+      {
+        // links
+        zeile = zeileNeu + 0;
+        spalte = spalteNeu - 2;
+        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        if (tmpLaenge > laenge)
+        {
+          laenge = tmpLaenge;
+        }
+        
+        // links oben
+        zeile = zeileNeu - 1;
+        spalte = spalteNeu - 1;
+        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        if (tmpLaenge > laenge)
+        {
+          laenge = tmpLaenge;
+        }
+        
+        // links unten
+        zeile = zeileNeu + 1;
+        spalte = spalteNeu - 1;
+        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        if (tmpLaenge > laenge)
+        {
+          laenge = tmpLaenge;
+        }
+      }
+      
+      zeileGebaeude = zeileNeu + 0;
+      spalteGebaeude = spalteNeu + 1;
+      if ((felder[zeileGebaeude][spalteGebaeude] == null || felder[zeileGebaeude][spalteGebaeude] != null
+          && ((Gebaeude) felder[zeileGebaeude][spalteGebaeude]).getSpielerId() != s.getId()))
+      {
+        // rechts
+        zeile = zeileNeu + 0;
+        spalte = spalteNeu + 2;
+        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        if (tmpLaenge > laenge)
+        {
+          laenge = tmpLaenge;
+        }
+        
+        // rechts oben
+        zeile = zeileNeu - 1;
+        spalte = spalteNeu + 1;
+        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        if (tmpLaenge > laenge)
+        {
+          laenge = tmpLaenge;
+        }
+        
+        // rechts unten
+        zeile = zeileNeu + 1;
+        spalte = spalteNeu + 1;
+        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        if (tmpLaenge > laenge)
+        {
+          laenge = tmpLaenge;
+        }
+      }
+    }
+    return laenge+1;
+  }
+
+  private int straﬂenlaengeDiag(Spieler s, List<Feld> vorherigesFeld, int zeile, int spalte, int zeileNeu, int spalteNeu)
+  {
+    for(Feld f: vorherigesFeld)
+    {
+      if(f == felder[zeile][spalte])
+        return 0;
+    }
+    
+    vorherigesFeld.add(felder[zeileNeu][spalteNeu]);
+    
+    if (feldTyp[zeile][spalte] == 'S' && felder[zeile][spalte] != null && felder[zeile][spalte] != vorherigesFeld 
+        && ((Gebaeude) felder[zeile][spalte]).getSpielerId() == s.getId())
+    {
+      return ununterbrocheneStrassenLaenge(s, vorherigesFeld, zeile, spalte);
+    }
+    return 0;
+  }
+
+  private int straﬂenlaenge(Spieler s, List<Feld> vorherigesFeld, int zeile, int spalte, int zeileNeu, int spalteNeu)
+  {
+    for(Feld f: vorherigesFeld)
+    {
+      if(f == felder[zeile][spalte])
+        return 0;
+    }
+    
+    vorherigesFeld.add(felder[zeileNeu][spalteNeu]);
+    
+    if (zeile < HOEHE && zeile > 0 && spalte > 0 && spalte < BREITE && feldTyp[zeile][spalte] == 'S'
+        && felder[zeile][spalte] != null && felder[zeile][spalte] != vorherigesFeld 
+        && ((Gebaeude) felder[zeile][spalte]).getSpielerId() == s.getId())
+    {
+      return ununterbrocheneStrassenLaenge(s, vorherigesFeld, zeile, spalte);
+    }
+    return 0;
   }
 }
