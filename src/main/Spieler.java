@@ -16,7 +16,6 @@ import karten.Karte;
  * Created by Dustin on 17.05.2017.
  */
 
-// TODO: Liste mit den Gebaeuden des Spielers einfuegen
 /*
  * Jeder Spieler besitzt
  * 5 Siedlungen
@@ -157,7 +156,7 @@ public class Spieler
     {
       if (spielfeld.kannKolonieAufgewertetWerden(k, this))
       {
-        if (kolonienListe.size() < ANZAHL_KOLONIEN)
+        if (metropolenListe.size() < ANZAHL_METROPOLEN)
         {
           rohstoffe.subRohstoffe(Metropole.getKosten());
           Metropole m = new Metropole(k, id);
@@ -424,5 +423,10 @@ public class Spieler
   public void incAnazahlRitter()
   {
     setAnzahlRitter(getAnzahlRitter()+1);
+  }
+
+  public static int getAnzahlMetropolen()
+  {
+    return ANZAHL_METROPOLEN;
   }
 }
