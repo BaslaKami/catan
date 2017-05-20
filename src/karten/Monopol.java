@@ -1,5 +1,8 @@
 package karten;
 
+import felder.RohstoffTyp;
+import main.Spieler;
+
 public class Monopol extends Karte
 {
 
@@ -9,10 +12,18 @@ public class Monopol extends Karte
   }
 
   @Override
-  public void ausspielen()
+  public void ausspielen(Spieler s)
   {
-    // TODO Auto-generated method stub
+    // TODO Benutzereingabe zum Festlegen des gewollten Rohstofftyps
+    RohstoffTyp r = RohstoffTyp.ENERGIE;
     
+    for(int i = 0; i < s.getSpiel().getSpielerListe().getSize(); i++)
+    {
+      if(s.getId() != s.getSpiel().getSpielerListe().getSpieler(i).getId())
+      {
+        s.getRohstoffe().addRohstoffe(r, s.getSpiel().getSpielerListe().getSpieler(i).getRohstoffe().getUndLöscheAlleRohstoffe(r));
+      }
+    }
   }
 
 

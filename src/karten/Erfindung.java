@@ -1,5 +1,8 @@
 package karten;
 
+import felder.RohstoffTyp;
+import main.Spieler;
+
 public class Erfindung extends Karte
 {
 
@@ -9,10 +12,17 @@ public class Erfindung extends Karte
   }
 
   @Override
-  public void ausspielen()
+  public void ausspielen(Spieler s)
   {
-    // TODO Auto-generated method stub
+    /*
+     * Der Spieler bekommt zwei Rohstoffkarten seiner Wahl
+     */
     
+    //TODO Rohstoffart vom Benutzer abfragen
+    s.getRohstoffe().addRohstoffe(RohstoffTyp.ENERGIE, 1);
+    
+    //TODO Rohstoffart vom Benutzer abfragen
+    s.getRohstoffe().addRohstoffe(RohstoffTyp.MINERALIEN, 1);
   }
 
 }

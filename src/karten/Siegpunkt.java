@@ -1,5 +1,7 @@
 package karten;
 
+import main.Spieler;
+
 public class Siegpunkt extends Karte
 {
 
@@ -9,9 +11,9 @@ public class Siegpunkt extends Karte
   }
 
   @Override
-  public void ausspielen()
+  public void ausspielen(Spieler s)
   {
-    // TODO Auto-generated method stub 
+    s.setSiegpunkte(s.getSiegpunkte() + 1);
   }
 
 }

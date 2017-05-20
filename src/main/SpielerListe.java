@@ -8,7 +8,6 @@ import java.util.List;
 public class SpielerListe
 {
 	private List<Spieler> spieler;
-	private int anzahl = 0;
 
 	public SpielerListe()
 	{
@@ -18,7 +17,6 @@ public class SpielerListe
 	public void hinzufügen(Spieler s)
 	{
 		spieler.add(s);
-		this.anzahl++;
 	}
 
 	public void ausgeben()
@@ -27,7 +25,6 @@ public class SpielerListe
 		{
 			System.out.println(s.getName() + " " + s.getFarbe());
 		}
-
 	}
 	
 	public Spieler getSpieler(int nummer)

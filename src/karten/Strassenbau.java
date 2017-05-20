@@ -1,5 +1,8 @@
 package karten;
 
+import felder.Koordinate;
+import main.Spieler;
+
 public class Strassenbau extends Karte
 {
 
@@ -9,9 +12,11 @@ public class Strassenbau extends Karte
   }
 
   @Override
-  public void ausspielen()
+  public void ausspielen(Spieler s)
   {
-    // TODO Auto-generated method stub
+    //TODO zwei eingabeaufforderungen für die Koordinaten
+    s.baueWurmloch(new Koordinate(8,3));
+    s.baueWurmloch(new Koordinate(4,7));
   }
 
 }
