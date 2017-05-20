@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -42,8 +43,16 @@ public class Spielfeld
   {
     System.out.println("\n***Spielfeld wird erstellt");
     List<RohstoffTyp> rohstoffTypListe = new LinkedList<RohstoffTyp>();
+    List <Integer>moeglicheErtraege = new ArrayList<Integer>(18);
     Random zufallsgenerator = new Random();
-    int zufallszahl;
+    int rohstoffTypIndex;
+    int ertragsIndex;
+    
+    for(int i = 0; i < 18; i++)
+    {
+      moeglicheErtraege.add(i);
+    }
+    
 
     for (int i = 0; i < 4; i++)
     {
@@ -64,9 +73,11 @@ public class Spielfeld
       {
         if (feldTyp[zeile][spalte] == 'P')
         {
-          zufallszahl = zufallsgenerator.nextInt(rohstoffTypListe.size());
-          felder[zeile][spalte] = new Planet(rohstoffTypListe.get(zufallszahl));
-          rohstoffTypListe.remove(zufallszahl);
+          rohstoffTypIndex = zufallsgenerator.nextInt(rohstoffTypListe.size());
+          ertragsIndex = zufallsgenerator.nextInt(moeglicheErtraege.size());
+          felder[zeile][spalte] = new Planet(rohstoffTypListe.get(rohstoffTypIndex), moeglicheErtraege.get(ertragsIndex));
+          rohstoffTypListe.remove(rohstoffTypIndex);
+          moeglicheErtraege.remove(ertragsIndex);
         }
       }
     }
@@ -136,28 +147,6 @@ public class Spielfeld
     }
     // Toten Planeten aus der mitte entfernen
     feldTyp[feldTyp.length / 2][feldTyp[feldTyp.length / 2].length / 2] = ' ';
-
-    // TODO Enklaven wieder einkommentieren oder Handel zwischen zwei spielern realisieren
-    // erstelleEnklaven();
-  }
-
-  private void erstelleEnklaven()
-  {
-    // TODO: Enklaven muessen so verteilt werden das 9 Planeten Anschluss dazu
-    // haben
-    feldTyp[0][4] = 'E';
-    feldTyp[0][6] = 'E';
-
-    feldTyp[0][16] = 'E';
-    feldTyp[2][16] = 'E';
-
-    feldTyp[6][20] = 'E';
-    feldTyp[8][16] = 'E';
-
-    feldTyp[10][8] = 'E';
-    feldTyp[10][6] = 'E';
-
-    feldTyp[6][2] = 'E';
   }
 
   public void print()

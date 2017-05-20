@@ -69,7 +69,7 @@ public class Spiel
 
     printRohstoffeDerSpieler();
 
-    System.out.println("Zug 1 Spieler 1\n");
+    
 
     rundeStarten();
     //zug(spielerListe.getSpieler(0));
@@ -81,6 +81,7 @@ public class Spiel
     {
       for (int i = 0; i < spielerListe.getSize(); i++)
       {
+        System.out.println("Spieler " + i + " ist am Zug\n");
         zug(spielerListe.getSpieler(i));
       }
     } while (true); //TODO Abbruchbediengung durch sieg darstellen

@@ -589,11 +589,11 @@ public class Spieler
   {
     if (kopfZeile)
     {
-      System.out.printf("%c %c %c %c %c %c\n", 'S', RohstoffTyp.ENERGIE.getRohstoff().charAt(1),
+      System.out.printf("%2c %2c %2c %2c %2c %2c\n", 'S', RohstoffTyp.ENERGIE.getRohstoff().charAt(1),
           RohstoffTyp.NAHRUNG.getRohstoff().charAt(1), RohstoffTyp.ROBOTER.getRohstoff().charAt(1),
           RohstoffTyp.MINERALIEN.getRohstoff().charAt(1), RohstoffTyp.MUNITION.getRohstoff().charAt(1));
     }
-    System.out.printf("%d %d %d %d %d %d\n", getId(), rohstoffe.getRohstoffe(RohstoffTyp.ENERGIE),
+    System.out.printf("%2d %2d %2d %2d %2d %2d\n", getId(), rohstoffe.getRohstoffe(RohstoffTyp.ENERGIE),
         rohstoffe.getRohstoffe(RohstoffTyp.NAHRUNG), rohstoffe.getRohstoffe(RohstoffTyp.ROBOTER),
         rohstoffe.getRohstoffe(RohstoffTyp.MINERALIEN), rohstoffe.getRohstoffe(RohstoffTyp.MUNITION));
   }

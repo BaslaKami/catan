@@ -1,4 +1,6 @@
 package felder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import main.RohstoffTyp;
@@ -8,23 +10,18 @@ import main.RohstoffTyp;
  */
 public class Planet extends Feld
 {
+  private final static int []MOEGLICHE_ERTRAEGE = {5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5, 6, 3, 11};
   private int ertragsnummer;
   private RohstoffTyp rohstoff;
   private Weltraumpirat weltraumpirat;
 
-  public Planet(RohstoffTyp rohstoffTyp)
+  public Planet(RohstoffTyp rohstoffTyp, int ertragsIndex)
   {
     super(FeldTyp.PLANET);
-    setRohstoff(rohstoffTyp);
-    /* TODO: gleiche Ertragsnummern duerfen nicht angrenzen. Es gibt die
-     folgenden Ertragsnummern 5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5,
-     6, 3 und 11 */
-    Random zufallsgenerator = new Random();
-    do
-    {
-      ertragsnummer = zufallsgenerator.nextInt(11) + 2;
 
-    } while (ertragsnummer == 7);
+    setRohstoff(rohstoffTyp);
+    
+    ertragsnummer = MOEGLICHE_ERTRAEGE[ertragsIndex];
 
   }
 
