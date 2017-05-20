@@ -62,7 +62,7 @@ public class Spieler
     setKarten(new LinkedList<Karte>());
 
     // setRohstoffe(new Rohstoffe()); //TODO wieder rein
-    setRohstoffe(new Rohstoffe(30, 30, 30, 30, 30)); // TODO raus nur für tests
+    setRohstoffe(new Rohstoffe(30, 30, 30, 30, 30)); // TODO raus nur fï¿½r tests
   }
 
   public void zug()
@@ -304,7 +304,7 @@ public class Spieler
       eingabe = spiel.getBenutzereingabe()
           .getInteger("Waehle welches Gebaeude du bauen moechtest\n" + "1 --> Wurmloch\n" + "2 --> Kolonie\n"
               + "3 --> Metropole\n" + "4 --> Spielfeld anzeigen\n" + "5 --> Rohstoffe Anzeigen\n"
-              + "6 --> Karte ziehen\n" + "7 --> Karte spielen\n" + "8 --> Längste Straße\n" + "9 --> Bauen Beenden");
+              + "6 --> Karte ziehen\n" + "7 --> Karte spielen\n" + "8 --> Laengste Strasse\n" + "9 --> Bauen Beenden");
       switch (eingabe)
       {
         case 1:
@@ -348,7 +348,7 @@ public class Spieler
         }
         case 8:
         {
-          System.out.println("Laengste Straße: " + spielfeld.getLaengsteStrasse(this));
+          System.out.println("Laengste Strasse: " + spielfeld.getLaengsteStrasse(this));
           break;
         }
         default:
@@ -478,23 +478,7 @@ public class Spieler
       {
         case 1:
         {
-          Spieler kaeufer = waehleSpieler();
-          System.out.println("\n\033[32m - Verkauf -\033[0m");
-          RohstoffTyp verkaufRohstoffTyp = waehleRohstoffTyp(this);
-          int anzahlVerkauf = waehleRohstoffAnzahl(this, verkaufRohstoffTyp);
-          System.out.println("\n\033[32m - Kauf -\033[0m");
-          RohstoffTyp einkaufRohstoffTyp = waehleRohstoffTyp(kaeufer);
-          int anzahlEinkauf = waehleRohstoffAnzahl(kaeufer, einkaufRohstoffTyp);
-
-          System.out.println("Handelsanfrage an " + kaeufer.getName() + ":\n" + this.getName() + " bietet "
-              + anzahlVerkauf + verkaufRohstoffTyp.getRohstoff() + " gegen " + anzahlEinkauf + einkaufRohstoffTyp);
-          eingabe = spiel.getBenutzereingabe().getInteger("Annehmen?\n1 --> Ja\n2 --> Nein");
-          if (eingabe == 1)
-          {
-            spiel.getBank().handelMitSpieler(this, kaeufer, verkaufRohstoffTyp, einkaufRohstoffTyp, anzahlVerkauf,
-                anzahlEinkauf);
-            spiel.printRohstoffeDerSpieler();
-          }
+          spiel.spielerHandel(this);
           break;
         }
         case 2:

@@ -600,7 +600,7 @@ public class Spielfeld
   public int getLaengsteStrasse(Spieler s)
   {
     /*
-     * Bug: funktioniert nicht f¸r eine Straﬂe die in sich abgeschlossen ist ohne Gebaeude dazwischen
+     * Bug: funktioniert nicht fÔøΩr eine StraÔøΩe die in sich abgeschlossen ist ohne Gebaeude dazwischen
      */
     int tmpLaenge;
     int laenge = 0;
@@ -645,7 +645,7 @@ public class Spielfeld
         // links oben
         zeile = zeileNeu - 1;
         spalte = spalteNeu - 1;
-        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -654,7 +654,7 @@ public class Spielfeld
         // links oben
         zeile = zeileNeu - 1;
         spalte = spalteNeu + 1;
-        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -670,7 +670,7 @@ public class Spielfeld
         // unten links
         zeile = zeileNeu + 1;
         spalte = spalteNeu - 1;
-        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -678,7 +678,7 @@ public class Spielfeld
         // unten rechts
         zeile = zeileNeu + 1;
         spalte = spalteNeu + 1;
-        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -697,7 +697,7 @@ public class Spielfeld
         // links
         zeile = zeileNeu + 0;
         spalte = spalteNeu - 2;
-        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -706,7 +706,7 @@ public class Spielfeld
         // links oben
         zeile = zeileNeu - 1;
         spalte = spalteNeu - 1;
-        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -715,7 +715,7 @@ public class Spielfeld
         // links unten
         zeile = zeileNeu + 1;
         spalte = spalteNeu - 1;
-        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -730,7 +730,7 @@ public class Spielfeld
         // rechts
         zeile = zeileNeu + 0;
         spalte = spalteNeu + 2;
-        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -739,7 +739,7 @@ public class Spielfeld
         // rechts oben
         zeile = zeileNeu - 1;
         spalte = spalteNeu + 1;
-        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -748,7 +748,7 @@ public class Spielfeld
         // rechts unten
         zeile = zeileNeu + 1;
         spalte = spalteNeu + 1;
-        tmpLaenge = straﬂenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -758,7 +758,7 @@ public class Spielfeld
     return laenge+1;
   }
 
-  private int straﬂenlaengeDiag(Spieler s, List<Feld> vorherigesFeld, int zeile, int spalte, int zeileNeu, int spalteNeu)
+  private int strassenlaengeDiag(Spieler s, List<Feld> vorherigesFeld, int zeile, int spalte, int zeileNeu, int spalteNeu)
   {
     if (zeile < HOEHE && zeile > 0 && spalte > 0 && spalte < BREITE)
     {
@@ -780,8 +780,8 @@ public class Spielfeld
     }
     return 0;
   }
-
-  private int straﬂenlaenge(Spieler s, List<Feld> vorherigesFeld, int zeile, int spalte, int zeileNeu, int spalteNeu)
+ 
+  private int strassenlaenge(Spieler s, List<Feld> vorherigesFeld, int zeile, int spalte, int zeileNeu, int spalteNeu)
   {
     if (zeile < HOEHE && zeile > 0 && spalte > 0 && spalte < BREITE)
     {

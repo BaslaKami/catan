@@ -1,11 +1,14 @@
 package main;
 
+import java.util.List;
+
 public class Bank
 {
+  private Benutzereingabe benutzereingabe;
 
-  public Bank()
+  public Bank(Benutzereingabe benutzereingabe)
   {
-    // TODO Auto-generated constructor stub
+    this.benutzereingabe = benutzereingabe;
   }
 
   public void handelMitEnklave(Spieler s, RohstoffTyp verkauf, RohstoffTyp einkauf, HandelTyp handelTyp)
@@ -32,11 +35,105 @@ public class Bank
     s.getRohstoffe().addRohstoffe(einkauf, 1);
   }
 
-  public void handelMitSpieler(Spieler verkaufer, Spieler kaeufer, RohstoffTyp verkaufRohstoffTyp, RohstoffTyp einkaufRohstoffTyp, int anzahlEinkauf, int anzahlVerkauf)
+  public void handelMitSpieler (Spieler verkaeufer, List<Spieler> spieler)
   {
-    verkaufer.getRohstoffe().subRohstoffe(verkaufRohstoffTyp, anzahlVerkauf);
-    kaeufer.getRohstoffe().subRohstoffe(einkaufRohstoffTyp, anzahlEinkauf);
-    verkaufer.getRohstoffe().addRohstoffe(einkaufRohstoffTyp, anzahlEinkauf);
-    kaeufer.getRohstoffe().addRohstoffe(verkaufRohstoffTyp, anzahlVerkauf);
+    int eingabe;
+    Spieler kaeufer = waehleSpieler(spieler, verkaeufer.getId());
+    System.out.println("\n\033[32m - Verkauf -\033[0m");
+    RohstoffTyp verkaufRohstoffTyp = waehleRohstoffTyp(verkaeufer.getRohstoffe());
+    int anzahlVerkauf = waehleRohstoffAnzahl(verkaeufer.getRohstoffe(), verkaufRohstoffTyp);
+    System.out.println("\n\033[32m - Kauf -\033[0m");
+    RohstoffTyp einkaufRohstoffTyp = waehleRohstoffTyp(kaeufer.getRohstoffe());
+    int anzahlEinkauf = waehleRohstoffAnzahl(kaeufer.getRohstoffe(), einkaufRohstoffTyp);
+
+    System.out.println("Handelsanfrage an " + kaeufer.getName() + ":\n" + verkaeufer.getName() + " bietet " + anzahlVerkauf + verkaufRohstoffTyp.getRohstoff() + " gegen " + anzahlEinkauf + einkaufRohstoffTyp);
+    eingabe = benutzereingabe.getInteger("Annehmen?\n1 --> Ja\n2 --> Nein");
+    if (eingabe == 1)
+    {
+      verkaeufer.getRohstoffe().subRohstoffe(verkaufRohstoffTyp, anzahlVerkauf);
+      kaeufer.getRohstoffe().subRohstoffe(einkaufRohstoffTyp, anzahlEinkauf);
+      verkaeufer.getRohstoffe().addRohstoffe(einkaufRohstoffTyp, anzahlEinkauf);
+      kaeufer.getRohstoffe().addRohstoffe(verkaufRohstoffTyp, anzahlVerkauf);
+    }
+  }
+
+  public Spieler waehleSpieler(List<Spieler> spieler, int verkaeuferId)
+  {
+    int eingabe;
+    Spieler ausgewaehlterSpieler = null;
+    String auswahlString = "Waehle einen Spieler:\n";
+    SpielerListe auswahlListe = new SpielerListe();
+    int count = 1;
+
+    for (Spieler s : spieler)
+    {
+      if(s.getId() != verkaeuferId)
+      {
+        auswahlListe.hinzufuegen(s);
+        auswahlString += count++ + " --> " + s.getName() + "\n";
+      }
+    }
+
+    do
+    {
+      eingabe = benutzereingabe.getInteger(auswahlString);
+      if(eingabe > 0 && eingabe <= auswahlListe.getSize())
+      {
+        ausgewaehlterSpieler = auswahlListe.getSpieler(eingabe-1);
+      }
+    } while(ausgewaehlterSpieler == null);
+
+    return ausgewaehlterSpieler;
+  }
+
+  public RohstoffTyp waehleRohstoffTyp(Rohstoffe vorhandeneRohstoffe)
+  {
+    int eingabe;
+    boolean gueltigerRohstoff = false;
+    RohstoffTyp[] rohstoffe = RohstoffTyp.values();
+    String auswahlString = "Waehle einen Rohstoff:\n";
+
+    for (RohstoffTyp typ : RohstoffTyp.values())
+    {
+      auswahlString += typ.getNummer() + 1 + " " + typ.getRohstoff() +"\n";
+    }
+    do
+    {
+      eingabe = benutzereingabe.getInteger(auswahlString) - 1;
+
+      if(eingabe >= 0 && eingabe < rohstoffe.length)
+      {
+        if (vorhandeneRohstoffe.getRohstoffe(rohstoffe[eingabe]) <= 0)
+        {
+          System.out.println("\n\033[31mRohstoff nicht vorhanden!\033[0m");
+        }
+        else
+        {
+          gueltigerRohstoff = true;
+        }
+      }
+    } while(!gueltigerRohstoff);
+
+    return rohstoffe[eingabe];
+  }
+
+  public int waehleRohstoffAnzahl(Rohstoffe vorhandeneRohstoffe, RohstoffTyp rohstoffTyp)
+  {
+    int anzahl;
+    boolean ausreichendVorhanden = false;
+    do
+    {
+      anzahl = benutzereingabe.getInteger("Anzahl der " + rohstoffTyp.getRohstoff());
+      if (anzahl > 0 && anzahl <= vorhandeneRohstoffe.getRohstoffe(rohstoffTyp))
+      {
+        ausreichendVorhanden = true;
+      }
+      else
+      {
+        System.out.println("\n\033[31mAnzahl nicht vorhanden!\033[0m");
+      }
+    } while (!ausreichendVorhanden);
+
+    return anzahl;
   }
 }

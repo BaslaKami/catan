@@ -63,7 +63,7 @@ public class Spiel
     weltraumpirat.printPos();
 
     /** e. Bank erzeugen */
-    bank = new Bank();
+    bank = new Bank(benutzereingabe);
 
     spielerSetztenErsteGebaeude();
 
@@ -296,6 +296,10 @@ public class Spiel
     return meisteRitter;
   }
 
+  public void spielerHandel(Spieler s) {
+    bank.handelMitSpieler(s, spielerListe.getListe());
+    printRohstoffeDerSpieler();
+  }
 
   public Spieler getSpielerMitLaengsterHandelsstrasse()
   {
@@ -312,11 +316,8 @@ public class Spiel
     return kartenstack;
   }
 
-  public Bank getBank() { return bank; }
-
   public static int getBenoetigteSiegpunkte()
   {
     return BENOETIGTE_SIEGPUNKTE;
   }
-
 }
