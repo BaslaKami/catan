@@ -62,7 +62,7 @@ public class Spieler
     setKarten(new LinkedList<Karte>());
 
     // setRohstoffe(new Rohstoffe()); //TODO wieder rein
-    setRohstoffe(new Rohstoffe(30, 30, 30, 30, 30)); // TODO raus nur f�r tests
+    setRohstoffe(new Rohstoffe(30, 30, 30, 30, 30)); // TODO raus nur für tests
   }
 
   public void zug()

@@ -600,7 +600,7 @@ public class Spielfeld
   public int getLaengsteStrasse(Spieler s)
   {
     /*
-     * Bug: funktioniert nicht f�r eine Stra�e die in sich abgeschlossen ist ohne Gebaeude dazwischen
+     * Bug: funktioniert nicht für eine Straße die in sich abgeschlossen ist ohne Gebaeude dazwischen
      */
     int tmpLaenge;
     int laenge = 0;

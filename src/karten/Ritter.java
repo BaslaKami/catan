@@ -38,7 +38,7 @@ public class Ritter extends Karte
       }
     }
 
-    // TODO abfangen wenn angegebene Position nicht möglich
+    // TODO abfangen wenn angegebene Position nicht mÃ¼glich
     s.bewegeWeltraumpirat(
         s.getSpiel().getBenutzereingabe().getKoordinate("Gebe die Koordinate fuer den Weltraumpirat an"),
         s.getSpiel().getWeltraumpirat(), s.getSpiel().getSpielerListe());
