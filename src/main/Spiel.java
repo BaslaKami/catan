@@ -4,25 +4,23 @@ import java.util.Scanner;
 
 import felder.Koordinate;
 import felder.Weltraumpirat;
+import karten.Karte;
 import karten.Kartenstack;
 
 public class Spiel
 {
+  public static final boolean DEBUG = true;
   private SpielerListe spielerListe;
   private Spielfeld spielfeld;
   private Bank bank;
   private Scanner scanner;
   private Kartenstack kartenstack;
   private Weltraumpirat weltraumpirat;
+  private Benutzereingabe benutzereingabe;
 
   public static void main(String[] args)
   {
     new Spiel();
-
-    // spiel.erstelleSpiel();
-
-    //spiel.start();
-
   }
 
   /*
@@ -45,6 +43,8 @@ public class Spiel
    */
   public Spiel()
   {
+    benutzereingabe = new Benutzereingabe();
+
     /** 1. Abfrage Anzahl Spieler */
     /** 2. Spiel erzeugen */
     /** a. Spielfeld erzeugen */
@@ -56,7 +56,7 @@ public class Spiel
     erstelleSpieler();
 
     /** c. Kartenstack erzeugen */
-    kartenstack = new Kartenstack();
+    setKartenstack(new Kartenstack());
 
     /** d. Weltraumpiraten erzeugen */
     weltraumpirat = new Weltraumpirat();
@@ -65,57 +65,75 @@ public class Spiel
     /** e. Bank erzeugen */
     bank = new Bank();
 
-    // TODO: Per Schleife und Eingabe umsetzen
-    /** 3. Spieler 1 platziert zwei Straﬂen und zwei Siedlungen */
-    spielerListe.getSpieler(0).baueWurmloch(new Koordinate(4, 3));
-    spielerListe.getSpieler(0).baueWurmloch(new Koordinate(4, 5));
+    spielerSetztenErsteGebaeude();
 
-    spielerListe.getSpieler(0).baueKolonie(new Koordinate(4, 2));
-    spielerListe.getSpieler(0).baueKolonie(new Koordinate(4, 6));
+    printRohstoffeDerSpieler();
+
+    System.out.println("Zug 1 Spieler 1\n");
+
+    rundeStarten();
+    //zug(spielerListe.getSpieler(0));
+  }
+
+  private void rundeStarten()
+  {
+    do
+    {
+      for (int i = 0; i < spielerListe.getSize(); i++)
+      {
+        zug(spielerListe.getSpieler(i));
+      }
+    } while (true); //TODO Abbruchbediengung durch sieg darstellen
+  }
+
+  private void spielerSetztenErsteGebaeude()
+  {
+    if (DEBUG)
+    {
+      spielerBauenErsteGebaeudeDEBUG();
+    }
+    else
+    {
+      for (int i = 0; i < spielerListe.getSize(); i++)
+      {
+        System.out.println(spielerListe.getSpieler(i).getName());
+        spielerListe.getSpieler(i).baueErsteGebaeude();
+      }
+    }
+  }
+
+  public void spielerBauenErsteGebaeudeDEBUG()
+  {
+    /** 3. Spieler 1 platziert zwei Straﬂen und zwei Siedlungen */
+    spielerListe.getSpieler(0).baueWurmlochKostenlos(new Koordinate(4, 3));
+    spielerListe.getSpieler(0).baueWurmlochKostenlos(new Koordinate(4, 5));
+
+    spielerListe.getSpieler(0).baueKolonieKostenlos(new Koordinate(4, 2));
+    spielerListe.getSpieler(0).baueKolonieKostenlos(new Koordinate(4, 6));
 
     /** 4. Spieler 2 platziert zwei Straﬂen und zwei Siedlungen */
-    spielerListe.getSpieler(1).baueWurmloch(new Koordinate(8, 13));
-    spielerListe.getSpieler(1).baueWurmloch(new Koordinate(9, 12));
+    spielerListe.getSpieler(1).baueWurmlochKostenlos(new Koordinate(8, 13));
+    spielerListe.getSpieler(1).baueWurmlochKostenlos(new Koordinate(9, 12));
 
-    spielerListe.getSpieler(1).baueKolonie(new Koordinate(8, 12));
-    spielerListe.getSpieler(1).baueKolonie(new Koordinate(8, 14));
+    spielerListe.getSpieler(1).baueKolonieKostenlos(new Koordinate(8, 12));
+    spielerListe.getSpieler(1).baueKolonieKostenlos(new Koordinate(8, 14));
 
     /** 5. Spieler 3 platziert zwei Straﬂen und zwei Siedlungen */
-    spielerListe.getSpieler(2).baueWurmloch(new Koordinate(4, 19));
-    spielerListe.getSpieler(2).baueWurmloch(new Koordinate(5, 20));
+    spielerListe.getSpieler(2).baueWurmlochKostenlos(new Koordinate(4, 19));
+    spielerListe.getSpieler(2).baueWurmlochKostenlos(new Koordinate(5, 20));
 
-    spielerListe.getSpieler(2).baueKolonie(new Koordinate(4, 18));
-    spielerListe.getSpieler(2).baueKolonie(new Koordinate(4, 20));
+    spielerListe.getSpieler(2).baueKolonieKostenlos(new Koordinate(4, 18));
+    spielerListe.getSpieler(2).baueKolonieKostenlos(new Koordinate(4, 20));
     spielfeld.print();
-
-    /** 6. Spieler 4 platziert zwei Straﬂen und zwei Siedlungen (wenn existent) */
-    // existiert aktuell nicht
 
     /** 7. Spieler 1 bekommt die Rohstoffe f¸r eine Siedlung ausgezahlt */
     spielerListe.getSpieler(0).getAlleRohstoffevonKolonie(new Koordinate(4, 2));
-    System.out.println();
-    System.out.println("Spieler 0");
-    spielerListe.getSpieler(0).getRohstoffe().print();
 
     /** 8. Spieler 1 bekommt die Rohstoffe f¸r eine Siedlung ausgezahlt */
     spielerListe.getSpieler(1).getAlleRohstoffevonKolonie(new Koordinate(8, 14));
-    System.out.println();
-    System.out.println("Spieler 1");
-    spielerListe.getSpieler(1).getRohstoffe().print();
 
     /** 9. Spieler 1 bekommt die Rohstoffe f¸r eine Siedlung ausgezahlt */
     spielerListe.getSpieler(2).getAlleRohstoffevonKolonie(new Koordinate(4, 20));
-    System.out.println();
-    System.out.println("Spieler 2");
-    spielerListe.getSpieler(2).getRohstoffe().print();
-
-    /** 10. Spieler 1 bekommt die Rohstoffe f¸r eine Siedlung ausgezahlt (wenn existent) */
-
-    System.out.println("Zug 1");
-
-    zug(spielerListe.getSpieler(0));
-
-    // existiert aktuell nicht
   }
 
   /*
@@ -147,72 +165,88 @@ public class Spiel
      * e. Der Spieler bekommt von den Spielern die auf dem neuen Feld des R‰ubers eine Siedlung oder Stadt haben eine
      * zuf‰llige Rohstoffkarte
      */
-    w¸rfeln(s);
-    
+    s.w¸rfeln();
+    printRohstoffeDerSpieler();
     /*
      * 2. Spieler handelt
      * a. Spieler darf beliebig oft handeln
      */
     handeln(s);
-    
+
     /*
      * 3. Geb‰ude bauen, Entwicklungskarten kaufen
      * a. Entwicklungskarte kann zu jeder Zeit des Zuges (1-3) ausgespielt werden
      * b. Es kann pro Zug immer nur genau eine Entwicklungskarte ausgespielt werden
      * c. Die Entwicklungskarte welche ausgespielt wird darf nicht w‰hrend des aktuellen Zuges gekauft worden sein
      */
-    
-    bauen(s);
-  }
 
-  private void bauen(Spieler s)
-  {
-    // TODO Geb‰ude bauen
-    
-    /*
-     * 1. w‰hle Geb‰ude welches gebaut werden soll
-     * public void baueWurmloch(Koordinate k)
-     * public void baueKolonie(Koordinate k)
-     * public void baueMetropole(Koordinate k)
-     */
+    s.baueGebaeude();
   }
 
   private void handeln(Spieler s)
   {
-    //TODO: Handeln
+    // TODO: Handeln
   }
 
-  private void w¸rfeln(Spieler s)
+  // private void w¸rfeln(Spieler s)
+  // {
+  // int zahl = s.w¸rfeln();
+  // System.out.println("Wurf: " + zahl);
+  //
+  // if (zahl == 7)
+  // {
+  // for (int i = 0; i < spielerListe.getSize(); i++)
+  // {
+  // spielerListe.getSpieler(i).haelfteDerRohstoffeWerdenEntfernt();
+  // }
+  // // TODO: Eingabe durch Benutzer von den Koordinaten des Weltraumpiraten
+  //
+  // s.bewegeWeltraumpirat(new Koordinate(5, 14), weltraumpirat, spielerListe);
+  // }
+  // else
+  // {
+  // for (int i = 0; i < spielerListe.getSize(); i++)
+  // {
+  // spielerListe.getSpieler(i).getRohstoffe()
+  // .addRohstoffe(spielfeld.getRohstoffeFuerSpieler(spielerListe.getSpieler(i), zahl));
+  // //spielerListe.getSpieler(i).getRohstoffe().print();
+  // }
+  //
+  // }
+  // }
+
+  private void printRohstoffeDerSpieler()
   {
-    int zahl = s.wuerfeln();
-    System.out.println("Wurf: " + zahl);
-
-    if (zahl == 7)
+    // System.out.printf("%c %c %c %c %c %c\n", 'S', RohstoffTyp.ENERGIE.getRohstoff().charAt(1),
+    // RohstoffTyp.NAHRUNG.getRohstoff().charAt(1), RohstoffTyp.ROBOTER.getRohstoff().charAt(1),
+    // RohstoffTyp.MINERALIEN.getRohstoff().charAt(1), RohstoffTyp.MUNITION.getRohstoff().charAt(1));
+    spielerListe.getSpieler(0).printRohstoffe(true);
+    for (int i = 1; i < spielerListe.getSize(); i++)
     {
-      for (int i = 0; i < spielerListe.getSize(); i++)
-      {
-        spielerListe.getSpieler(i).haelfteDerRohstoffeWerdenEntfernt();
-      }
-      // TODO: Eingabe durch Benutzer von den Koordinaten des Weltraumpiraten
-
-      s.bewegeWeltraumpirat(new Koordinate(5, 14), weltraumpirat, spielerListe);
+      spielerListe.getSpieler(i).printRohstoffe(false);
     }
-    else
-    {
-      for (int i = 0; i < spielerListe.getSize(); i++)
-      {
-        spielerListe.getSpieler(i).getRohstoffe()
-            .addRohstoffe(spielfeld.getRohstoffeFuerSpieler(spielerListe.getSpieler(i), zahl));
-        spielerListe.getSpieler(i).getRohstoffe().print();
-      }
-    }
+    System.out.println();
   }
 
   private void erstelleSpieler()
   {
     System.out.println("***Spiel wird erstellt***");
 
-    erstelleSpieler(anzahlSpieler());
+    if (DEBUG)
+    {
+      Spieler s = new Spieler(Farbe.BLAU, "eins", spielfeld, this);
+      spielerListe.hinzuf¸gen(s);
+      s = new Spieler(Farbe.GELB, "zwei", spielfeld, this);
+      spielerListe.hinzuf¸gen(s);
+      s = new Spieler(Farbe.GR‹N, "drei", spielfeld, this);
+      spielerListe.hinzuf¸gen(s);
+      // erstelleSpieler(3);
+    }
+    else
+    {
+      erstelleSpieler(anzahlSpieler());
+    }
+
     getSpielerListe().ausgeben();
 
   }
@@ -275,10 +309,34 @@ public class Spiel
   {
     scanner.close();
   }
-  
+
   public Weltraumpirat getWeltraumpirat()
   {
     return weltraumpirat;
   }
 
+  private void setKartenstack(Kartenstack kartenstack)
+  {
+    this.kartenstack = kartenstack;
+  }
+
+  public Karte karteZiehen()
+  {
+    return (kartenstack.ziehen());
+  }
+
+  public void karteZur¸cklegen(Karte k)
+  {
+    kartenstack.zur¸cklegen(k);
+  }
+
+  public Benutzereingabe getBenutzereingabe()
+  {
+    return benutzereingabe;
+  }
+
+  public void setBenutzereingabe(Benutzereingabe benutzereingabe)
+  {
+    this.benutzereingabe = benutzereingabe;
+  }
 }

@@ -30,6 +30,7 @@ public class Weltraumpirat
   {
     System.out.print("Position Weltraumpirat: ");
     position.print();
+    System.out.println();
   }
 }
 

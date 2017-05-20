@@ -4,7 +4,7 @@ public  class Gebaeude extends Feld
 {
 	//private String name;
 	//private int feld;
-  private int spielerId;
+  private int spielerId;  //TODO ersetzen durch referenz des Spielers
   private Koordinate pos;
   //private GebaeudeTyp typ;
 	private static final int kostenEnergie = 0;

@@ -15,8 +15,8 @@ public class Strassenbau extends Karte
   public void ausspielen(Spieler s)
   {
     //TODO zwei eingabeaufforderungen für die Koordinaten
-    s.baueWurmloch(new Koordinate(8,3));
-    s.baueWurmloch(new Koordinate(4,7));
+    s.baueWurmlochKostenlos(new Koordinate(8,3));
+    s.baueWurmlochKostenlos(new Koordinate(4,7));
   }
 
 }

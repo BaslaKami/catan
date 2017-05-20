@@ -2,8 +2,6 @@ package main;
 
 import java.util.Random;
 
-import felder.RohstoffTyp;
-
 public class Rohstoffe
 {
   private int[] rohstoffe;
@@ -11,6 +9,10 @@ public class Rohstoffe
   public Rohstoffe()
   {
     rohstoffe = new int[5];
+    for (int i = 0; i < rohstoffe.length; i++)
+    {
+      rohstoffe[i] = 0;
+    }
   }
 
   public Rohstoffe(int energie, int nahrung, int roboter, int mineralien, int munition)
@@ -30,7 +32,15 @@ public class Rohstoffe
 
   public void setRohstoffe(RohstoffTyp typ, int rohstoffe)
   {
-    this.rohstoffe[typ.getNummer()] = rohstoffe;
+    if (rohstoffe >= 0)
+    {
+      this.rohstoffe[typ.getNummer()] = rohstoffe;
+    }
+    else
+    {
+      // TODO: Exception handling
+      System.out.println("Fehler in Rohstoffe: subRohstoffe bekommt negativen Wert");
+    }
   }
 
   public void addRohstoffe(Rohstoffe r)
@@ -43,24 +53,58 @@ public class Rohstoffe
 
   public void subRohstoffe(Rohstoffe r)
   {
-    for (int i = 0; i < rohstoffe.length; i++)
+    if (ausreichendRohstoffeVorhanden(r))
     {
-      rohstoffe[i] -= r.rohstoffe[i];
+      for (int i = 0; i < rohstoffe.length; i++)
+      {
+        rohstoffe[i] -= r.rohstoffe[i];
+      }
+    }
+    else
+    {
+      System.out.println("Fehler in Rohstoffe: subRohstoffe(Rohstoffe r) bekommt negativen Wert");
     }
   }
 
   public void subRohstoffe(RohstoffTyp typ, int anzahl)
   {
-    setRohstoffe(typ, getRohstoffe(typ) - anzahl);
+    if (getRohstoffe(typ) - anzahl >= 0)
+    {
+      setRohstoffe(typ, getRohstoffe(typ) - anzahl);
+    }
+    else
+    {
+      // TODO: Exception handling
+      System.out.println("Fehler in Rohstoffe: subRohstoffe(RohstoffTyp typ, int anzahl) bekommt negativen Wert");
+    }
   }
 
-  // TODO: Exception handling wenn mehr abgezogen wird als möglich
+  public boolean ausreichendRohstoffeVorhanden(Rohstoffe rohstoffe)
+  {
+    for (int i = 0; i < this.rohstoffe.length; i++)
+    {
+      if (this.rohstoffe[i] < rohstoffe.rohstoffe[i])
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+
   public void addRohstoffe(RohstoffTyp typ, int anzahl)
   {
-    setRohstoffe(typ, getRohstoffe(typ) + anzahl);
+    if (anzahl >= 0)
+    {
+      setRohstoffe(typ, getRohstoffe(typ) + anzahl);
+    }
+    else
+    {
+      // TODO: Exception handling
+      System.out.println("Fehler in Rohstoffe: addRohstoffe bekommt negativen Wert");
+    }
   }
 
-  public void entferneZufällig(int anzahl)
+  public void entferneZufaellig(int anzahl)
   {
     Random zufallsgenerator = new Random();
     int typ;
@@ -75,7 +119,7 @@ public class Rohstoffe
     }
   }
 
-  public RohstoffTyp entferneZufälligEinenRohstoff()
+  public RohstoffTyp entferneZufaelligEinenRohstoff()
   {
     Random zufallsgenerator = new Random();
     int typ;
@@ -88,7 +132,7 @@ public class Rohstoffe
     RohstoffTyp[] rT = RohstoffTyp.values();
     return rT[typ];
   }
-  
+
   public int getUndLöscheAlleRohstoffe(RohstoffTyp typ)
   {
     int anzahl = getRohstoffe(typ);

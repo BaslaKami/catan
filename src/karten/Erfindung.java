@@ -1,6 +1,6 @@
 package karten;
 
-import felder.RohstoffTyp;
+import main.RohstoffTyp;
 import main.Spieler;
 
 public class Erfindung extends Karte

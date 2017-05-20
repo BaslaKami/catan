@@ -31,9 +31,9 @@ public class Spieler
   private Farbe farbe;
   private String name;
   private Rohstoffe rohstoffe;
-  private List<Wurmloch> wurmlochListe;   //TODO Wird die Liste noch benötigt?
-  private List<Metropole> metropolenListe; //TODO Wird die Liste noch benötigt?
-  private List<Kolonie> kolonienListe; //TODO Wird die Liste noch benötigt?
+  private List<Wurmloch> wurmlochListe; // TODO Wird die Liste noch benötigt?
+  private List<Metropole> metropolenListe; // TODO Wird die Liste noch benötigt?
+  private List<Kolonie> kolonienListe; // TODO Wird die Liste noch benötigt?
   private Spielfeld spielfeld;
   private Spiel spiel;
   private List<Karte> karten;
@@ -50,7 +50,7 @@ public class Spieler
     wurmlochListe = new LinkedList<Wurmloch>();
     metropolenListe = new LinkedList<Metropole>();
     kolonienListe = new LinkedList<Kolonie>();
-    
+
     setKarten(new LinkedList<Karte>());
 
     setRohstoffe(new Rohstoffe());
@@ -58,34 +58,102 @@ public class Spieler
 
   public void zug()
   {
-    wuerfeln();
+    würfeln();
 
+  }
+
+  /*
+   * Für die init des Spiels, wenn man am anfang zwei Wurmlöcher setzen darf und für die Ereigniskarte Straßenbau
+   */
+  public boolean baueWurmlochKostenlos(Koordinate k)
+  {
+    if (spielfeld.kannGebaeudeGebautWerden(k, 'S'))
+    {
+      Wurmloch w = new Wurmloch(k, id);
+      wurmlochListe.add(w);
+      spielfeld.setzeWurmloch(w);
+      return true;
+    }
+    else
+    {
+      System.out.println("Das Wurmloch kann an der angegebenen Stelle nicht gebaut werden.");
+      return false;
+    }
+  }
+
+  /*
+   * Für die init des Spiels, wenn man am anfang zwei Wurmlöcher setzen darf
+   */
+  public boolean baueKolonieKostenlos(Koordinate k)
+  {
+    if (spielfeld.kannGebaeudeGebautWerden(k, 'G'))
+    {
+      Kolonie kolonie = new Kolonie(k, id);
+      kolonienListe.add(kolonie);
+      spielfeld.setzeKolonie(kolonie);
+      return true;
+    }
+    else
+    {
+      System.out.println("Das Kolonie kann an der angegebenen Stelle nicht gebaut werden.");
+      return false;
+    }
   }
 
   public void baueWurmloch(Koordinate k)
   {
-    rohstoffe.subRohstoffe(Wurmloch.getKosten());
-    Wurmloch w = new Wurmloch(k, id);
-    wurmlochListe.add(w);
-    spielfeld.setzeWurmloch(w);
+    if (rohstoffe.ausreichendRohstoffeVorhanden(Wurmloch.getKosten()))
+    {
+      if (baueWurmlochKostenlos(k))
+      {
+        rohstoffe.subRohstoffe(Wurmloch.getKosten());
+      }
+    }
+    else
+    {
+      System.out.println("Du besitzt nicht genügen Rohstoffe.");
+    }
   }
 
   public void baueKolonie(Koordinate k)
   {
-    rohstoffe.subRohstoffe(Kolonie.getKosten());
-    Kolonie kolonie = new Kolonie(k, id);
-    kolonienListe.add(kolonie);
-    spielfeld.setzeKolonie(kolonie);
+    if (rohstoffe.ausreichendRohstoffeVorhanden(Wurmloch.getKosten()))
+    {
+      if (baueKolonieKostenlos(k))
+      {
+        rohstoffe.subRohstoffe(Kolonie.getKosten());
+      }
+    }
+    else
+    {
+      System.out.println("Du besitzt nicht genügen Rohstoffe.");
+    }
   }
 
   public void baueMetropole(Koordinate k)
   {
     // TODO: Es muss noch getestet werden ob das Kolonie-Objekt aus der Liste vom Spieler gelöscht wird.
-    rohstoffe.subRohstoffe(Metropole.getKosten());
-    Metropole m = new Metropole(k, id);
-    metropolenListe.add(m);
-    kolonienListe.remove(spielfeld.setzeMetropole(m));
+    if (rohstoffe.ausreichendRohstoffeVorhanden(Wurmloch.getKosten()))
+    {
+      if (spielfeld.kannKolonieAufgewertetWerden(k, this))
+      {
+        rohstoffe.subRohstoffe(Metropole.getKosten());
+        Metropole m = new Metropole(k, id);
+        metropolenListe.add(m);
+        kolonienListe.remove(spielfeld.setzeMetropole(m));
+      }
+      else
+      {
+        System.out.println("An der angegebennen Stelle ist es nicht möglich ein Upgrade zur Metropole durchzuführen.");
+      }
+    }
+    else
+    {
+      System.out.println("Du besitzt nicht genügen Rohstoffe.");
+    }
   }
+
+  // TODO Auswertung der Siegespunkte
 
   public void karteSpielen(Karte k)
   {
@@ -98,7 +166,7 @@ public class Spieler
 
     if (anzahlRohstoffe > 7)
     {
-      rohstoffe.entferneZufällig(anzahlRohstoffe / 2);
+      rohstoffe.entferneZufaellig(anzahlRohstoffe / 2);
     }
   }
 
@@ -117,9 +185,109 @@ public class Spieler
     return this.farbe;
   }
 
-  public int wuerfeln()
+  public void würfeln()
   {
-    return new Random().nextInt(11) + 2;
+    int zahl;
+    if (spiel.DEBUG)
+    {
+      zahl = spiel.getBenutzereingabe().getInteger("Gib Gewürfelte zahl ein: ");
+    }
+    else
+    {
+      zahl = new Random().nextInt(11) + 2;
+    }
+
+    System.out.println("Wurf: " + zahl);
+
+    if (zahl == 7)
+    {
+      for (int i = 0; i < spiel.getSpielerListe().getSize(); i++)
+      {
+        spiel.getSpielerListe().getSpieler(i).haelfteDerRohstoffeWerdenEntfernt();
+      }
+      // TODO: Eingabe durch Benutzer von den Koordinaten des Weltraumpiraten
+
+      bewegeWeltraumpirat(new Koordinate(5, 14), spiel.getWeltraumpirat(), spiel.getSpielerListe());
+    }
+    else
+    {
+      for (int i = 0; i < spiel.getSpielerListe().getSize(); i++)
+      {
+        spiel.getSpielerListe().getSpieler(i).getRohstoffe()
+            .addRohstoffe(spielfeld.getRohstoffeFuerSpieler(spiel.getSpielerListe().getSpieler(i), zahl));
+      }
+    }
+  }
+
+  public void baueErsteGebaeude()
+  {
+    // TODO kann an die eingegebene Stelle gebaut werden?
+    spielfeld.print();
+    baueWurmlochKostenlos(spiel.getBenutzereingabe().getKoordinate("Baue kostenloses Wurmloch"));
+    spielfeld.print();
+    baueWurmlochKostenlos(spiel.getBenutzereingabe().getKoordinate("Baue kostenloses Wurmloch"));
+    spielfeld.print();
+
+    baueKolonieKostenlos(spiel.getBenutzereingabe().getKoordinate("Baue kostenlose Kolonie"));
+    spielfeld.print();
+    baueKolonieKostenlos(spiel.getBenutzereingabe().getKoordinate("Baue kostenlose Kolonie"));
+    spielfeld.print();
+
+    getAlleRohstoffevonKolonie(spiel.getBenutzereingabe().getKoordinate("Wähle Kolonie für die ersten Rohstoffe"));
+  }
+
+  public void baueGebaeude()
+  {
+    int eingabe;
+    boolean bauenBeenden = false;
+    do
+    {
+      eingabe = spiel.getBenutzereingabe()
+          .getInteger("Wähle welches Gebäude du bauen möchtest\n" + "1 --> Wurmloch\n" + "2 --> Kolonie\n"
+              + "3 --> Metropole\n" + "4 --> Spielfeld anzeigen\n" + "5 --> Rohstoffe Anzeigen\n"
+              + "6 --> Karte spielen\n" + "7 --> Bauen Beenden");
+      switch (eingabe)
+      {
+        case 1:
+        {
+          baueWurmloch(spiel.getBenutzereingabe().getKoordinate("Baue Wurmloch"));
+          spielfeld.print();
+          break;
+        }
+        case 2:
+        {
+          baueKolonie(spiel.getBenutzereingabe().getKoordinate("Baue Kolonie"));
+          spielfeld.print();
+          break;
+        }
+        case 3:
+        {
+          baueMetropole(spiel.getBenutzereingabe().getKoordinate("Baue Metropole"));
+          spielfeld.print();
+          break;
+        }
+        case 4:
+        {
+          spielfeld.print();
+          break;
+        }
+        case 5:
+        {
+          printRohstoffe(true);
+          break;
+        }
+        case 6:
+        {
+          // TODO Karte spielen
+          break;
+        }
+        default:
+        {
+          bauenBeenden = true;
+          break;
+        }
+      }
+    } while (bauenBeenden == false);
   }
 
   private void setRohstoffe(Rohstoffe rohstoffe)
@@ -152,10 +320,16 @@ public class Spieler
   {
     this.id = id;
   }
-  
+
   public Spiel getSpiel()
   {
     return spiel;
+  }
+
+  public void zieheKarte()
+  {
+    rohstoffe.subRohstoffe(Karte.getKosten());
+    karten.add(spiel.karteZiehen());
   }
 
   public void bewegeWeltraumpirat(Koordinate koordinate, Weltraumpirat w, SpielerListe spielerListe)
@@ -165,9 +339,23 @@ public class Spieler
     {
       if (g.getSpielerId() != getId())
       {
-        getRohstoffe().addRohstoffe(spielerListe.getSpieler(g.getSpielerId()).getRohstoffe().entferneZufälligEinenRohstoff(), 1);
+        getRohstoffe()
+            .addRohstoffe(spielerListe.getSpieler(g.getSpielerId()).getRohstoffe().entferneZufaelligEinenRohstoff(), 1);
       }
     }
+  }
+
+  public void printRohstoffe(boolean kopfZeile)
+  {
+    if (kopfZeile)
+    {
+      System.out.printf("%c %c %c %c %c %c\n", 'S', RohstoffTyp.ENERGIE.getRohstoff().charAt(1),
+          RohstoffTyp.NAHRUNG.getRohstoff().charAt(1), RohstoffTyp.ROBOTER.getRohstoff().charAt(1),
+          RohstoffTyp.MINERALIEN.getRohstoff().charAt(1), RohstoffTyp.MUNITION.getRohstoff().charAt(1));
+    }
+    System.out.printf("%d %d %d %d %d %d\n", getId(), rohstoffe.getRohstoffe(RohstoffTyp.ENERGIE),
+        rohstoffe.getRohstoffe(RohstoffTyp.NAHRUNG), rohstoffe.getRohstoffe(RohstoffTyp.ROBOTER),
+        rohstoffe.getRohstoffe(RohstoffTyp.MINERALIEN), rohstoffe.getRohstoffe(RohstoffTyp.MUNITION));
   }
 
   public List<Karte> getKarten()

@@ -1,6 +1,8 @@
 package felder;
 import java.util.Random;
 
+import main.RohstoffTyp;
+
 /**
  * Created by Dustin on 17.05.2017.
  */

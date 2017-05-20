@@ -11,7 +11,6 @@ import felder.Kolonie;
 import felder.Koordinate;
 import felder.Metropole;
 import felder.Planet;
-import felder.RohstoffTyp;
 import felder.Weltraumpirat;
 import felder.Wurmloch;
 
@@ -138,7 +137,8 @@ public class Spielfeld
     // Toten Planeten aus der mitte entfernen
     feldTyp[feldTyp.length / 2][feldTyp[feldTyp.length / 2].length / 2] = ' ';
 
-    erstelleEnklaven();
+    //TODO Enklaven wieder einkommentieren oder Handel zwischen zwei spielern realisieren
+    //erstelleEnklaven();
   }
 
   private void erstelleEnklaven()
@@ -172,132 +172,13 @@ public class Spielfeld
 
     for (int zeile = 0; zeile < HOEHE; zeile++)
     {
-      System.out.printf("%02d  ", zeile);
-      for (int spalte = 0; spalte < BREITE; spalte++)
-      {
-
-        switch (feldTyp[zeile][spalte])
-        {
-          case 'G':
-          {
-            System.out.print("\033[36m" + feldTyp[zeile][spalte]);
-            break;
-          }
-          case 'E':
-          {
-            System.out.print("\033[1;31m" + feldTyp[zeile][spalte]);
-            break;
-          }
-          case 'P':
-          {
-            System.out.print("\033[1;34m" + feldTyp[zeile][spalte]);
-            break;
-          }
-          default:
-          {
-            System.out.print(feldTyp[zeile][spalte]);
-            break;
-          }
-        }
-        System.out.print("\033[0m" + " ");
-
-      }
-
-      System.out.print("   ");
-
-      System.out.printf("%02d  ", zeile);
-
-      // Ausgabe von felder
-      for (int spalte = 0; spalte < BREITE; spalte++)
-      {
-        if (felder[zeile][spalte] != null)
-        {
-          switch (felder[zeile][spalte].getTyp())
-          {
-            case PLANET:
-            {
-              // System.out.print("P ");
-              System.out.printf("\033[1;31m%x \033[0m", ((Planet) felder[zeile][spalte]).getErtragsnummer());
-              break;
-            }
-            case WURMLOCH:
-            {
-              System.out.print("W ");
-              break;
-            }
-            case METROPOLE:
-            {
-              System.out.print("M ");
-              break;
-            }
-            case KOLONIE:
-            {
-              System.out.print("K ");
-              break;
-            }
-            default:
-            {
-              System.out.print(". ");
-              break;
-            }
-
-          }
-        }
-        else
-        {
-          System.out.print(". ");
-        }
-      }
-
-      System.out.print("   ");
-
-      System.out.printf("%02d  ", zeile);
-
-      // Ausgabe der PlanetenRohstoffTypen
-      for (int spalte = 0; spalte < BREITE; spalte++)
-      {
-        if (felder[zeile][spalte] != null)
-        {
-          switch (felder[zeile][spalte].getTyp())
-          {
-            case PLANET:
-            {
-              // System.out.print("P ");
-              System.out.printf("\033[1;31m%c \033[0m",
-                  ((Planet) felder[zeile][spalte]).getRohstoff().getRohstoff().charAt(1));
-              break;
-            }
-            case WURMLOCH:
-            {
-              System.out.print("W ");
-              break;
-            }
-            case METROPOLE:
-            {
-              System.out.print("M ");
-              break;
-            }
-            case KOLONIE:
-            {
-              System.out.print("K ");
-              break;
-            }
-            default:
-            {
-              System.out.print(". ");
-              break;
-            }
-          }
-        }
-        else
-        {
-          System.out.print(". ");
-        }
-      }
-
+      printReferenzFeld(zeile);
+      printPlanetZufallszahlen(zeile);
+      printPlanetTypen(zeile);
       System.out.println();
     }
-
+    System.out.println();
+    
     // System.out.println("\033[0m BLACK");
     // System.out.println("\033[31m RED");
     // System.out.println("\033[32m GREEN");
@@ -308,6 +189,171 @@ public class Spielfeld
     // System.out.println("\033[37m WHITE");
     // System.out.println("Hello \u001b[1;31m"+ "red" + "\u001b[0m world!");
   }
+  
+  private void printReferenzFeld(int zeile)
+  {
+    System.out.printf("%02d  ", zeile);
+    for (int spalte = 0; spalte < BREITE; spalte++)
+    {
+
+      switch (feldTyp[zeile][spalte])
+      {
+        case 'G':
+        {
+          System.out.print("\033[36m" + feldTyp[zeile][spalte]);
+          break;
+        }
+        case 'E':
+        {
+          System.out.print("\033[1;31m" + feldTyp[zeile][spalte]);
+          break;
+        }
+        case 'P':
+        {
+          System.out.print("\033[1;34m" + feldTyp[zeile][spalte]);
+          break;
+        }
+        default:
+        {
+          System.out.print(feldTyp[zeile][spalte]);
+          break;
+        }
+      }
+      System.out.print("\033[0m" + " ");
+
+    }
+  }
+  
+  private void printPlanetZufallszahlen(int zeile)
+  {
+    System.out.print("   ");
+
+    System.out.printf("%02d  ", zeile);
+
+    // Ausgabe von felder
+    for (int spalte = 0; spalte < BREITE; spalte++)
+    {
+      if (felder[zeile][spalte] != null)
+      {
+        switch (felder[zeile][spalte].getTyp())
+        {
+          case PLANET:
+          {
+            // System.out.print("P ");
+            System.out.printf("\033[1;31m%x \033[0m", ((Planet) felder[zeile][spalte]).getErtragsnummer());
+            break;
+          }
+          case WURMLOCH:
+          {
+            //System.out.print("W ");
+            printGebaeude('W', ((Gebaeude)felder[zeile][spalte]).getSpielerId());
+            break;
+          }
+          case METROPOLE:
+          {
+            //System.out.print("M ");
+            printGebaeude('M', ((Gebaeude)felder[zeile][spalte]).getSpielerId());
+            break;
+          }
+          case KOLONIE:
+          {
+            //System.out.print("K ");
+            printGebaeude('K', ((Gebaeude)felder[zeile][spalte]).getSpielerId());
+            break;
+          }
+          default:
+          {
+            System.out.print(". ");
+            break;
+          }
+
+        }
+      }
+      else
+      {
+        System.out.print(". ");
+      }
+    }
+  }
+  
+  private void printGebaeude(char gebäudeKürzel, int spielerId)
+  {
+    String farbe;
+    switch(spielerId)
+    {
+      case 0:
+      {
+        farbe = "\033[1;34m";
+        break;
+      }
+      case 1:
+      {
+        farbe = "\033[2;33m";
+        break;
+      }
+      case 2:
+      {
+        farbe = "\033[2;32m";
+        break;
+      }
+      default:
+      {
+        farbe = "\033[2;31m";
+        break;
+      }
+    }
+    
+    System.out.print(farbe + gebäudeKürzel + " " + "\u001b[0m");
+  }
+  
+  private void printPlanetTypen(int zeile)
+  {
+    System.out.print("   ");
+
+    System.out.printf("%02d  ", zeile);
+
+    // Ausgabe der PlanetenRohstoffTypen
+    for (int spalte = 0; spalte < BREITE; spalte++)
+    {
+      if (felder[zeile][spalte] != null)
+      {
+        switch (felder[zeile][spalte].getTyp())
+        {
+          case PLANET:
+          {
+            // System.out.print("P ");
+            System.out.printf("\033[1;31m%c \033[0m",
+                ((Planet) felder[zeile][spalte]).getRohstoff().getRohstoff().charAt(1));
+            break;
+          }
+          case WURMLOCH:
+          {
+            System.out.print("W ");
+            break;
+          }
+          case METROPOLE:
+          {
+            System.out.print("M ");
+            break;
+          }
+          case KOLONIE:
+          {
+            System.out.print("K ");
+            break;
+          }
+          default:
+          {
+            System.out.print(". ");
+            break;
+          }
+        }
+      }
+      else
+      {
+        System.out.print(". ");
+      }
+    }
+  }
 
   public static int getBreite()
   {
@@ -317,6 +363,16 @@ public class Spielfeld
   public static int getHoehe()
   {
     return HOEHE;
+  }
+  
+  public boolean kannGebaeudeGebautWerden(Koordinate k, char gebaeudeTyp)
+  {
+    return feldTyp[k.getPosX()][k.getPosY()] == gebaeudeTyp && felder[k.getPosX()][k.getPosY()] == null;
+  }
+  
+  public boolean kannKolonieAufgewertetWerden(Koordinate k, Spieler s)
+  {
+    return feldTyp[k.getPosX()][k.getPosY()] == 'G' && felder[k.getPosX()][k.getPosY()] != null && ((Gebaeude)felder[k.getPosX()][k.getPosY()]).getSpielerId() == s.getId();
   }
 
   public void setzeWurmloch(Wurmloch w)
