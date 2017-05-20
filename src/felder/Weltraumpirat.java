@@ -1,5 +1,6 @@
 package felder;
-import Spielfeld;
+
+import main.Spielfeld;
 
 public class Weltraumpirat
 {

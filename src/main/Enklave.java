@@ -1,3 +1,4 @@
+package main;
 import felder.RohstoffTyp;
 
 public class Enklave 
