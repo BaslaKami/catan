@@ -1,7 +1,5 @@
 package main;
 
-import java.util.Scanner;
-
 import felder.Koordinate;
 import felder.Weltraumpirat;
 import karten.Karte;
@@ -13,7 +11,7 @@ public class Spiel
   private SpielerListe spielerListe;
   private Spielfeld spielfeld;
   private Bank bank;
-  private Scanner scanner;
+  //private Scanner scanner;
   private Kartenstack kartenstack;
   private Weltraumpirat weltraumpirat;
   private Benutzereingabe benutzereingabe;
@@ -52,7 +50,7 @@ public class Spiel
 
     /** b. Spieler erzeugen */
     spielerListe = new SpielerListe();
-    scanner = new Scanner(System.in);
+    //scanner = new Scanner(System.in);
     erstelleSpieler();
 
     /** c. Kartenstack erzeugen */
@@ -233,29 +231,10 @@ public class Spiel
 
     for (int i = 0; i < anzahl; i++)
     {
-      try
-      {
-        System.out.println("Spieler" + " " + i + " " + "Name eingeben");
-
-        if (scanner.hasNext())
-        {
-          name = scanner.next();
-
-          if (!name.isEmpty())
-          {
-            farbe = f[i];
-
-            Spieler s = new Spieler(farbe, name, spielfeld, this);
-            spielerListe.hinzufuegen(s);
-          }
-
-        }
-
-      }
-      catch (Exception e)
-      {
-        System.out.println(e.toString());
-      }
+      name = benutzereingabe.getString("Spieler" + " " + i + " " + "Name eingeben");
+      farbe = f[i];
+      Spieler s = new Spieler(farbe, name, spielfeld, this);
+      spielerListe.hinzufuegen(s);
     }
   }
 
@@ -264,9 +243,7 @@ public class Spiel
     int anzahl = 0;
     do
     {
-      System.out.println("Geben Sie die Spieleranzahl(3-4) ein:");
-      anzahl = scanner.nextInt();
-
+      anzahl = benutzereingabe.getInteger("Geben Sie die Spieleranzahl(3-4) ein:");
     } while (anzahl != 3 && anzahl != 4);
 
     return anzahl;
@@ -276,11 +253,6 @@ public class Spiel
   public SpielerListe getSpielerListe()
   {
     return this.spielerListe;
-  }
-
-  public void finalize()
-  {
-    scanner.close();
   }
 
   public Weltraumpirat getWeltraumpirat()

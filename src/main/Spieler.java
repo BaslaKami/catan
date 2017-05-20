@@ -424,9 +424,4 @@ public class Spieler
   {
     setAnzahlRitter(getAnzahlRitter()+1);
   }
-
-  public static int getAnzahlMetropolen()
-  {
-    return ANZAHL_METROPOLEN;
-  }
 }

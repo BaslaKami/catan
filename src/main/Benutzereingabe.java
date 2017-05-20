@@ -13,8 +13,10 @@ public class Benutzereingabe
     scanner = new Scanner(System.in);
   }
   
-  private String getString()
+  public String getString(String s)
   {
+    System.out.println(s);
+    
     String eingabeString = null;
     
     try
@@ -63,5 +65,10 @@ public class Benutzereingabe
     int spalte = getInteger("Geben Sie die Spalte an: ");
     
     return new Koordinate(zeile,spalte);
+  }
+  
+  public void finalize()
+  {
+    scanner.close();
   }
 }
