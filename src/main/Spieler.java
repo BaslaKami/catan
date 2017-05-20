@@ -16,12 +16,12 @@ import karten.Karte;
  * Created by Dustin on 17.05.2017.
  */
 
-// TODO: Liste mit den Geb�uden des Spielers einf�gen
+// TODO: Liste mit den Gebäuden des Spielers einfügen
 /*
  * Jeder Spieler besitzt
  * 5 Siedlungen
- * 4 St�dte
- * 15 Stra�en
+ * 4 Städte
+ * 15 Straßen
  */
 public class Spieler
 {
@@ -31,9 +31,9 @@ public class Spieler
   private Farbe farbe;
   private String name;
   private Rohstoffe rohstoffe;
-  private List<Wurmloch> wurmlochListe; // TODO Wird die Liste noch ben�tigt?
-  private List<Metropole> metropolenListe; // TODO Wird die Liste noch ben�tigt?
-  private List<Kolonie> kolonienListe; // TODO Wird die Liste noch ben�tigt?
+  private List<Wurmloch> wurmlochListe; // TODO Wird die Liste noch benötigt?
+  private List<Metropole> metropolenListe; // TODO Wird die Liste noch benötigt?
+  private List<Kolonie> kolonienListe; // TODO Wird die Liste noch benötigt?
   private Spielfeld spielfeld;
   private Spiel spiel;
   private List<Karte> karten;
@@ -62,7 +62,7 @@ public class Spieler
   }
 
   /*
-   * F�r die init des Spiels, wenn man am anfang zwei Wurml�cher setzen darf und f�r die Ereigniskarte Stra�enbau
+   * Für die init des Spiels, wenn man am anfang zwei Wurmlöcher setzen darf und für die Ereigniskarte Straßenbau
    */
   public boolean baueWurmlochKostenlos(Koordinate k)
   {
@@ -81,7 +81,7 @@ public class Spieler
   }
 
   /*
-   * F�r die init des Spiels, wenn man am anfang zwei Wurml�cher setzen darf
+   * Für die init des Spiels, wenn man am anfang zwei Wurmlöcher setzen darf
    */
   public boolean baueKolonieKostenlos(Koordinate k)
   {
@@ -131,7 +131,7 @@ public class Spieler
 
   public void baueMetropole(Koordinate k)
   {
-    // TODO: Es muss noch getestet werden ob das Kolonie-Objekt aus der Liste vom Spieler gel�scht wird.
+    // TODO: Es muss noch getestet werden ob das Kolonie-Objekt aus der Liste vom Spieler gelöscht wird.
     if (rohstoffe.ausreichendRohstoffeVorhanden(Wurmloch.getKosten()))
     {
       if (spielfeld.kannKolonieAufgewertetWerden(k, this))
@@ -307,7 +307,7 @@ public class Spieler
   public void setSiegpunkte(int siegpunkte)
   {
     this.siegpunkte = siegpunkte;
-    // TODO �berpr�fen ob gewonnen;
+    // TODO überprüfen ob gewonnen;
   }
 
   public int getId()

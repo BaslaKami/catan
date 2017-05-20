@@ -16,7 +16,7 @@ public class Ritter extends Karte
   @Override
   public void ausspielen(Spieler s)
   {
-    // TODO: Eingabeaufforderung für die Koordinaten
+    // TODO: Eingabeaufforderung fÃ¼r die Koordinaten
     s.bewegeWeltraumpirat(new Koordinate(1,6), s.getSpiel().getWeltraumpirat(), s.getSpiel().getSpielerListe());
   }
 }

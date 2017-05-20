@@ -31,14 +31,14 @@ public class Spiel
    * c. Kartenstack erzeugen
    * d. Weltraumpiraten erzeugen
    * e. Bank erzeugen
-   * 3. Spieler 1 platziert zwei Stra�en und zwei Siedlungen
-   * 4. Spieler 2 platziert zwei Stra�en und zwei Siedlungen
-   * 5. Spieler 3 platziert zwei Stra�en und zwei Siedlungen
-   * 6. Spieler 4 platziert zwei Stra�en und zwei Siedlungen (wenn existent)
-   * 7. Spieler 1 bekommt die Rohstoffe f�r eine Siedlung ausgezahlt
-   * 8. Spieler 2 bekommt die Rohstoffe f�r eine Siedlung ausgezahlt
-   * 9. Spieler 3 bekommt die Rohstoffe f�r eine Siedlung ausgezahlt
-   * 10. Spieler 4 bekommt die Rohstoffe f�r eine Siedlung ausgezahlt (wenn existent)
+   * 3. Spieler 1 platziert zwei Straßen und zwei Siedlungen
+   * 4. Spieler 2 platziert zwei Straßen und zwei Siedlungen
+   * 5. Spieler 3 platziert zwei Straßen und zwei Siedlungen
+   * 6. Spieler 4 platziert zwei Straßen und zwei Siedlungen (wenn existent)
+   * 7. Spieler 1 bekommt die Rohstoffe für eine Siedlung ausgezahlt
+   * 8. Spieler 2 bekommt die Rohstoffe für eine Siedlung ausgezahlt
+   * 9. Spieler 3 bekommt die Rohstoffe für eine Siedlung ausgezahlt
+   * 10. Spieler 4 bekommt die Rohstoffe für eine Siedlung ausgezahlt (wenn existent)
    *
    */
   public Spiel()
@@ -104,21 +104,21 @@ public class Spiel
 
   public void spielerBauenErsteGebaeudeDEBUG()
   {
-    /** 3. Spieler 1 platziert zwei Stra�en und zwei Siedlungen */
+    /** 3. Spieler 1 platziert zwei Straßen und zwei Siedlungen */
     spielerListe.getSpieler(0).baueWurmlochKostenlos(new Koordinate(4, 3));
     spielerListe.getSpieler(0).baueWurmlochKostenlos(new Koordinate(4, 5));
 
     spielerListe.getSpieler(0).baueKolonieKostenlos(new Koordinate(4, 2));
     spielerListe.getSpieler(0).baueKolonieKostenlos(new Koordinate(4, 6));
 
-    /** 4. Spieler 2 platziert zwei Stra�en und zwei Siedlungen */
+    /** 4. Spieler 2 platziert zwei Straßen und zwei Siedlungen */
     spielerListe.getSpieler(1).baueWurmlochKostenlos(new Koordinate(8, 13));
     spielerListe.getSpieler(1).baueWurmlochKostenlos(new Koordinate(9, 12));
 
     spielerListe.getSpieler(1).baueKolonieKostenlos(new Koordinate(8, 12));
     spielerListe.getSpieler(1).baueKolonieKostenlos(new Koordinate(8, 14));
 
-    /** 5. Spieler 3 platziert zwei Stra�en und zwei Siedlungen */
+    /** 5. Spieler 3 platziert zwei Straßen und zwei Siedlungen */
     spielerListe.getSpieler(2).baueWurmlochKostenlos(new Koordinate(4, 19));
     spielerListe.getSpieler(2).baueWurmlochKostenlos(new Koordinate(5, 20));
 
@@ -126,44 +126,44 @@ public class Spiel
     spielerListe.getSpieler(2).baueKolonieKostenlos(new Koordinate(4, 20));
     spielfeld.print();
 
-    /** 7. Spieler 1 bekommt die Rohstoffe f�r eine Siedlung ausgezahlt */
+    /** 7. Spieler 1 bekommt die Rohstoffe für eine Siedlung ausgezahlt */
     spielerListe.getSpieler(0).getAlleRohstoffevonKolonie(new Koordinate(4, 2));
 
-    /** 8. Spieler 1 bekommt die Rohstoffe f�r eine Siedlung ausgezahlt */
+    /** 8. Spieler 1 bekommt die Rohstoffe für eine Siedlung ausgezahlt */
     spielerListe.getSpieler(1).getAlleRohstoffevonKolonie(new Koordinate(8, 14));
 
-    /** 9. Spieler 1 bekommt die Rohstoffe f�r eine Siedlung ausgezahlt */
+    /** 9. Spieler 1 bekommt die Rohstoffe für eine Siedlung ausgezahlt */
     spielerListe.getSpieler(2).getAlleRohstoffevonKolonie(new Koordinate(4, 20));
   }
 
   /*
-   * 1. Spieler w�rfelt Rohstoffertr�ge aus
-   * a. Die gew�rfelte Zahl legt fest welches Feld Rohstoffe gibt. Jedes Dorf an diesem Feld bekommt einen Rohstoff
-   * dieser Art, jede Stadt zwei. Es gibt keine Rohstoffe von dem Feld auf dem der R�uber steht.
-   * b. Falls die 7 Gew�rfelt wird
-   * c. gibt jeder Spieler mit mehr als 7 Rohstoffen die H�lfte (abgerundet) ab.
-   * d. Spieler stellt den R�uber um (aktuelle Feld ist nicht zul�ssig)
-   * e. Der Spieler bekommt von den Spielern die auf dem neuen Feld des R�ubers eine Siedlung oder Stadt haben eine
-   * zuf�llige Rohstoffkarte
+   * 1. Spieler würfelt Rohstofferträge aus
+   * a. Die gewürfelte Zahl legt fest welches Feld Rohstoffe gibt. Jedes Dorf an diesem Feld bekommt einen Rohstoff
+   * dieser Art, jede Stadt zwei. Es gibt keine Rohstoffe von dem Feld auf dem der Räuber steht.
+   * b. Falls die 7 Gewürfelt wird
+   * c. gibt jeder Spieler mit mehr als 7 Rohstoffen die Hälfte (abgerundet) ab.
+   * d. Spieler stellt den Räuber um (aktuelle Feld ist nicht zulässig)
+   * e. Der Spieler bekommt von den Spielern die auf dem neuen Feld des Räubers eine Siedlung oder Stadt haben eine
+   * zufällige Rohstoffkarte
    * 2. Spieler handelt
    * a. Spieler darf beliebig oft handeln
-   * 3. Geb�ude bauen, Entwicklungskarten kaufen
+   * 3. Gebäude bauen, Entwicklungskarten kaufen
    * a. Entwicklungskarte kann zu jeder Zeit des Zuges (1-3) ausgespielt werden
    * b. Es kann pro Zug immer nur genau eine Entwicklungskarte ausgespielt werden
-   * c. Die Entwicklungskarte welche ausgespielt wird darf nicht w�hrend des aktuellen Zuges gekauft worden sein
-   * 4. Zug beenden/n�chster Spieler beginnt mit Punkt 1
+   * c. Die Entwicklungskarte welche ausgespielt wird darf nicht während des aktuellen Zuges gekauft worden sein
+   * 4. Zug beenden/nächster Spieler beginnt mit Punkt 1
    */
   private void zug(Spieler s)
   {
     /*
-     * 1. Spieler w�rfelt Rohstoffertr�ge aus
-     * a. Die gew�rfelte Zahl legt fest welches Feld Rohstoffe gibt. Jedes Dorf an diesem Feld bekommt einen Rohstoff
-     * dieser Art, jede Stadt zwei. Es gibt keine Rohstoffe von dem Feld auf dem der R�uber steht.
-     * b. Falls die 7 Gew�rfelt wird
-     * c. gibt jeder Spieler mit mehr als 7 Rohstoffen die H�lfte (abgerundet) ab.
-     * d. Spieler stellt den R�uber um (aktuelle Feld ist nicht zul�ssig)
-     * e. Der Spieler bekommt von den Spielern die auf dem neuen Feld des R�ubers eine Siedlung oder Stadt haben eine
-     * zuf�llige Rohstoffkarte
+     * 1. Spieler würfelt Rohstofferträge aus
+     * a. Die gewürfelte Zahl legt fest welches Feld Rohstoffe gibt. Jedes Dorf an diesem Feld bekommt einen Rohstoff
+     * dieser Art, jede Stadt zwei. Es gibt keine Rohstoffe von dem Feld auf dem der Räuber steht.
+     * b. Falls die 7 Gewürfelt wird
+     * c. gibt jeder Spieler mit mehr als 7 Rohstoffen die Hälfte (abgerundet) ab.
+     * d. Spieler stellt den Räuber um (aktuelle Feld ist nicht zulässig)
+     * e. Der Spieler bekommt von den Spielern die auf dem neuen Feld des Räubers eine Siedlung oder Stadt haben eine
+     * zufällige Rohstoffkarte
      */
     s.wuerfeln();
     printRohstoffeDerSpieler();
@@ -174,10 +174,10 @@ public class Spiel
     handeln(s);
 
     /*
-     * 3. Geb�ude bauen, Entwicklungskarten kaufen
+     * 3. Gebäude bauen, Entwicklungskarten kaufen
      * a. Entwicklungskarte kann zu jeder Zeit des Zuges (1-3) ausgespielt werden
      * b. Es kann pro Zug immer nur genau eine Entwicklungskarte ausgespielt werden
-     * c. Die Entwicklungskarte welche ausgespielt wird darf nicht w�hrend des aktuellen Zuges gekauft worden sein
+     * c. Die Entwicklungskarte welche ausgespielt wird darf nicht während des aktuellen Zuges gekauft worden sein
      */
 
     s.baueGebaeude();
@@ -188,9 +188,9 @@ public class Spiel
     // TODO: Handeln
   }
 
-  // private void w�rfeln(Spieler s)
+  // private void wuerfeln(Spieler s)
   // {
-  // int zahl = s.w�rfeln();
+  // int zahl = s.wuerfeln();
   // System.out.println("Wurf: " + zahl);
   //
   // if (zahl == 7)

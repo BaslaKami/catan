@@ -16,7 +16,7 @@ public class Planet extends Feld
   {
     super(FeldTyp.PLANET);
     setRohstoff(rohstoffTyp);
-    /* TODO: gleiche Ertragsnummern dürfen nicht angrenzen. Es gibt die
+    /* TODO: gleiche Ertragsnummern dÃ¼rfen nicht angrenzen. Es gibt die
      folgenden Ertragsnummern 5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5,
      6, 3 und 11 */
     Random zufallsgenerator = new Random();

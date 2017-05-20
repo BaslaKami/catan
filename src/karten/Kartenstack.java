@@ -7,7 +7,7 @@ public class Kartenstack
 {
   List<Karte> kartenstack;
   
-  /** 25 Entwicklungskarten (14 � Ritter, 6 � Fortschritt und 5 � Siegpunkte) */
+  /** 25 Entwicklungskarten (14 x Ritter, 6 x Fortschritt und 5 x Siegpunkte) */
   public Kartenstack()
   {
     kartenstack = new LinkedList<Karte>();
@@ -18,7 +18,7 @@ public class Kartenstack
       kartenstack.add(new Ritter());
     }
     
-    //Fortschrittskarten(Stra�enbau, Monopol, Erfindung)  generieren
+    //Fortschrittskarten(Straßenbau, Monopol, Erfindung)  generieren
     for(int i = 0; i < 2; i++)
     {
       kartenstack.add(new Strassenbau());

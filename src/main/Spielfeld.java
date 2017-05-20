@@ -82,7 +82,7 @@ public class Spielfeld
       }
     }
 
-    // Stra�en und Geb�ude Zeilen einf�gen
+    // Straßen und Gebäude Zeilen einfügen
     for (int zeile = 0; zeile < HOEHE; zeile += 2)
     {
       for (int spalte = 0; spalte < BREITE - 1; spalte += 2)
@@ -93,7 +93,7 @@ public class Spielfeld
       feldTyp[zeile][feldTyp[zeile].length - 1] = 'G';
     }
 
-    // Stra�en und Planeten einf�gen
+    // Straßen und Planeten einfügen
     for (int zeile = 1; zeile < HOEHE; zeile += 4)
     {
       // ungerade Planetenzeilen
@@ -112,7 +112,7 @@ public class Spielfeld
       feldTyp[zeile][feldTyp[zeile].length - 1] = 'S';
     }
 
-    // Eintr�ge l�schen
+    // Einträge löschen
     for (int zeile = 0; zeile < HOEHE; zeile += 2)
     {
       for (int spalte = 0; spalte < 4 - zeile; spalte++)
@@ -143,7 +143,7 @@ public class Spielfeld
 
   private void erstelleEnklaven()
   {
-    // TODO: Enklaven m�ssen so verteilt werden das 9 Planeten Anschluss dazu
+    // TODO: Enklaven müssen so verteilt werden das 9 Planeten Anschluss dazu
     // haben
     feldTyp[0][4] = 'E';
     feldTyp[0][6] = 'E';
@@ -396,37 +396,37 @@ public class Spielfeld
   {
     Rohstoffe rohstoffe = new Rohstoffe();
 
-    // direkt �ber dem Geb�ude
+    // direkt über dem Gebäude
     if (k.getPosX() > 0 && feldTyp[k.getPosX() - 1][k.getPosY()] == 'P')
     {
       rohstoffe.addRohstoffe(((Planet) felder[k.getPosX() - 1][k.getPosY()]).getRohstoff(), 1);
     }
 
-    // unter dem Geb�ude rechts
+    // unter dem Gebäude rechts
     if (k.getPosX() + 1 < HOEHE && k.getPosY() + 2 < BREITE && feldTyp[k.getPosX() - 1][k.getPosY() + 2] == 'P')
     {
       rohstoffe.addRohstoffe(((Planet) felder[k.getPosX() - 1][k.getPosY() + 2]).getRohstoff(), 1);
     }
 
-    // unter dem Geb�ude links
+    // unter dem Gebäude links
     if (k.getPosX() + 1 < HOEHE && k.getPosY() > 1 && feldTyp[k.getPosX() - 1][k.getPosY() - 2] == 'P')
     {
       rohstoffe.addRohstoffe(((Planet) felder[k.getPosX() - 1][k.getPosY() - 2]).getRohstoff(), 1);
     }
 
-    // direkt unter dem Geb�ude
+    // direkt unter dem Gebäude
     if (k.getPosX() < HOEHE - 1 && feldTyp[k.getPosX() + 1][k.getPosY()] == 'P')
     {
       rohstoffe.addRohstoffe(((Planet) felder[k.getPosX() + 1][k.getPosY()]).getRohstoff(), 1);
     }
 
-    // �ber dem Geb�ude rechts
+    // über dem Gebäude rechts
     if (k.getPosX() > 0 && k.getPosY() + 2 < BREITE && feldTyp[k.getPosX() + 1][k.getPosY() + 2] == 'P')
     {
       rohstoffe.addRohstoffe(((Planet) felder[k.getPosX() + 1][k.getPosY() + 2]).getRohstoff(), 1);
     }
 
-    // �ber dem Geb�ude links
+    // über dem Gebäude links
     if (k.getPosX() > 0 && k.getPosY() > 1 && feldTyp[k.getPosX() + 1][k.getPosY() - 2] == 'P')
     {
       rohstoffe.addRohstoffe(((Planet) felder[k.getPosX() + 1][k.getPosY() - 2]).getRohstoff(), 1);
@@ -439,9 +439,9 @@ public class Spielfeld
   {
     Rohstoffe rohstoffe = new Rohstoffe();
 
-    // TODO: Mit getAngrenzendeGebaeude(Koordinate k) Funktion �bersichtlicher gestalten
+    // TODO: Mit getAngrenzendeGebaeude(Koordinate k) Funktion übersichtlicher gestalten
 
-    // Finde Planten mit der gew�rfelten Zahl
+    // Finde Planten mit der gewürfelten Zahl
     for (int zeile = 0; zeile < HOEHE; zeile++)
     {
       for (int spalte = 0; spalte < BREITE; spalte++)
@@ -449,9 +449,9 @@ public class Spielfeld
         if (feldTyp[zeile][spalte] == 'P' && ((Planet) felder[zeile][spalte]).getErtragsnummer() == zahl
             && ((Planet) felder[zeile][spalte]).getWeltraumpirat() == null)
         {
-          // Planet hat die gew�rfelte Nummer
+          // Planet hat die gewürfelte Nummer
 
-          // Geb�ude direkt �ber dem Planeten
+          // Gebäude direkt über dem Planeten
           if (zeile > 0 && felder[zeile - 1][spalte] != null
               && ((Gebaeude) felder[zeile - 1][spalte]).getSpielerId() == spieler.getId())
           {
@@ -466,7 +466,7 @@ public class Spielfeld
             }
           }
 
-          // Geb�ude direkt unter dem Planeten
+          // Gebäude direkt unter dem Planeten
           if (zeile < HOEHE - 1 && felder[zeile + 1][spalte] != null
               && ((Gebaeude) felder[zeile + 1][spalte]).getSpielerId() == spieler.getId())
           {
@@ -481,7 +481,7 @@ public class Spielfeld
             }
           }
 
-          // Geb�ude links �ber dem Planeten
+          // Gebäude links über dem Planeten
           if (zeile > 0 && spalte > 1 && felder[zeile - 1][spalte - 2] != null
               && ((Gebaeude) felder[zeile - 1][spalte - 2]).getSpielerId() == spieler.getId())
           {
@@ -496,7 +496,7 @@ public class Spielfeld
             }
           }
 
-          // Geb�ude rechts �ber dem Planeten
+          // Gebäude rechts über dem Planeten
           if (zeile > 0 && spalte < BREITE - 2 && felder[zeile - 1][spalte + 2] != null
               && ((Gebaeude) felder[zeile - 1][spalte + 2]).getSpielerId() == spieler.getId())
           {
@@ -511,7 +511,7 @@ public class Spielfeld
             }
           }
 
-          // Geb�ude links unter dem Planeten
+          // Gebäude links unter dem Planeten
           if (zeile < HOEHE - 1 && spalte > 1 && felder[zeile + 1][spalte - 2] != null
               && ((Gebaeude) felder[zeile + 1][spalte - 2]).getSpielerId() == spieler.getId())
           {
@@ -526,7 +526,7 @@ public class Spielfeld
             }
           }
 
-          // Geb�ude rechts unter dem Planeten
+          // Gebäude rechts unter dem Planeten
           if (zeile < HOEHE - 1 && spalte < BREITE - 2 && felder[zeile + 1][spalte + 2] != null
               && ((Gebaeude) felder[zeile + 1][spalte + 2]).getSpielerId() == spieler.getId())
           {
@@ -562,37 +562,37 @@ public class Spielfeld
   {
     List<Gebaeude> gebaeudeListe = new LinkedList<Gebaeude>();
 
-    // Geb�ude direkt �ber dem Planeten
+    // Gebäude direkt über dem Planeten
     if (k.getPosX() > 0 && felder[k.getPosX() - 1][k.getPosY()] != null)
     {
       gebaeudeListe.add((Gebaeude) felder[k.getPosX() - 1][k.getPosY()]);
     }
 
-    // Geb�ude direkt unter dem Planeten
+    // Gebäude direkt unter dem Planeten
     if (k.getPosX() < HOEHE - 1 && felder[k.getPosX() + 1][k.getPosY()] != null)
     {
       gebaeudeListe.add((Gebaeude) felder[k.getPosX() + 1][k.getPosY()]);
     }
 
-    // Geb�ude links �ber dem Planeten
+    // Gebäude links über dem Planeten
     if (k.getPosX() > 0 && k.getPosY() > 1 && felder[k.getPosX() - 1][k.getPosY() - 2] != null)
     {
       gebaeudeListe.add((Gebaeude) felder[k.getPosX() - 1][k.getPosY() - 2]);
     }
 
-    // Geb�ude rechts �ber dem Planeten
+    // Gebäude rechts über dem Planeten
     if (k.getPosX() > 0 && k.getPosY() < BREITE - 2 && felder[k.getPosX() - 1][k.getPosY() + 2] != null)
     {
       gebaeudeListe.add((Gebaeude) felder[k.getPosX() - 1][k.getPosY() + 2]);
     }
 
-    // Geb�ude links unter dem Planeten
+    // Gebäude links unter dem Planeten
     if (k.getPosX() < HOEHE - 1 && k.getPosY() > 1 && felder[k.getPosX() + 1][k.getPosY() - 2] != null)
     {
       gebaeudeListe.add((Gebaeude) felder[k.getPosX() + 1][k.getPosY() - 2]);
     }
 
-    // Geb�ude rechts unter dem Planeten
+    // Gebäude rechts unter dem Planeten
     if (k.getPosX() < HOEHE - 1 && k.getPosY() < BREITE - 2 && felder[k.getPosX() + 1][k.getPosY() + 2] != null)
     {
       gebaeudeListe.add((Gebaeude) felder[k.getPosX() + 1][k.getPosY() + 2]);
