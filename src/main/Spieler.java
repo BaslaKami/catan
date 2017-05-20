@@ -1,6 +1,5 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -12,7 +11,6 @@ import felder.Metropole;
 import felder.Weltraumpirat;
 import felder.Wurmloch;
 import karten.Karte;
-import sun.security.provider.ConfigFile;
 
 /**
  * Created by Dustin on 17.05.2017.
