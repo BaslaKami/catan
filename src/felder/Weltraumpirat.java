@@ -1,7 +1,5 @@
 package felder;
 
-import main.Spielfeld;
-
 public class Weltraumpirat
 {
   Koordinate position;

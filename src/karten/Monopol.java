@@ -14,8 +14,9 @@ public class Monopol extends Karte
   @Override
   public void ausspielen(Spieler s)
   {
-    // TODO Benutzereingabe zum Festlegen des gewollten Rohstofftyps
-    RohstoffTyp r = RohstoffTyp.ENERGIE;
+    RohstoffTyp []typen = RohstoffTyp.values();
+    int benutzereingabe = s.getSpiel().getBenutzereingabe().getInteger("Auf welchen Rohstoff soll Monopol angemeldet werden(0-4)");
+    RohstoffTyp r = typen[benutzereingabe];
     
     for(int i = 0; i < s.getSpiel().getSpielerListe().getSize(); i++)
     {

@@ -8,6 +8,7 @@ import felder.Gebaeude;
 import felder.Kolonie;
 import felder.Koordinate;
 import felder.Metropole;
+import felder.Spielfeld;
 import felder.Weltraumpirat;
 import felder.Wurmloch;
 import karten.Karte;
@@ -288,9 +289,10 @@ public class Spieler
   private void printKarten()
   {
     System.out.println("Karten");
+    int i = 0;
     for (Karte k : karten)
     {
-      System.out.println(k.getKartenTyp());
+      System.out.println(i++ + " " + k.getKartenTyp());
     }
     System.out.println();
   }

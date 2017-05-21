@@ -1,6 +1,7 @@
 package main;
 
 import felder.Koordinate;
+import felder.Spielfeld;
 import felder.Weltraumpirat;
 import karten.Karte;
 import karten.Kartenstack;

@@ -14,9 +14,8 @@ public class Strassenbau extends Karte
   @Override
   public void ausspielen(Spieler s)
   {
-    //TODO zwei eingabeaufforderungen fuer die Koordinaten
-    s.baueWurmlochKostenlos(new Koordinate(8,3));
-    s.baueWurmlochKostenlos(new Koordinate(4,7));
+    s.baueWurmlochKostenlos(s.getSpiel().getBenutzereingabe().getKoordinate("Gebe die Koordinaten für das erste Wurmloch an"));
+    s.baueWurmlochKostenlos(s.getSpiel().getBenutzereingabe().getKoordinate("Gebe die Koordinaten für das zweite Wurmloch an"));
   }
 
 }

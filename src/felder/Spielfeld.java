@@ -1,19 +1,13 @@
-package main;
+package felder;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import felder.Feld;
-import felder.FeldTyp;
-import felder.Gebaeude;
-import felder.Kolonie;
-import felder.Koordinate;
-import felder.Metropole;
-import felder.Planet;
-import felder.Weltraumpirat;
-import felder.Wurmloch;
+import main.RohstoffTyp;
+import main.Rohstoffe;
+import main.Spieler;
 
 /**
  * Created by Dustin on 17.05.2017.

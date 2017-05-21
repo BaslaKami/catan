@@ -11,30 +11,6 @@ public class Bank
     this.benutzereingabe = benutzereingabe;
   }
 
-//  public void handelMitEnklave(Spieler s, RohstoffTyp verkauf, RohstoffTyp einkauf, HandelTyp handelTyp)
-//  {
-//    switch (handelTyp)
-//    {
-//      case DREI_ZU_EINS:
-//      {
-//        s.getRohstoffe().subRohstoffe(verkauf, 3);
-//        break;
-//      }
-//      case SPEZIAL:
-//      {
-//        s.getRohstoffe().subRohstoffe(verkauf, 2);
-//        break;
-//      }
-//      case VIER_ZU_EINS:
-//      default:
-//      {
-//        s.getRohstoffe().subRohstoffe(verkauf, 4);
-//        break;
-//      }
-//    }
-//    s.getRohstoffe().addRohstoffe(einkauf, 1);
-//  }
-
   public void handelMitSpieler (Spieler verkaeufer, List<Spieler> spieler)
   {
     int eingabe, anzahlVerkauf, anzahlEinkauf;
