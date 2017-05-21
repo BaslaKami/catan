@@ -67,10 +67,37 @@ public class Spieler
     //setRohstoffe(new Rohstoffe());
     setRohstoffe(new Rohstoffe(30, 30, 30, 30, 30));
   }
-
+  
   public void zug()
   {
+    alleKartenkoennenGespieltWerden();
+    /*
+     * 1. Spieler wuerfelt Rohstoffertraege aus
+     * a. Die gewuerfelte Zahl legt fest welches Feld Rohstoffe gibt. Jedes Dorf an diesem Feld bekommt einen Rohstoff
+     * dieser Art, jede Stadt zwei. Es gibt keine Rohstoffe von dem Feld auf dem der Raeuber steht.
+     * b. Falls die 7 Gewuerfelt wird
+     * c. gibt jeder Spieler mit mehr als 7 Rohstoffen die Haelfte (abgerundet) ab.
+     * d. Spieler stellt den Raeuber um (aktuelle Feld ist nicht zulaessig)
+     * e. Der Spieler bekommt von den Spielern die auf dem neuen Feld des Raeubers eine Siedlung oder Stadt haben eine
+     * zufaellige Rohstoffkarte
+     */
     wuerfeln();
+    
+    spiel.printRohstoffeDerSpieler();
+    /*
+     * 2. Spieler handelt
+     * a. Spieler darf beliebig oft handeln
+     */
+    starteHandel();
+
+    /*
+     * 3. Gebaeude bauen, Entwicklungskarten kaufen
+     * a. Entwicklungskarte kann zu jeder Zeit des Zuges (1-3) ausgespielt werden
+     * b. Es kann pro Zug immer nur genau eine Entwicklungskarte ausgespielt werden
+     * c. Die Entwicklungskarte welche ausgespielt wird darf nicht waehrend des aktuellen Zuges gekauft worden sein
+     */
+
+    baueGebaeude();
   }
 
   /*

@@ -13,7 +13,6 @@ public class Spiel
   private SpielerListe spielerListe;
   private Spielfeld spielfeld;
   private Bank bank;
-  //private Scanner scanner;
   private Kartenstack kartenstack;
   private Weltraumpirat weltraumpirat;
   private Benutzereingabe benutzereingabe;
@@ -71,10 +70,7 @@ public class Spiel
 
     printRohstoffeDerSpieler();
 
-    
-
     rundeStarten();
-    //zug(spielerListe.getSpieler(0));
   }
 
   private void rundeStarten()
@@ -84,7 +80,7 @@ public class Spiel
       for (int i = 0; i < spielerListe.getSize(); i++)
       {
         System.out.println("Spieler " + i + " ist am Zug\n");
-        zug(spielerListe.getSpieler(i));
+        spielerListe.getSpieler(i).zug();
         if(isSpielZuEnde() == true)
         {
           break;
@@ -160,36 +156,7 @@ public class Spiel
    * c. Die Entwicklungskarte welche ausgespielt wird darf nicht waehrend des aktuellen Zuges gekauft worden sein
    * 4. Zug beenden/naechster Spieler beginnt mit Punkt 1
    */
-  private void zug(Spieler s)
-  {
-    /*
-     * 1. Spieler wuerfelt Rohstoffertraege aus
-     * a. Die gewuerfelte Zahl legt fest welches Feld Rohstoffe gibt. Jedes Dorf an diesem Feld bekommt einen Rohstoff
-     * dieser Art, jede Stadt zwei. Es gibt keine Rohstoffe von dem Feld auf dem der Raeuber steht.
-     * b. Falls die 7 Gewuerfelt wird
-     * c. gibt jeder Spieler mit mehr als 7 Rohstoffen die Haelfte (abgerundet) ab.
-     * d. Spieler stellt den Raeuber um (aktuelle Feld ist nicht zulaessig)
-     * e. Der Spieler bekommt von den Spielern die auf dem neuen Feld des Raeubers eine Siedlung oder Stadt haben eine
-     * zufaellige Rohstoffkarte
-     */
-    s.alleKartenkoennenGespieltWerden();
-    s.wuerfeln();
-    printRohstoffeDerSpieler();
-    /*
-     * 2. Spieler handelt
-     * a. Spieler darf beliebig oft handeln
-     */
-    s.starteHandel();
-
-    /*
-     * 3. Gebaeude bauen, Entwicklungskarten kaufen
-     * a. Entwicklungskarte kann zu jeder Zeit des Zuges (1-3) ausgespielt werden
-     * b. Es kann pro Zug immer nur genau eine Entwicklungskarte ausgespielt werden
-     * c. Die Entwicklungskarte welche ausgespielt wird darf nicht waehrend des aktuellen Zuges gekauft worden sein
-     */
-
-    s.baueGebaeude();
-  }
+  
 
   public void printRohstoffeDerSpieler()
   {
