@@ -11,43 +11,54 @@ public class Bank
     this.benutzereingabe = benutzereingabe;
   }
 
-  public void handelMitEnklave(Spieler s, RohstoffTyp verkauf, RohstoffTyp einkauf, HandelTyp handelTyp)
-  {
-    switch (handelTyp)
-    {
-      case DREI_ZU_EINS:
-      {
-        s.getRohstoffe().subRohstoffe(verkauf, 3);
-        break;
-      }
-      case SPEZIAL:
-      { 
-        s.getRohstoffe().subRohstoffe(verkauf, 2);
-        break;
-      }
-      case VIER_ZU_EINS:
-      default:
-      { 
-        s.getRohstoffe().subRohstoffe(verkauf, 4);
-        break;
-      }
-    }
-    s.getRohstoffe().addRohstoffe(einkauf, 1);
-  }
+//  public void handelMitEnklave(Spieler s, RohstoffTyp verkauf, RohstoffTyp einkauf, HandelTyp handelTyp)
+//  {
+//    switch (handelTyp)
+//    {
+//      case DREI_ZU_EINS:
+//      {
+//        s.getRohstoffe().subRohstoffe(verkauf, 3);
+//        break;
+//      }
+//      case SPEZIAL:
+//      {
+//        s.getRohstoffe().subRohstoffe(verkauf, 2);
+//        break;
+//      }
+//      case VIER_ZU_EINS:
+//      default:
+//      {
+//        s.getRohstoffe().subRohstoffe(verkauf, 4);
+//        break;
+//      }
+//    }
+//    s.getRohstoffe().addRohstoffe(einkauf, 1);
+//  }
 
   public void handelMitSpieler (Spieler verkaeufer, List<Spieler> spieler)
   {
-    int eingabe;
-    Spieler kaeufer = waehleSpieler(spieler, verkaeufer.getId());
-    System.out.println("\n\033[32m - Verkauf -\033[0m");
-    RohstoffTyp verkaufRohstoffTyp = waehleRohstoffTyp(verkaeufer.getRohstoffe());
-    int anzahlVerkauf = waehleRohstoffAnzahl(verkaeufer.getRohstoffe(), verkaufRohstoffTyp);
-    System.out.println("\n\033[32m - Kauf -\033[0m");
-    RohstoffTyp einkaufRohstoffTyp = waehleRohstoffTyp(kaeufer.getRohstoffe());
-    int anzahlEinkauf = waehleRohstoffAnzahl(kaeufer.getRohstoffe(), einkaufRohstoffTyp);
+    int eingabe, anzahlVerkauf, anzahlEinkauf;
+    Spieler kaeufer;
+    RohstoffTyp verkaufRohstoffTyp, einkaufRohstoffTyp;
 
+    // Spieler mit dem man handeln möchte
+    kaeufer = waehleGegenspieler(spieler, verkaeufer.getId());
+
+    // Verkauf: Typ, Anzahl
+    System.out.println("\n\033[32m - Verkauf -\033[0m");
+    verkaufRohstoffTyp = waehleRohstoffTyp(verkaeufer.getRohstoffe());
+    anzahlVerkauf = waehleRohstoffAnzahl(verkaeufer.getRohstoffe(), verkaufRohstoffTyp);
+
+    // Kauf: Typ, Anzahl
+    System.out.println("\n\033[32m - Kauf -\033[0m");
+    einkaufRohstoffTyp = waehleRohstoffTyp(kaeufer.getRohstoffe());
+    anzahlEinkauf = waehleRohstoffAnzahl(kaeufer.getRohstoffe(), einkaufRohstoffTyp);
+
+    // Möchte der Gegenspieler die Tauschanfrage aktzeptieren?
     System.out.println("Handelsanfrage an " + kaeufer.getName() + ":\n" + verkaeufer.getName() + " bietet " + anzahlVerkauf + verkaufRohstoffTyp.getRohstoff() + " gegen " + anzahlEinkauf + einkaufRohstoffTyp);
     eingabe = benutzereingabe.getInteger("Annehmen?\n1 --> Ja\n2 --> Nein");
+
+    // Handel durchführen
     if (eingabe == 1)
     {
       verkaeufer.getRohstoffe().subRohstoffe(verkaufRohstoffTyp, anzahlVerkauf);
@@ -57,13 +68,12 @@ public class Bank
     }
   }
 
-  public Spieler waehleSpieler(List<Spieler> spieler, int verkaeuferId)
+  public Spieler waehleGegenspieler(List<Spieler> spieler, int verkaeuferId)
   {
-    int eingabe;
-    Spieler ausgewaehlterSpieler = null;
+    int eingabe, count = 1;
     String auswahlString = "Waehle einen Spieler:\n";
+    Spieler ausgewaehlterSpieler = null;
     SpielerListe auswahlListe = new SpielerListe();
-    int count = 1;
 
     for (Spieler s : spieler)
     {

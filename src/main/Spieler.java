@@ -40,6 +40,7 @@ public class Spieler
   private List<Kolonie> kolonienListe;
   private Spielfeld spielfeld;
   private Spiel spiel;
+  private Benutzereingabe benutzereingabe;
   private List<Karte> karten;
   private int anzahlRitter;
   private int laengsteHandelsstrasse;
@@ -54,6 +55,7 @@ public class Spieler
     this.name = name;
     this.spielfeld = spielfeld;
     this.spiel = spiel;
+    benutzereingabe = spiel.getBenutzereingabe();
 
     wurmlochListe = new LinkedList<Wurmloch>();
     metropolenListe = new LinkedList<Metropole>();
@@ -236,9 +238,9 @@ public class Spieler
   public void wuerfeln()
   {
     int zahl;
-    if (Spiel.DEBUG)
+    if (spiel.DEBUG)
     {
-      zahl = spiel.getBenutzereingabe().getInteger("Gib Gewuerfelte zahl ein: ");
+      zahl = benutzereingabe.getInteger("Gib Gewuerfelte zahl ein: ");
     }
     else
     {
@@ -254,7 +256,7 @@ public class Spieler
         spiel.getSpielerListe().getSpieler(i).haelfteDerRohstoffeWerdenEntfernt();
       }
 
-      bewegeWeltraumpirat(spiel.getBenutzereingabe().getKoordinate("Gib die neue Positon des Weltraumpiraten an"), spiel.getWeltraumpirat(), spiel.getSpielerListe());
+      bewegeWeltraumpirat(benutzereingabe.getKoordinate("Gib die neue Positon des Weltraumpiraten an"), spiel.getWeltraumpirat(), spiel.getSpielerListe());
     }
     else
     {
@@ -270,17 +272,17 @@ public class Spieler
   {
     // TODO kann an die eingegebene Stelle gebaut werden?
     spielfeld.print();
-    baueWurmlochKostenlos(spiel.getBenutzereingabe().getKoordinate("Baue kostenloses Wurmloch"));
+    baueWurmlochKostenlos(benutzereingabe.getKoordinate("Baue kostenloses Wurmloch"));
     spielfeld.print();
-    baueWurmlochKostenlos(spiel.getBenutzereingabe().getKoordinate("Baue kostenloses Wurmloch"));
-    spielfeld.print();
-
-    baueKolonieKostenlos(spiel.getBenutzereingabe().getKoordinate("Baue kostenlose Kolonie"));
-    spielfeld.print();
-    baueKolonieKostenlos(spiel.getBenutzereingabe().getKoordinate("Baue kostenlose Kolonie"));
+    baueWurmlochKostenlos(benutzereingabe.getKoordinate("Baue kostenloses Wurmloch"));
     spielfeld.print();
 
-    getAlleRohstoffevonKolonie(spiel.getBenutzereingabe().getKoordinate("Waehle Kolonie fuer die ersten Rohstoffe"));
+    baueKolonieKostenlos(benutzereingabe.getKoordinate("Baue kostenlose Kolonie"));
+    spielfeld.print();
+    baueKolonieKostenlos(benutzereingabe.getKoordinate("Baue kostenlose Kolonie"));
+    spielfeld.print();
+
+    getAlleRohstoffevonKolonie(benutzereingabe.getKoordinate("Waehle Kolonie fuer die ersten Rohstoffe"));
   }
 
   private void printKarten()
@@ -301,7 +303,7 @@ public class Spieler
     {
       printKarten();
       System.out.println("Siegespunkte: " + siegpunkte);
-      eingabe = spiel.getBenutzereingabe()
+      eingabe = benutzereingabe
           .getInteger("Waehle welches Gebaeude du bauen moechtest\n" + "1 --> Wurmloch\n" + "2 --> Kolonie\n"
               + "3 --> Metropole\n" + "4 --> Spielfeld anzeigen\n" + "5 --> Rohstoffe Anzeigen\n"
               + "6 --> Karte ziehen\n" + "7 --> Karte spielen\n" + "8 --> Laengste Strasse\n" + "9 --> Bauen Beenden");
@@ -309,19 +311,19 @@ public class Spieler
       {
         case 1:
         {
-          baueWurmloch(spiel.getBenutzereingabe().getKoordinate("Baue Wurmloch"));
+          baueWurmloch(benutzereingabe.getKoordinate("Baue Wurmloch"));
           spielfeld.print();
           break;
         }
         case 2:
         {
-          baueKolonie(spiel.getBenutzereingabe().getKoordinate("Baue Kolonie"));
+          baueKolonie(benutzereingabe.getKoordinate("Baue Kolonie"));
           spielfeld.print();
           break;
         }
         case 3:
         {
-          baueMetropole(spiel.getBenutzereingabe().getKoordinate("Baue Metropole"));
+          baueMetropole(benutzereingabe.getKoordinate("Baue Metropole"));
           spielfeld.print();
           break;
         }
@@ -362,7 +364,7 @@ public class Spieler
 
   private void karteSpielen()
   {
-    int kartenNummer = spiel.getBenutzereingabe().getInteger("Welche Karte soll gespielt werden?");
+    int kartenNummer = benutzereingabe.getInteger("Welche Karte soll gespielt werden?");
     karten.get(kartenNummer).ausspielen(this);
     karten.remove(kartenNummer);
   }
@@ -404,7 +406,7 @@ public class Spieler
 
     do
     {
-      eingabe = spiel.getBenutzereingabe().getInteger(auswahlString);
+      eingabe = benutzereingabe.getInteger(auswahlString);
       if (eingabe > 0 && eingabe <= auswahlListe.getSize())
       {
         ausgewaehlterSpieler = auswahlListe.getSpieler(eingabe - 1);
@@ -427,7 +429,7 @@ public class Spieler
     }
     do
     {
-      eingabe = spiel.getBenutzereingabe().getInteger(auswahlString) - 1;
+      eingabe = benutzereingabe.getInteger(auswahlString) - 1;
 
       if (eingabe >= 0 && eingabe < rohstoffe.length)
       {
@@ -451,7 +453,7 @@ public class Spieler
     boolean ausreichendVorhanden = false;
     do
     {
-      anzahl = spiel.getBenutzereingabe().getInteger("Anzahl der " + rohstoffTyp.getRohstoff());
+      anzahl = benutzereingabe.getInteger("Anzahl der " + rohstoffTyp.getRohstoff());
       if (anzahl > 0 && anzahl <= s.rohstoffe.getRohstoffe(rohstoffTyp))
       {
         ausreichendVorhanden = true;
@@ -471,19 +473,13 @@ public class Spieler
     boolean handelnBeenden = false;
     do
     {
-      // Mit Spieler oder mit Bank handeln?
-      eingabe = spiel.getBenutzereingabe().getInteger(
-          "Waehle mit wem du handeln moechtest\n" + "1 --> Spieler\n" + "2 --> Bank\n" + "3 --> Handeln beenden");
+      // Mit Spieler handeln, case 2 Bank erweiterbar.
+      eingabe = benutzereingabe.getInteger("Waehle mit wem du handeln moechtest\n1 --> Spieler\n2 --> Handeln beenden");
       switch (eingabe)
       {
         case 1:
         {
           spiel.spielerHandel(this);
-          break;
-        }
-        case 2:
-        {
-          System.out.println("\nHandeln mit der Bank wird nicht unterstuetzt!"); // TODO
           break;
         }
         default:
@@ -529,7 +525,7 @@ public class Spieler
   {
     this.siegpunkte = siegpunkte;
 
-    if (this.siegpunkte >= Spiel.getBenoetigteSiegpunkte())
+    if (this.siegpunkte >= spiel.getBenoetigteSiegpunkte())
     {
       System.out.println(name + " hat das Spiel gewonnen.");
     }

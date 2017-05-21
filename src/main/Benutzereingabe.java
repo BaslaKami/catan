@@ -44,13 +44,14 @@ public class Benutzereingabe
    System.out.println("\n" + s);
     try
     {
-      if (scanner.hasNextInt())
-      {
-        eingabe = scanner.nextInt();
+      while (!scanner.hasNextInt()) {
+        System.out.println("\n\033[31mZahl eingeben!\033[0m");
+        scanner.next(); // Kein int? Dann weg damit und fortfahren.
       }
+      eingabe = scanner.nextInt();
     }
     catch (Exception e)
-    {    
+    {
       System.out.println("Klasse: Benutzereingabe; Funktion: getInteger() --> Kein Integer eingegeben");
       System.out.println(e.toString());
     }

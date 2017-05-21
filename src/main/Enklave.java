@@ -13,16 +13,16 @@ public class Enklave
 	
 	public void handel(RohstoffTyp rohstoffTyp)
 	{
-	  //3:1 handel
-	  if(rohstoff == null)
-	  {
-	    
-	  }
-	  //2:1 handel
-	  else
-	  {
-	    
-	  }
+//	  //3:1 handel
+//	  if(rohstoff == null)
+//	  {
+//
+//	  }
+//	  //2:1 handel
+//	  else
+//	  {
+//
+//	  }
 	}
 
 
