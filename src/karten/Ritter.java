@@ -6,7 +6,7 @@ import main.Spieler;
 public class Ritter extends Karte
 {
   boolean ausgespielt;
-  Spieler spielerMitGrossterRittermacht; // TODO umbenenen fuer unser Spiel
+  Spieler spielerMitGrossterRittermacht;
 
   public Ritter()
   {

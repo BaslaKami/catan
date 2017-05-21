@@ -306,7 +306,6 @@ public class Spieler
 
   public void baueErsteGebaeude()
   {
-    // TODO kann an die eingegebene Stelle gebaut werden?
     spielfeld.print();
     baueWurmlochKostenlos(benutzereingabe.getKoordinate("Baue kostenloses Wurmloch"));
     spielfeld.print();
