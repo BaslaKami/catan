@@ -2,11 +2,8 @@ package felder;
 
 public  class Gebaeude extends Feld
 {
-	//private String name;
-	//private int feld;
-  private int spielerId;  //TODO ersetzen durch referenz des Spielers
+  private int spielerId;
   private Koordinate pos;
-  //private GebaeudeTyp typ;
 	private static final int kostenEnergie = 0;
 	private static final int kostenNahrung = 0;
 	private static final int kostenRoboter = 0;

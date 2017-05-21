@@ -426,8 +426,6 @@ public class Spielfeld
   {
     Rohstoffe rohstoffe = new Rohstoffe();
 
-    // TODO: Mit getAngrenzendeGebaeude(Koordinate k) Funktion uebersichtlicher gestalten
-
     // Finde Planten mit der gewuerfelten Zahl
     for (int zeile = 0; zeile < HOEHE; zeile++)
     {
@@ -591,11 +589,8 @@ public class Spielfeld
     return gebaeudeListe;
   }
 
-  public int getLaengsteStrasse(Spieler s)
+  public int getLaengsteWurmlochverbindung(Spieler s)
   {
-    /*
-     * Bug: funktioniert nicht für eine Straße die in sich abgeschlossen ist ohne Gebaeude dazwischen
-     */
     int tmpLaenge;
     int laenge = 0;
     
@@ -607,7 +602,7 @@ public class Spielfeld
         {
           List<Feld> list = new LinkedList<Feld>();
           list.add(felder[zeile][spalte]);
-          tmpLaenge = ununterbrocheneStrassenLaenge(s, list, zeile, spalte);
+          tmpLaenge = ununterbrocheneWurmlochLaenge(s, list, zeile, spalte);
           if (tmpLaenge > laenge)
           {
             laenge = tmpLaenge;
@@ -618,7 +613,7 @@ public class Spielfeld
     return laenge;
   }
 
-  private int ununterbrocheneStrassenLaenge(Spieler s, List<Feld> vorherigesFeld, int zeileNeu, int spalteNeu)
+  private int ununterbrocheneWurmlochLaenge(Spieler s, List<Feld> vorherigesFeld, int zeileNeu, int spalteNeu)
   {
     int zeile;
     int spalte;
@@ -639,7 +634,7 @@ public class Spielfeld
         // links oben
         zeile = zeileNeu - 1;
         spalte = spalteNeu - 1;
-        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = wurmlochLaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -648,7 +643,7 @@ public class Spielfeld
         // links oben
         zeile = zeileNeu - 1;
         spalte = spalteNeu + 1;
-        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = wurmlochLaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -664,7 +659,7 @@ public class Spielfeld
         // unten links
         zeile = zeileNeu + 1;
         spalte = spalteNeu - 1;
-        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = wurmlochLaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -672,7 +667,7 @@ public class Spielfeld
         // unten rechts
         zeile = zeileNeu + 1;
         spalte = spalteNeu + 1;
-        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = wurmlochLaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -691,7 +686,7 @@ public class Spielfeld
         // links
         zeile = zeileNeu + 0;
         spalte = spalteNeu - 2;
-        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = wurmlochLaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -700,7 +695,7 @@ public class Spielfeld
         // links oben
         zeile = zeileNeu - 1;
         spalte = spalteNeu - 1;
-        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = wurmlochLaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -709,7 +704,7 @@ public class Spielfeld
         // links unten
         zeile = zeileNeu + 1;
         spalte = spalteNeu - 1;
-        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = wurmlochLaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -724,7 +719,7 @@ public class Spielfeld
         // rechts
         zeile = zeileNeu + 0;
         spalte = spalteNeu + 2;
-        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = wurmlochLaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -733,7 +728,7 @@ public class Spielfeld
         // rechts oben
         zeile = zeileNeu - 1;
         spalte = spalteNeu + 1;
-        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = wurmlochLaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -742,7 +737,7 @@ public class Spielfeld
         // rechts unten
         zeile = zeileNeu + 1;
         spalte = spalteNeu + 1;
-        tmpLaenge = strassenlaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
+        tmpLaenge = wurmlochLaenge(s, vorherigesFeld, zeile, spalte, zeileNeu, spalteNeu);
         if (tmpLaenge > laenge)
         {
           laenge = tmpLaenge;
@@ -751,31 +746,8 @@ public class Spielfeld
     }
     return laenge+1;
   }
-
-  private int strassenlaengeDiag(Spieler s, List<Feld> vorherigesFeld, int zeile, int spalte, int zeileNeu, int spalteNeu)
-  {
-    if (zeile < HOEHE && zeile > 0 && spalte > 0 && spalte < BREITE)
-    {
-      for(Feld f: vorherigesFeld)
-      {
-        if(f == felder[zeile][spalte])
-        {
-          return 0;
-        }
-      }
-    }
-    
-    vorherigesFeld.add(felder[zeileNeu][spalteNeu]);
-    
-    if (feldTyp[zeile][spalte] == 'S' && felder[zeile][spalte] != null && felder[zeile][spalte] != vorherigesFeld 
-        && ((Gebaeude) felder[zeile][spalte]).getSpielerId() == s.getId())
-    {
-      return ununterbrocheneStrassenLaenge(s, vorherigesFeld, zeile, spalte);
-    }
-    return 0;
-  }
  
-  private int strassenlaenge(Spieler s, List<Feld> vorherigesFeld, int zeile, int spalte, int zeileNeu, int spalteNeu)
+  private int wurmlochLaenge(Spieler s, List<Feld> vorherigesFeld, int zeile, int spalte, int zeileNeu, int spalteNeu)
   {
     if (zeile < HOEHE && zeile > 0 && spalte > 0 && spalte < BREITE)
     {
@@ -794,7 +766,7 @@ public class Spielfeld
         && felder[zeile][spalte] != null && felder[zeile][spalte] != vorherigesFeld 
         && ((Gebaeude) felder[zeile][spalte]).getSpielerId() == s.getId())
     {
-      return ununterbrocheneStrassenLaenge(s, vorherigesFeld, zeile, spalte);
+      return ununterbrocheneWurmlochLaenge(s, vorherigesFeld, zeile, spalte);
     }
     return 0;
   }

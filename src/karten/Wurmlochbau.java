@@ -1,14 +1,13 @@
 package karten;
 
-import felder.Koordinate;
 import main.Spieler;
 
-public class Strassenbau extends Karte
+public class Wurmlochbau extends Karte
 {
 
-  public Strassenbau()
+  public Wurmlochbau()
   {
-    super(KartenTyp.STRASSENBAU);
+    super(KartenTyp.WURMLOCHBAU);
   }
 
   @Override

@@ -1,5 +1,6 @@
 package karten;
 
+import felder.Koordinate;
 import main.Spieler;
 
 public class Ritter extends Karte
@@ -36,10 +37,12 @@ public class Ritter extends Karte
         spielerMitGrossterRittermacht = s;
       }
     }
-
-    // TODO abfangen wenn angegebene Position nicht müglich
-    s.bewegeWeltraumpirat(
-        s.getSpiel().getBenutzereingabe().getKoordinate("Gebe die Koordinate fuer den Weltraumpirat an"),
-        s.getSpiel().getWeltraumpirat(), s.getSpiel().getSpielerListe());
+    Koordinate k;
+  
+    do{
+      k = s.getSpiel().getBenutzereingabe().getKoordinate("Gebe die Koordinate fuer den Weltraumpirat an");
+    }while(s.getSpiel().getWeltraumpirat().getPosition().gleicheKoordinaten(k) == true);
+    
+    s.bewegeWeltraumpirat(k, s.getSpiel().getWeltraumpirat(), s.getSpiel().getSpielerListe());
   }
 }

@@ -17,7 +17,7 @@ public class Spiel
   private Kartenstack kartenstack;
   private Weltraumpirat weltraumpirat;
   private Benutzereingabe benutzereingabe;
-  private Spieler spielerMitLaengsterHandelsstrasse;
+  private Spieler spielerMitLaengsterWurmlochVerbindung;
   private boolean spielZuEnde = false;
 
   public static void main(String[] args)
@@ -172,6 +172,7 @@ public class Spiel
      * e. Der Spieler bekommt von den Spielern die auf dem neuen Feld des Raeubers eine Siedlung oder Stadt haben eine
      * zufaellige Rohstoffkarte
      */
+    s.alleKartenkoennenGespieltWerden();
     s.wuerfeln();
     printRohstoffeDerSpieler();
     /*
@@ -307,14 +308,14 @@ public class Spiel
     printRohstoffeDerSpieler();
   }
 
-  public Spieler getSpielerMitLaengsterHandelsstrasse()
+  public Spieler getSpielerMitLaengsterWurmlochVerbindung()
   {
-    return spielerMitLaengsterHandelsstrasse;
+    return spielerMitLaengsterWurmlochVerbindung;
   }
 
-  public void setSpielerMitLaengsterHandelsstrasse(Spieler laengsteHandelsstrasse)
+  public void setSpielerMitLaengsterWurmlochVerbindung(Spieler laengsteWurmlochverbindung)
   {
-    this.spielerMitLaengsterHandelsstrasse = laengsteHandelsstrasse;
+    this.spielerMitLaengsterWurmlochVerbindung = laengsteWurmlochverbindung;
   }
   
   public Kartenstack getKartenstack()

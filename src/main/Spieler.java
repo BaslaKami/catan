@@ -44,11 +44,11 @@ public class Spieler
   private Benutzereingabe benutzereingabe;
   private List<Karte> karten;
   private int anzahlRitter;
-  private int laengsteHandelsstrasse;
+  private int laengsteWurmlochverbindung;
 
   public Spieler(Farbe farbe, String name, Spielfeld spielfeld, Spiel spiel)
   {
-    laengsteHandelsstrasse = 0;
+    laengsteWurmlochverbindung = 0;
     siegpunkte = 0;
     anzahlRitter = 0;
     id = idCounter++;
@@ -64,13 +64,12 @@ public class Spieler
 
     setKarten(new LinkedList<Karte>());
 
-    // setRohstoffe(new Rohstoffe()); //TODO wieder rein
-    setRohstoffe(new Rohstoffe(30, 30, 30, 30, 30)); // TODO raus nur für tests
+    //setRohstoffe(new Rohstoffe());
+    setRohstoffe(new Rohstoffe(30, 30, 30, 30, 30));
   }
 
   public void zug()
   {
-    alleKartenkoennenGespieltWerden();
     wuerfeln();
   }
 
@@ -86,7 +85,7 @@ public class Spieler
         Wurmloch w = new Wurmloch(k, id);
         wurmlochListe.add(w);
         spielfeld.setzeWurmloch(w);
-        laengsteHandelsstrasse();
+        laengsteWurmlochverbindung();
         return true;
       }
       else
@@ -101,20 +100,20 @@ public class Spieler
     return false;
   }
 
-  private void laengsteHandelsstrasse()
+  private void laengsteWurmlochverbindung()
   {
-    laengsteHandelsstrasse = spielfeld.getLaengsteStrasse(this);
+    laengsteWurmlochverbindung = spielfeld.getLaengsteWurmlochverbindung(this);
 
-    if (spiel.getSpielerMitLaengsterHandelsstrasse() != this
-        && (spiel.getSpielerMitLaengsterHandelsstrasse() == null
-            || laengsteHandelsstrasse > spiel.getSpielerMitLaengsterHandelsstrasse().getLaengsteHandelsstrasse())
-        && laengsteHandelsstrasse > 4)
+    if (spiel.getSpielerMitLaengsterWurmlochVerbindung() != this
+        && (spiel.getSpielerMitLaengsterWurmlochVerbindung() == null
+            || laengsteWurmlochverbindung > spiel.getSpielerMitLaengsterWurmlochVerbindung().getLaengsteWurmlochverbindung())
+        && laengsteWurmlochverbindung > 4)
     {
-      if (spiel.getSpielerMitLaengsterHandelsstrasse() != null)
+      if (spiel.getSpielerMitLaengsterWurmlochVerbindung() != null)
       {
-        spiel.getSpielerMitLaengsterHandelsstrasse().decSiegpunkte(2);
+        spiel.getSpielerMitLaengsterWurmlochVerbindung().decSiegpunkte(2);
       }
-      spiel.setSpielerMitLaengsterHandelsstrasse(this);
+      spiel.setSpielerMitLaengsterWurmlochVerbindung(this);
       incSiegpunkte(2);
     }
   }
@@ -237,7 +236,7 @@ public class Spieler
     return this.farbe;
   }
   
-  private void alleKartenkoennenGespieltWerden()
+  public void alleKartenkoennenGespieltWerden()
   {
     for(Karte k: karten)
     {
@@ -248,7 +247,7 @@ public class Spieler
   public void wuerfeln()
   {
     int zahl;
-    if (spiel.DEBUG)
+    if (Spiel.DEBUG)
     {
       zahl = benutzereingabe.getInteger("Gib Gewuerfelte zahl ein: ");
     }
@@ -317,7 +316,7 @@ public class Spieler
       eingabe = benutzereingabe
           .getInteger("Waehle welches Gebaeude du bauen moechtest\n" + "1 --> Wurmloch\n" + "2 --> Kolonie\n"
               + "3 --> Metropole\n" + "4 --> Spielfeld anzeigen\n" + "5 --> Rohstoffe Anzeigen\n"
-              + "6 --> Karte ziehen\n" + "7 --> Karte spielen\n" + "8 --> Laengste Strasse\n" + "9 --> Bauen Beenden");
+              + "6 --> Karte ziehen\n" + "7 --> Karte spielen\n" + "8 --> Laengste Wurmlochverbindung\n" + "9 --> Bauen Beenden");
       switch (eingabe)
       {
         case 1:
@@ -361,7 +360,7 @@ public class Spieler
         }
         case 8:
         {
-          System.out.println("Laengste Strasse: " + spielfeld.getLaengsteStrasse(this));
+          System.out.println("Laengste Wurmlochverbindung: " + spielfeld.getLaengsteWurmlochverbindung(this));
           break;
         }
         default:
@@ -612,9 +611,9 @@ public class Spieler
     return anzahlRitter;
   }
 
-  public int getLaengsteHandelsstrasse()
+  public int getLaengsteWurmlochverbindung()
   {
-    return laengsteHandelsstrasse;
+    return laengsteWurmlochverbindung;
   }
 
   public void setAnzahlRitter(int anzahlRitter)

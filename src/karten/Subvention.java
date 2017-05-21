@@ -3,12 +3,12 @@ package karten;
 import main.RohstoffTyp;
 import main.Spieler;
 
-public class Erfindung extends Karte
+public class Subvention extends Karte
 {
 
-  public Erfindung()
+  public Subvention()
   {
-    super(KartenTyp.ERFINDUNG);
+    super(KartenTyp.SUBVENTION);
   }
 
   @Override

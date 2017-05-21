@@ -20,6 +20,11 @@ public class Koordinate
   {
     return x;
   }
+  
+  public boolean gleicheKoordinaten(Koordinate k)
+  {
+    return k.getPosX() == getPosX() && k.getPosY() == getPosY();
+  }
 
   public void setPosX(int posX)
   {

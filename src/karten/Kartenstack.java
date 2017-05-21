@@ -21,9 +21,9 @@ public class Kartenstack
     //Fortschrittskarten(Strassenbau, Monopol, Erfindung)  generieren
     for(int i = 0; i < 2; i++)
     {
-      kartenstack.add(new Strassenbau());
+      kartenstack.add(new Wurmlochbau());
       kartenstack.add(new Monopol());
-      kartenstack.add(new Erfindung());
+      kartenstack.add(new Subvention());
     }
     
     //Siegpunktkarten generieren
