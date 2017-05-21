@@ -18,6 +18,7 @@ public class Spiel
   private Weltraumpirat weltraumpirat;
   private Benutzereingabe benutzereingabe;
   private Spieler spielerMitLaengsterHandelsstrasse;
+  private boolean spielZuEnde = false;
 
   public static void main(String[] args)
   {
@@ -84,8 +85,12 @@ public class Spiel
       {
         System.out.println("Spieler " + i + " ist am Zug\n");
         zug(spielerListe.getSpieler(i));
+        if(isSpielZuEnde() == true)
+        {
+          break;
+        }
       }
-    } while (true); //TODO Abbruchbediengung durch sieg darstellen
+    } while (isSpielZuEnde() == false);
   }
 
   private void spielerSetztenErsteGebaeude()
@@ -320,5 +325,15 @@ public class Spiel
   public static int getBenoetigteSiegpunkte()
   {
     return BENOETIGTE_SIEGPUNKTE;
+  }
+
+  public boolean isSpielZuEnde()
+  {
+    return spielZuEnde;
+  }
+
+  public void setSpielZuEnde(boolean spielZuEnde)
+  {
+    this.spielZuEnde = spielZuEnde;
   }
 }

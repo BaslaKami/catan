@@ -70,6 +70,7 @@ public class Spieler
 
   public void zug()
   {
+    alleKartenkoennenGespieltWerden();
     wuerfeln();
   }
 
@@ -235,6 +236,14 @@ public class Spieler
   {
     return this.farbe;
   }
+  
+  private void alleKartenkoennenGespieltWerden()
+  {
+    for(Karte k: karten)
+    {
+      k.setInAktuellerRundeGezogen(false);
+    }
+  }
 
   public void wuerfeln()
   {
@@ -361,14 +370,21 @@ public class Spieler
           break;
         }
       }
-    } while (bauenBeenden == false);
+    } while (bauenBeenden == false && spiel.isSpielZuEnde() == false);
   }
 
   private void karteSpielen()
   {
     int kartenNummer = benutzereingabe.getInteger("Welche Karte soll gespielt werden?");
+    if(karten.get(kartenNummer).isInAktuellerRundeGezogen() == false)
+    {
     karten.get(kartenNummer).ausspielen(this);
     karten.remove(kartenNummer);
+    }
+    else
+    {
+      System.out.println("Die Karte kann nicht gespielt werden, da sie erst in dieser Runde gekauft worden ist.");
+    }
   }
 
   private void karteZiehen()
@@ -527,9 +543,10 @@ public class Spieler
   {
     this.siegpunkte = siegpunkte;
 
-    if (this.siegpunkte >= spiel.getBenoetigteSiegpunkte())
+    if (this.siegpunkte >= Spiel.getBenoetigteSiegpunkte())
     {
       System.out.println(name + " hat das Spiel gewonnen.");
+      spiel.setSpielZuEnde(true);
     }
   }
 

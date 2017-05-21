@@ -12,6 +12,7 @@ public abstract class Karte
   private static final int kostenMunition = 1;
   
 	private KartenTyp kartenTyp;
+	private boolean inAktuellerRundeGezogen = true;
 	
 	public Karte(KartenTyp kartenTyp)
 	{
@@ -61,4 +62,14 @@ public abstract class Karte
   //public abstract void ausspielen();
 
   public abstract void ausspielen(Spieler s);
+
+  public boolean isInAktuellerRundeGezogen()
+  {
+    return inAktuellerRundeGezogen;
+  }
+
+  public void setInAktuellerRundeGezogen(boolean inAktuellerRundeGezogen)
+  {
+    this.inAktuellerRundeGezogen = inAktuellerRundeGezogen;
+  }
 }

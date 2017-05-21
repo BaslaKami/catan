@@ -1,6 +1,5 @@
 package karten;
 
-import felder.Koordinate;
 import main.Spieler;
 
 public class Ritter extends Karte
