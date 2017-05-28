@@ -8,18 +8,18 @@ public class Kartenstack
   List<Karte> kartenstack;
   
   /** 25 Entwicklungskarten (14 x Ritter, 6 x Fortschritt und 5 x Siegpunkte) */
-  public Kartenstack()
+  public Kartenstack(int ritterKarten, int fortschrittskarten, int siegpunktKarten)
   {
     kartenstack = new LinkedList<Karte>();
     
     //Ritterkarten generieren
-    for(int i = 0; i < 14; i++)
+    for(int i = 0; i < ritterKarten; i++)
     {
       kartenstack.add(new Ritter());
     }
     
     //Fortschrittskarten(Strassenbau, Monopol, Erfindung)  generieren
-    for(int i = 0; i < 2; i++)
+    for(int i = 0; i < fortschrittskarten; i++)
     {
       kartenstack.add(new Wurmlochbau());
       kartenstack.add(new Monopol());
@@ -27,10 +27,15 @@ public class Kartenstack
     }
     
     //Siegpunktkarten generieren
-    for(int i = 0; i < 5; i++)
+    for(int i = 0; i < siegpunktKarten; i++)
     {
       kartenstack.add(new Siegpunkt());
     }
+  }
+  
+  public Kartenstack()
+  {
+    this(14,2,5);
   }
   
   public Karte ziehen()

@@ -57,7 +57,7 @@ public class Spiel
     erstelleSpieler();
 
     /** c. Kartenstack erzeugen */
-    setKartenstack(new Kartenstack());
+    setKartenstack(new Kartenstack(14,2,5));
 
     /** d. Weltraumpiraten erzeugen */
     weltraumpirat = new Weltraumpirat();
