@@ -545,6 +545,64 @@ public class Spielfeld
 
     return getAngrenzendeGebaeude(k);
   }
+  
+  private boolean gehoertGebaeude(Spieler s, int zeile, int spalte, char gebaeudeTyp)
+  {
+    if(felder[zeile][spalte] != null && feldTyp[zeile][spalte] == gebaeudeTyp 
+          && ((Gebaeude) felder[zeile][spalte]).getSpielerId() == s.getId() )
+    {
+      return true;
+    }
+    return false;
+  }
+  
+  public boolean strasseInDerNaehe(Spieler s, Koordinate k)
+  { 
+    int spaltenBreite = 2;
+    if(k.getPosX() > 0 && feldTyp[k.getPosX()-1][k.getPosY()] == 'G')
+    {
+      spaltenBreite = 1;
+    }
+    
+    int startZeile = k.getPosX();
+    int endZeile = k.getPosX();
+        
+    if(startZeile > 0)
+    {
+      startZeile = startZeile - 1;
+    }
+    
+    if(endZeile < HOEHE - 1)
+    {
+      endZeile = endZeile + 1;
+    }
+    
+    int startSpalte = k.getPosY();
+    int endSpalte = k.getPosY();
+    
+    if(startSpalte > 0)
+    {
+      startSpalte = startSpalte - spaltenBreite;
+    }
+    
+    if(endSpalte < BREITE - spaltenBreite)
+    {
+      endSpalte = endSpalte + spaltenBreite;
+    }
+
+    for(int zeile = startZeile; zeile <= endZeile; zeile++)
+    {
+      for(int spalte = startSpalte; spalte <= endSpalte; spalte++)
+      {
+        if(gehoertGebaeude(s, zeile,  spalte, 'S') == true)
+        {
+          return true;
+        }
+      } 
+    }
+    
+    return false;
+  }
 
   public List<Gebaeude> getAngrenzendeGebaeude(Koordinate k)
   {

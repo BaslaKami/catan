@@ -60,10 +60,15 @@ public class Benutzereingabe
   
   public Koordinate getKoordinate(String s)
   {
+    int zeile;
+    int spalte;
+    
     System.out.println(s);
-   
-    int zeile = getInteger("Geben Sie die Zeile an: ");
-    int spalte = getInteger("Geben Sie die Spalte an: ");
+    
+    do{
+    zeile = getInteger("Geben Sie die Zeile an: ");
+    spalte = getInteger("Geben Sie die Spalte an: ");
+    }while(zeile < 0 || zeile > 10 || spalte < 0 || spalte > 20);
     
     return new Koordinate(zeile,spalte);
   }

@@ -36,8 +36,8 @@ public class Spieler
   private Farbe farbe;
   private String name;
   private Rohstoffe rohstoffe;
-  private List<Wurmloch> wurmlochListe; 
-  private List<Metropole> metropolenListe; 
+  private List<Wurmloch> wurmlochListe;
+  private List<Metropole> metropolenListe;
   private List<Kolonie> kolonienListe;
   private Spielfeld spielfeld;
   private Spiel spiel;
@@ -64,10 +64,10 @@ public class Spieler
 
     setKarten(new LinkedList<Karte>());
 
-    //setRohstoffe(new Rohstoffe());
-    setRohstoffe(new Rohstoffe(30, 30, 30, 30, 30));
+    setRohstoffe(new Rohstoffe());
+    // setRohstoffe(new Rohstoffe(30, 30, 30, 30, 30));
   }
-  
+
   public void zug()
   {
     alleKartenkoennenGespieltWerden();
@@ -82,7 +82,7 @@ public class Spieler
      * zufaellige Rohstoffkarte
      */
     wuerfeln();
-    
+
     spiel.printRohstoffeDerSpieler();
     /*
      * 2. Spieler handelt
@@ -105,6 +105,8 @@ public class Spieler
    */
   public boolean baueWurmlochKostenlos(Koordinate k)
   {
+    if(spielfeld.strasseInDerNaehe(this, k) == true || wurmlochListe.size() == 0)
+    {
     if (spielfeld.istFrei(k, 'S'))
     {
       if (wurmlochListe.size() < ANZAHL_WURMLOECHER)
@@ -124,6 +126,11 @@ public class Spieler
     {
       System.out.println("Das Wurmloch kann an der angegebenen Stelle nicht gebaut werden.");
     }
+    }
+    else
+    {
+      System.out.println("Es besteht keine Wurmlochverbindung");
+    }
     return false;
   }
 
@@ -132,8 +139,8 @@ public class Spieler
     laengsteWurmlochverbindung = spielfeld.getLaengsteWurmlochverbindung(this);
 
     if (spiel.getSpielerMitLaengsterWurmlochVerbindung() != this
-        && (spiel.getSpielerMitLaengsterWurmlochVerbindung() == null
-            || laengsteWurmlochverbindung > spiel.getSpielerMitLaengsterWurmlochVerbindung().getLaengsteWurmlochverbindung())
+        && (spiel.getSpielerMitLaengsterWurmlochVerbindung() == null || laengsteWurmlochverbindung > spiel
+            .getSpielerMitLaengsterWurmlochVerbindung().getLaengsteWurmlochverbindung())
         && laengsteWurmlochverbindung > 4)
     {
       if (spiel.getSpielerMitLaengsterWurmlochVerbindung() != null)
@@ -215,6 +222,7 @@ public class Spieler
           metropolenListe.add(m);
           kolonienListe.remove(spielfeld.setzeMetropole(m));
           incSiegpunkte(1);
+          interstellareVorherrschaft();
         }
         else
         {
@@ -231,6 +239,32 @@ public class Spieler
     {
       System.out.println("Du besitzt nicht genuegen Rohstoffe.");
     }
+  }
+
+  private boolean interstellareVorherrschaft()
+  {
+    if (alleMetropolenGebaut() == true)
+    {
+      for (Spieler s : spiel.getSpielerListe().getListe())
+      {
+        if (this.getId() != s.getId() && s.alleMetropolenGebaut() == true)
+        {
+          return false;
+        }
+      }
+      System.out.println("Interstellare Vorherschaft erlangt.");
+      incSiegpunkte(2);
+    }
+    return false;
+  }
+
+  public boolean alleMetropolenGebaut()
+  {
+    if (metropolenListe.size() == ANZAHL_METROPOLEN)
+    {
+      return true;
+    }
+    return false;
   }
 
   public void karteSpielen(Karte k)
@@ -262,10 +296,10 @@ public class Spieler
   {
     return this.farbe;
   }
-  
+
   public void alleKartenkoennenGespieltWerden()
   {
-    for(Karte k: karten)
+    for (Karte k : karten)
     {
       k.setInAktuellerRundeGezogen(false);
     }
@@ -292,7 +326,8 @@ public class Spieler
         spiel.getSpielerListe().getSpieler(i).haelfteDerRohstoffeWerdenEntfernt();
       }
 
-      bewegeWeltraumpirat(benutzereingabe.getKoordinate("Gib die neue Positon des Weltraumpiraten an"), spiel.getWeltraumpirat(), spiel.getSpielerListe());
+      bewegeWeltraumpirat(benutzereingabe.getKoordinate("Gib die neue Positon des Weltraumpiraten an"),
+          spiel.getWeltraumpirat(), spiel.getSpielerListe());
     }
     else
     {
@@ -301,6 +336,22 @@ public class Spieler
         spiel.getSpielerListe().getSpieler(i).getRohstoffe()
             .addRohstoffe(spielfeld.getRohstoffeFuerSpieler(spiel.getSpielerListe().getSpieler(i), zahl));
       }
+    }
+  }
+
+  private void fuerSiegpunkteWuerfeln()
+  {
+    Rohstoffe kosten = new Rohstoffe(1, 1, 1, 1, 1);
+    if (rohstoffe.ausreichendRohstoffeVorhanden(kosten) == true)
+    {
+      rohstoffe.subRohstoffe(kosten);
+      int zahl = new Random().nextInt(7) - 3;
+      setSiegpunkte(getSiegpunkte()+zahl);
+      System.out.println("Erhaltene Siegpunkte: " + zahl);
+    }
+    else
+    {
+      System.out.println("Nicht genuegend Rohstoffe vorhanden.");
     }
   }
 
@@ -339,10 +390,10 @@ public class Spieler
     {
       printKarten();
       System.out.println("Siegespunkte: " + siegpunkte);
-      eingabe = benutzereingabe
-          .getInteger("Waehle welches Gebaeude du bauen moechtest\n" + "1 --> Wurmloch\n" + "2 --> Kolonie\n"
-              + "3 --> Metropole\n" + "4 --> Spielfeld anzeigen\n" + "5 --> Rohstoffe Anzeigen\n"
-              + "6 --> Karte ziehen\n" + "7 --> Karte spielen\n" + "8 --> Laengste Wurmlochverbindung\n" + "9 --> Bauen Beenden");
+      eingabe = benutzereingabe.getInteger("Waehle waehle Aktion\n" + "1 --> Wurmloch\n"
+          + "2 --> Kolonie\n" + "3 --> Metropole\n" + "4 --> Spielfeld anzeigen\n" + "5 --> Rohstoffe Anzeigen\n"
+          + "6 --> Karte ziehen\n" + "7 --> Karte spielen\n" + "8 --> Laengste Wurmlochverbindung\n"
+          + "9 --> Infiltrieren\n" + "10 --> Bauen Beenden");
       switch (eingabe)
       {
         case 1:
@@ -376,7 +427,6 @@ public class Spieler
         case 6:
         {
           karteZiehen();
-
           break;
         }
         case 7:
@@ -387,6 +437,11 @@ public class Spieler
         case 8:
         {
           System.out.println("Laengste Wurmlochverbindung: " + spielfeld.getLaengsteWurmlochverbindung(this));
+          break;
+        }
+        case 9:
+        {
+          fuerSiegpunkteWuerfeln();
           break;
         }
         default:
@@ -401,10 +456,10 @@ public class Spieler
   private void karteSpielen()
   {
     int kartenNummer = benutzereingabe.getInteger("Welche Karte soll gespielt werden?");
-    if(karten.get(kartenNummer).isInAktuellerRundeGezogen() == false)
+    if (karten.get(kartenNummer).isInAktuellerRundeGezogen() == false)
     {
-    karten.get(kartenNummer).ausspielen(this);
-    karten.remove(kartenNummer);
+      karten.get(kartenNummer).ausspielen(this);
+      karten.remove(kartenNummer);
     }
     else
     {
@@ -417,7 +472,7 @@ public class Spieler
     if (rohstoffe.ausreichendRohstoffeVorhanden(Karte.getKosten()))
     {
       Karte k = spiel.getKartenstack().ziehen();
-      if(k.getKartenTyp() == KartenTyp.SIEGPUNKT)
+      if (k.getKartenTyp() == KartenTyp.SIEGPUNKT)
       {
         k.ausspielen(this);
       }
@@ -425,7 +480,7 @@ public class Spieler
       {
         karten.add(k);
       }
-      
+
       rohstoffe.subRohstoffe(Karte.getKosten());
     }
   }
@@ -566,7 +621,14 @@ public class Spieler
 
   public void setSiegpunkte(int siegpunkte)
   {
-    this.siegpunkte = siegpunkte;
+    if (siegpunkte >= 0)
+    {
+      this.siegpunkte = siegpunkte;
+    }
+    else
+    {
+      this.siegpunkte = 0;
+    }
 
     if (this.siegpunkte >= Spiel.getBenoetigteSiegpunkte())
     {

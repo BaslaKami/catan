@@ -8,7 +8,7 @@ import karten.Kartenstack;
 
 public class Spiel
 {
-  public static final boolean DEBUG = true;
+  public static final boolean DEBUG = false;
   private static final int BENOETIGTE_SIEGPUNKTE = 10;
   private SpielerListe spielerListe;
   private Spielfeld spielfeld;
@@ -99,7 +99,7 @@ public class Spiel
     {
       for (int i = 0; i < spielerListe.getSize(); i++)
       {
-        System.out.println(spielerListe.getSpieler(i).getName());
+        System.out.println("Spieler: " + spielerListe.getSpieler(i).getName());
         spielerListe.getSpieler(i).baueErsteGebaeude();
       }
     }
