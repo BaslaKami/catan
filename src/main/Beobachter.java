@@ -5,7 +5,6 @@ package main;
  */
 public class Beobachter extends SpielerZustand
 {
-  private SpielerZustand aktuellerZustand;
 
   public Beobachter(Spieler spieler)
   {
