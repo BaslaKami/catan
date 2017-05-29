@@ -8,7 +8,7 @@ import karten.Kartenstack;
 
 public class Spiel
 {
-  public static final boolean DEBUG = false;
+  public static final boolean DEBUG = true;
   private static final int BENOETIGTE_SIEGPUNKTE = 10;
   private SpielerListe spielerListe;
   private Spielfeld spielfeld;
@@ -79,8 +79,12 @@ public class Spiel
     {
       for (int i = 0; i < spielerListe.getSize(); i++)
       {
+        Spieler spieler = spielerListe.getSpieler(i);
+        spieler.getAktuellerZustand();
         System.out.println("Spieler " + i + " ist am Zug\n");
-        spielerListe.getSpieler(i).zug();
+        spieler.zug();
+        spieler.setAktuellerZustand(new Beobachter(spieler));
+        spieler.getAktuellerZustand();
         if(isSpielZuEnde() == true)
         {
           break;
@@ -177,11 +181,11 @@ public class Spiel
 
     if (DEBUG)
     {
-      Spieler s = new Spieler(Farbe.BLAU, "eins", spielfeld, this);
+      Spieler s = new Spieler(Farbe.BLAU, "Spieler 0", spielfeld, this);
       spielerListe.hinzufuegen(s);
-      s = new Spieler(Farbe.GELB, "zwei", spielfeld, this);
+      s = new Spieler(Farbe.GELB, "Spieler 1", spielfeld, this);
       spielerListe.hinzufuegen(s);
-      s = new Spieler(Farbe.GRUEN, "drei", spielfeld, this);
+      s = new Spieler(Farbe.GRUEN, "Spieler 2", spielfeld, this);
       spielerListe.hinzufuegen(s);
       // erstelleSpieler(3);
     }

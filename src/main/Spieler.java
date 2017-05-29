@@ -45,6 +45,7 @@ public class Spieler
   private List<Karte> karten;
   private int anzahlRitter;
   private int laengsteWurmlochverbindung;
+  private SpielerZustand aktuellerZustand;
 
   public Spieler(Farbe farbe, String name, Spielfeld spielfeld, Spiel spiel)
   {
@@ -66,10 +67,12 @@ public class Spieler
 
     setRohstoffe(new Rohstoffe());
     // setRohstoffe(new Rohstoffe(30, 30, 30, 30, 30));
+    setAktuellerZustand(new Beobachter(this));
   }
 
   public void zug()
   {
+    setAktuellerZustand(new Spielzug(this));
     alleKartenkoennenGespieltWerden();
     /*
      * 1. Spieler wuerfelt Rohstoffertraege aus
@@ -712,5 +715,20 @@ public class Spieler
   public void incAnazahlRitter()
   {
     setAnzahlRitter(getAnzahlRitter() + 1);
+  }
+
+  public void zugFestlegen() {
+    aktuellerZustand.zugFestlegen();
+  }
+
+  public SpielerZustand getAktuellerZustand()
+  {
+    return aktuellerZustand;
+  }
+
+  public void setAktuellerZustand(SpielerZustand aktuellerZustand)
+  {
+    this.aktuellerZustand = aktuellerZustand;
+    System.out.println(this.getName() + ": Setzte Zustand auf " + aktuellerZustand);
   }
 }

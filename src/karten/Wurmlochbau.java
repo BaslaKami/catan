@@ -13,8 +13,8 @@ public class Wurmlochbau extends Karte
   @Override
   public void ausspielen(Spieler s)
   {
-    s.baueWurmlochKostenlos(s.getSpiel().getBenutzereingabe().getKoordinate("Gebe die Koordinaten für das erste Wurmloch an"));
-    s.baueWurmlochKostenlos(s.getSpiel().getBenutzereingabe().getKoordinate("Gebe die Koordinaten für das zweite Wurmloch an"));
+    s.baueWurmlochKostenlos(s.getSpiel().getBenutzereingabe().getKoordinate("Gebe die Koordinaten fÃ¼r das erste Wurmloch an"));
+    s.baueWurmlochKostenlos(s.getSpiel().getBenutzereingabe().getKoordinate("Gebe die Koordinaten fÃ¼r das zweite Wurmloch an"));
   }
 
 }

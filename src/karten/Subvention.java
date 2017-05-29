@@ -18,7 +18,7 @@ public class Subvention extends Karte
      * Der Spieler bekommt zwei Rohstoffkarten seiner Wahl
      */
     
-    System.out.println("Wähle welchen Rohstoff du bekommen möchtest");
+    System.out.println("Waehle welchen Rohstoff du bekommen moechtest");
     
     RohstoffTyp []typen = RohstoffTyp.values();
     

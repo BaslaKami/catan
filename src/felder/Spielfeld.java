@@ -580,7 +580,7 @@ public class Spielfeld
     int startSpalte = k.getPosY();
     int endSpalte = k.getPosY();
     
-    if(startSpalte > 0)
+    if(startSpalte - spaltenBreite > 0)
     {
       startSpalte = startSpalte - spaltenBreite;
     }
