@@ -8,7 +8,7 @@ import karten.Kartenstack;
 
 public class Spiel
 {
-  public static final boolean DEBUG = true;
+  public static final boolean DEBUG = false;
   private static final int BENOETIGTE_SIEGPUNKTE = 10;
   private SpielerListe spielerListe;
   private Spielfeld spielfeld;
